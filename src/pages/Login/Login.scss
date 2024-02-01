@@ -1,0 +1,27 @@
+.row-1 {
+    height: 30%;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+    .row-1-image {
+        width: 349px;
+        height: 175px;
+    }
+}
+
+.row-2 {
+    height: 50%;
+    .btn-login {
+        width: 160px;
+        height: 48px;
+        background-color: var(--tt-primary);
+        border-radius: 8px;
+        color: white;
+        font-size: 16;
+    }
+    .login-title {
+        font-size: 40px;
+    }
+}
+.row-3 {
+    height: 20%;
+    border-top: 1px solid rgba(0, 0, 0, 0.1);
+}
