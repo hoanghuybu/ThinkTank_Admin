@@ -7,11 +7,18 @@ import LoginPage from '~/pages/Login';
 import Details from '~/pages/Details';
 import UserDetails from '~/pages/Details/UserDetails';
 import CreateUser from '~/pages/CreateUser';
-import { HeaderOnly, WhiteLayouts } from '~/layouts';
 import Report from '~/pages/Report';
+import Dashboard from '~/pages/Dashboard/Dashboard';
+import UserManagement from '~/pages/PlayerManagement';
+
+import { HeaderOnly, WhiteLayouts } from '~/layouts';
 import config from '~/config';
 
-const publicRounter = [{ path: config.route.login, component: LoginPage, layouts: WhiteLayouts }];
+const publicRounter = [
+    { path: config.route.login, component: LoginPage, layouts: WhiteLayouts },
+    { path: config.route.dashboard, component: Dashboard },
+    { path: config.route.userManagement, component: UserManagement },
+];
 
 const privateRounter = [
     { path: config.route.upload, component: Upload, layouts: HeaderOnly },

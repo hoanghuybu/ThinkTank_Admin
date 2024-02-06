@@ -10,6 +10,8 @@ const route = {
     userDetails: '/UserDetails',
     report: '/report',
     createUser: '/CreateUser',
+    dashboard: '/Dashboard',
+    userManagement: '/PlayerManagement',
 };
 
 export default route;

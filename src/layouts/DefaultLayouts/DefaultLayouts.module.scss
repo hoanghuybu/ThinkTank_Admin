@@ -5,11 +5,12 @@
 }
 
 .container {
-    width: var(--default-layout-width);
+    width: 100%;
     max-width: 100%;
+    height: 1234px;
     padding: 0 var(--default-layout-horizontal-spacer);
     display: flex;
-    margin-top: var(--default-layout-header-height);
+    margin-top: 50px;
 }
 
 .content {
