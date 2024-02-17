@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Dropdown } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
+import { faAngleLeft, faAngleRight, faFilter } from '@fortawesome/free-solid-svg-icons';
 import './UserManagement.scss';
 import Search from '~/layouts/Search';
 
@@ -105,14 +105,17 @@ function PlayerManagement() {
             <div className="container-xxl flex-grow-1 container-p-y">
                 <div className="w-100 d-flex justify-content-end mb-4">
                     <Search></Search>
+                    <button className="btn-pagi mx-2">
+                        <FontAwesomeIcon icon={faFilter}></FontAwesomeIcon>
+                    </button>
                 </div>
                 <div className="card">
                     <div className="table-responsive text-nowrap">
                         <table className="table table-hover">
                             <thead>
                                 <tr>
-                                    <th>STT</th>
-                                    <th>Image</th>
+                                    <th className="text-center">STT</th>
+                                    <th className="text-center">Image</th>
                                     <th>Name</th>
                                     <th>Birthday</th>
                                     <th>Email</th>
@@ -123,8 +126,8 @@ function PlayerManagement() {
                             <tbody className="table-border-bottom-0">
                                 {currentData.map((item, index) => (
                                     <tr key={index}>
-                                        <td>{startIndex + index + 1}</td>
-                                        <td>
+                                        <td className="text-center">{startIndex + index + 1}</td>
+                                        <td className="text-center">
                                             <img
                                                 className="column-image"
                                                 src={item.image}

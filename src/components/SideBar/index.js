@@ -15,16 +15,20 @@ function SideBar() {
     return (
         <aside className={styles.wrapper}>
             <MenuSidebar>
-                <MenuItems title="DashBoard" to={config.route.home} icon={<AiOutlineDashboard />}></MenuItems>
+                <MenuItems title="DashBoard" to={config.route.dashboard} icon={<AiOutlineDashboard />}></MenuItems>
                 <MenuItems
                     title="Player Account"
-                    to={config.route.following}
+                    to={config.route.playerManagement}
                     icon={<AiOutlineUser></AiOutlineUser>}
                 ></MenuItems>
-                <MenuItems title="Game Resource" to={config.route.live} icon={<AiOutlineVideoCameraAdd />}></MenuItems>
-                <MenuItems title="Analyis" to={config.route.report} icon={<AiOutlineBarChart />}></MenuItems>
-                <MenuItems title="Contest" to={config.route.report} icon={<AiOutlineBuild />}></MenuItems>
-                <MenuItems title="Leaderboard" to={config.route.report} icon={<AiOutlineCrown />}></MenuItems>
+                <MenuItems
+                    title="Game Resource"
+                    to={config.route.gameResource}
+                    icon={<AiOutlineVideoCameraAdd />}
+                ></MenuItems>
+                <MenuItems title="Analysis" to={config.route.analysis} icon={<AiOutlineBarChart />}></MenuItems>
+                <MenuItems title="Contest" to={config.route.contest} icon={<AiOutlineBuild />}></MenuItems>
+                <MenuItems title="Leaderboard" to={config.route.leaderboard} icon={<AiOutlineCrown />}></MenuItems>
             </MenuSidebar>
         </aside>
     );

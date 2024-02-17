@@ -11,7 +11,11 @@ const route = {
     report: '/report',
     createUser: '/CreateUser',
     dashboard: '/Dashboard',
-    userManagement: '/PlayerManagement',
+    playerManagement: '/PlayerManagement',
+    gameResource: '/GameResource',
+    analysis: '/Analysis',
+    contest: '/Contest',
+    leaderboard: '/Leaderboard',
 };
 
 export default route;

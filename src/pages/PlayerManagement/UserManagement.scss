@@ -11,3 +11,10 @@
 .btn-pagi {
     background-color: transparent;
 }
+
+.page-item {
+    color: var(--primary) !important;
+    &.active {
+        color: var(--primary) !important;
+    }
+}

@@ -9,7 +9,7 @@ function LoginPage() {
             </div>
             <div className="row-2 row justify-content-center d-flex align-items-center">
                 <h1 className="login-title justify-content-center d-flex align-items-center fw-bold">Login</h1>
-                <form className="w-50">
+                <form className="form-admin-login">
                     <div className="mb-3">
                         <label className="form-label fw-bold">Username</label>
                         <input type="text" className="form-control form-control-lg" placeholder="Enter your username" />

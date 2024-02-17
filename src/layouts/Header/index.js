@@ -10,7 +10,7 @@ function Header() {
                 <Link to={config.route.home} className={styles.logo}>
                     <img className={styles.logoImage} src={images.logoText} alt="Think Tank"></img>
                 </Link>
-                <h2>Think Tank Admin dashboard</h2>
+                <h2>Think Tank Admin Dashboard</h2>
             </div>
         </header>
     );

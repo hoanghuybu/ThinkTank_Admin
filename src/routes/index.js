@@ -9,7 +9,11 @@ import UserDetails from '~/pages/Details/UserDetails';
 import CreateUser from '~/pages/CreateUser';
 import Report from '~/pages/Report';
 import Dashboard from '~/pages/Dashboard/Dashboard';
-import UserManagement from '~/pages/PlayerManagement';
+import PlayerManagement from '~/pages/PlayerManagement';
+import GameResource from '~/pages/GameResource';
+import Analysis from '~/pages/Analysis';
+import Contest from '~/pages/Contest';
+import Leaderboard from '~/pages/Leaderboard';
 
 import { HeaderOnly, WhiteLayouts } from '~/layouts';
 import config from '~/config';
@@ -17,7 +21,11 @@ import config from '~/config';
 const publicRounter = [
     { path: config.route.login, component: LoginPage, layouts: WhiteLayouts },
     { path: config.route.dashboard, component: Dashboard },
-    { path: config.route.userManagement, component: UserManagement },
+    { path: config.route.playerManagement, component: PlayerManagement },
+    { path: config.route.gameResource, component: GameResource },
+    { path: config.route.analysis, component: Analysis },
+    { path: config.route.contest, component: Contest },
+    { path: config.route.leaderboard, component: Leaderboard },
 ];
 
 const privateRounter = [
