@@ -103,7 +103,7 @@ function PlayerManagement() {
     return (
         <div className="content-wrapper">
             <div className="container-xxl flex-grow-1 container-p-y">
-                <div className="w-100 d-flex justify-content-end mb-4">
+                <div className="w-100 d-flex justify-content-end mt-4 mb-4">
                     <Search></Search>
                     <button className="btn-pagi mx-2">
                         <FontAwesomeIcon icon={faFilter}></FontAwesomeIcon>
@@ -114,12 +114,13 @@ function PlayerManagement() {
                         <table className="table table-hover">
                             <thead>
                                 <tr>
-                                    <th className="text-center">STT</th>
+                                    <th className="text-center">Code</th>
                                     <th className="text-center">Image</th>
                                     <th>Name</th>
                                     <th>Birthday</th>
                                     <th>Email</th>
                                     <th>Gender</th>
+                                    <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
                             </thead>
@@ -138,7 +139,7 @@ function PlayerManagement() {
                                         <td>{item.birthday}</td>
                                         <td>{item.email}</td>
                                         <td>{item.gender}</td>
-
+                                        <td>Active</td>
                                         <td>
                                             <Dropdown>
                                                 <Dropdown.Toggle variant="secondary" id="dropdown-basic">
@@ -157,7 +158,7 @@ function PlayerManagement() {
                     </div>
                 </div>
                 <div className="w-100 d-flex justify-content-between">
-                    <h4 className="table-text">
+                    <h4 className="table-text mt-1">
                         Showing {startIndex + 1} to {endIndex > data.length ? data.length : endIndex} of {data.length}
                     </h4>
                     <div className="pagination">
