@@ -15,6 +15,8 @@ const route = {
     gameResource: '/GameResource',
     analysis: '/Analysis',
     contest: '/Contest',
+    contestGame: '/Contest/ContestGame',
+    contestCreate: '/Contest/CreateContest',
     leaderboard: '/Leaderboard',
 };
 

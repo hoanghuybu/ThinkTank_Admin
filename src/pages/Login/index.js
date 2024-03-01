@@ -25,13 +25,13 @@ function LoginPage() {
         const formSubmit = {
             userName: userNameRef.current.value,
             password: passwordRef.current.value,
+            fcm: '',
         };
 
         try {
             const response = await loginService.login(formSubmit);
             const jwtDecodeObject = jwtDecode(response.accessToken);
-            console.log(jwtDecodeObject);
-            if (jwtDecodeObject.role == 'Admin') {
+            if (jwtDecodeObject.role === 'Admin') {
                 await new Promise((resolve) => {
                     sessionStorage.setItem('accessToken', response.accessToken);
                     sessionStorage.setItem('refreshToken', response.refreshToken);

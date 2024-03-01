@@ -5,9 +5,13 @@ import styles from './MenuSidebar.module.scss';
 
 const cx = classNames.bind(styles);
 
-function MenuItems({ title, to, icon }) {
+function MenuItems({ title, to, icon, onClick }) {
     return (
-        <NavLink className={(nav) => cx('menu-item', { active: nav.isActive })} to={to}>
+        <NavLink
+            className={(nav) => cx('menu-item', { active: title !== 'Log Out' && nav.isActive })}
+            to={to}
+            onClick={onClick}
+        >
             {icon}
             <span className={cx('title')}>{title}</span>
         </NavLink>

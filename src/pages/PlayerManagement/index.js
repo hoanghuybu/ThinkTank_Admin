@@ -7,8 +7,8 @@ import { Dropdown } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight, faFilter } from '@fortawesome/free-solid-svg-icons';
 import './PlayerManagement.scss';
-import Search from '~/layouts/Search';
-import { get } from '~/untils/request';
+import Search from '~/components/Search';
+// import { getApi } from '~/untils/request';
 
 function PlayerManagement() {
     const [currentPage, setCurrentPage] = useState(1);

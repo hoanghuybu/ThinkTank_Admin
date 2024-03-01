@@ -5,15 +5,13 @@
 }
 
 .container {
-    width: 100%;
-    min-height: 100vh;
+    width: var(--default-layout-width);
     max-width: 100%;
     padding: 0 var(--default-layout-horizontal-spacer);
     display: flex;
-    margin-top: 50px;
+    margin-top: 100px;
 }
 
 .content {
     flex: 1;
-    margin-left: 220px;
 }

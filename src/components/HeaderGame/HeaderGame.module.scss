@@ -1,0 +1,81 @@
+.wrapper {
+    --search-height: 46px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 10;
+    height: 100px;
+    width: 100%;
+    box-shadow: 0px 1px 1px rgb(0 0 0 / 100%);
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    background-image: url('https://media.istockphoto.com/id/1320799591/vi/vec-to/tr%C3%B2-ch%C6%A1i-b%E1%BA%ADt-b%E1%BB%99-%C4%91i%E1%BB%81u-khi%E1%BB%83n-tr%C3%B2-ch%C6%A1i-neon-ho%E1%BA%B7c-c%E1%BA%A7n-%C4%91i%E1%BB%81u-khi%E1%BB%83n-cho-b%E1%BA%A3ng-%C4%91i%E1%BB%81u-khi%E1%BB%83n-tr%C3%B2-ch%C6%A1i.jpg?s=1024x1024&w=is&k=20&c=yfChyOgChdz60Gaid3LJCHw2l7n724_ypy8PoQzw6pA=');
+    background-size: cover;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.inner {
+    padding: 0 var(--default-layout-horizontal-spacer);
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+}
+
+.logoImage {
+    width: 25px;
+    height: 25px;
+    color: white;
+    object-fit: cover;
+}
+
+.searchTitle {
+    padding: 5px 12px;
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: rgba(22, 24, 35, 0.5);
+}
+
+.actions {
+    display: flex;
+    align-items: center;
+}
+
+.moreBtn {
+    font-size: 2rem;
+    margin-left: 24px;
+    background-color: transparent;
+    padding: 8px;
+    cursor: pointer;
+}
+
+.actionsBtn {
+    font-size: 2.2rem;
+    color: #161823;
+    background-color: transparent;
+    padding: 4px 10px;
+    cursor: pointer;
+}
+
+.userAvatar {
+    width: 32px;
+    height: 32px;
+    object-fit: cover;
+    border-radius: 50%;
+    margin-left: 10px;
+    cursor: pointer;
+}
+
+.contestTitle {
+    font-weight: 800;
+    font-size: 36px;
+    color: white;
+}

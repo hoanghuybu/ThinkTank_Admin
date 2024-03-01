@@ -1,0 +1,23 @@
+.game-title {
+    color: #3a5272;
+    font-size: 30px;
+    font-weight: 800;
+}
+
+.game-info {
+    color: #3a5272;
+    font-size: 30px;
+    font-weight: 600;
+}
+
+.game-description {
+    color: #3a5272;
+    font-size: 14px;
+    font-weight: 500;
+}
+
+@media (max-width: 767.98px) {
+    .border-sm-start-none {
+        border-left: none !important;
+    }
+}

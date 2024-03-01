@@ -1,10 +1,10 @@
-import Header from '../../components/Header';
-import styles from './HeaderOnly.module.scss';
+import HeaderGame from '../../components/HeaderGame';
+import styles from './HeaderGameOnly.module.scss';
 
-function HeaderOnly({ children }) {
+function HeaderGameOnly({ children }) {
     return (
         <div className={styles.wrapper}>
-            <Header />
+            <HeaderGame />
             <div className={styles.container}>
                 <div className={styles.content}>{children}</div>
             </div>
@@ -12,4 +12,4 @@ function HeaderOnly({ children }) {
     );
 }
 
-export default HeaderOnly;
+export default HeaderGameOnly;

@@ -14,22 +14,20 @@ import GameResource from '~/pages/GameResource';
 import Analysis from '~/pages/Analysis';
 import Contest from '~/pages/Contest';
 import Leaderboard from '~/pages/Leaderboard';
+import ContestGame from '~/pages/ContestGame';
+import CreateContest from '~/pages/CreateContest';
 
-import { WhiteLayouts } from '~/layouts';
+import { WhiteLayouts, HeaderGameOnly } from '~/layouts';
 import config from '~/config';
 
-const publicRounter = [{ path: config.route.login, component: LoginPage, layouts: WhiteLayouts }];
+const publicRounter = [
+    { path: config.route.login, component: LoginPage, layouts: WhiteLayouts },
+    { path: config.route.contest, component: Contest },
+    { path: config.route.contestGame, component: ContestGame, layouts: HeaderGameOnly },
+    { path: config.route.contestCreate, component: CreateContest, layouts: HeaderGameOnly },
+];
 
 const privateRounter = [
-    // { path: config.route.upload, component: Upload, layouts: HeaderOnly },
-    // { path: config.route.home, component: Home },
-    // { path: config.route.following, component: Following },
-    // { path: config.route.live, component: Live },
-    // { path: config.route.profile, component: Profile },
-    // { path: config.route.report, component: Report },
-    // { path: config.route.details, component: Details, layouts: HeaderOnly },
-    // { path: config.route.userDetails, component: UserDetails, layouts: HeaderOnly },
-    // { path: config.route.createUser, component: CreateUser, layouts: HeaderOnly },
     { path: config.route.dashboard, component: Dashboard },
     { path: config.route.playerManagement, component: PlayerManagement },
     { path: config.route.gameResource, component: GameResource },
