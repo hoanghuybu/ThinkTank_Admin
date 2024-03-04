@@ -4,6 +4,8 @@ import { Navigate } from 'react-router-dom';
 import { publicRounter, privateRounter } from '~/routes';
 import { DefaultLayouts } from '~/layouts';
 import { Fragment } from 'react';
+import { ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 function App() {
     const [hasAccessToken, setHasAccessToken] = useState(!!sessionStorage.getItem('accessToken'));
@@ -76,6 +78,7 @@ function App() {
                     })}
                 </Routes>
             </div>
+            <ToastContainer />
         </Router>
     );
 }

@@ -3,6 +3,7 @@ import React, { useRef, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ThreeDots } from 'react-loader-spinner';
 import jwtDecode from 'jwt-decode';
+import { toast } from 'react-toastify';
 
 //util
 import * as loginService from '~/service/LoginService';
@@ -13,8 +14,6 @@ import images from '~/assets/images';
 
 function LoginPage() {
     const [isLoading, setIsLoading] = useState(false);
-    const [isFailed, setIsFailed] = useState(false);
-    const [msgFailed, setMsgFailed] = useState('');
     const userNameRef = useRef();
     const passwordRef = useRef();
     const navigate = useNavigate();
@@ -41,13 +40,19 @@ function LoginPage() {
                     resolve();
                 }).then(navigate('/Dashboard'));
             } else {
-                setMsgFailed(
+                toast.error(
                     "You don't have permission to access. Please try another account or contact the administrator",
                 );
-                setIsFailed(true);
             }
         } catch (error) {
-            console.log(error);
+            if (error.response) {
+                toast.error(error.response.data.error);
+            } else if (error.request) {
+                // console.log(error.request);
+            } else {
+                console.log('Error', error.message);
+            }
+            console.log(error.config);
         } finally {
             setIsLoading(false);
         }
@@ -96,7 +101,6 @@ function LoginPage() {
                         visible={true}
                     />
                 )}
-                {isFailed && <h3 style={{ color: '#fe2c55' }}>{msgFailed}</h3>}
             </div>
             <div className="row-3 justify-content-center d-flex align-items-center">
                 Copyright © 2024 ThinkTank. All rights reserved.
