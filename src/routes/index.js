@@ -25,10 +25,10 @@ const publicRounter = [
     { path: config.route.contest, component: Contest },
     { path: config.route.contestGame, component: ContestGame, layouts: HeaderGameOnly },
     { path: config.route.contestCreate, component: CreateContest, layouts: HeaderGameOnly },
+    { path: config.route.dashboard, component: Dashboard },
 ];
 
 const privateRounter = [
-    { path: config.route.dashboard, component: Dashboard },
     { path: config.route.playerManagement, component: PlayerManagement },
     { path: config.route.gameResource, component: GameResource },
     { path: config.route.analysis, component: Analysis },

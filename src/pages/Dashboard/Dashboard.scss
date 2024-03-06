@@ -1,0 +1,103 @@
+.dashboard-container {
+    width: 100%;
+}
+
+.dashboard-banner {
+    height: 264px;
+    background-image: url('../../assets/images/dashboard_banner_decor.png'),
+        url('../../assets/images/dashboard_banner_decor.png');
+    background-size: 50% 100%;
+    background-position: right, left;
+    background-repeat: no-repeat, no-repeat;
+    background-color: #2d4059;
+    flex-wrap: wrap;
+}
+
+.dashboard-banner-row {
+    display: flex;
+    justify-content: center;
+    align-items: flex-end;
+    flex-wrap: wrap;
+}
+
+.dashboard-banner-title {
+    width: 60%;
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    line-height: 48px;
+    word-wrap: break-word;
+    white-space: normal;
+    text-align: center;
+}
+
+.dashboard-banner-suptitle {
+    width: 100%;
+    color: white;
+    font-size: 16px;
+    line-height: 24px;
+    text-align: center;
+}
+
+.dashboard-game-mode {
+    margin-top: 10px;
+    padding-bottom: 10px;
+}
+
+.list-card-game {
+    width: 100%;
+    display: flex;
+    justify-content: space-around;
+}
+
+.dashboard-card {
+    width: 30%;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    padding: 20px;
+    box-sizing: border-box;
+}
+
+.dashboard-title {
+    font-size: 32px;
+    font-weight: bold;
+    line-height: 48px;
+    text-align: center;
+    margin-top: 50px;
+    margin-bottom: 50px;
+    border-bottom: 2px solid rgba(0, 0, 0, 0.5);
+}
+
+.dashboard-card-title {
+    color: rgba(0, 0, 0, 0.5);
+    font-size: 16px;
+    font-weight: 400px;
+}
+
+.dashboard-card-percent {
+    font-size: 28px;
+    font-weight: 600px;
+    line-height: 36px;
+}
+
+.dashboard-card-grown {
+    color: #ea5455;
+    font-size: 16px;
+    font-weight: '400';
+    line-height: 24px;
+}
+
+.dashboard-top-game {
+    margin-top: 10px;
+    padding-bottom: 10px;
+}
+
+.dashboard-summary {
+    margin-top: 10px;
+    padding-bottom: 10px;
+}
+
+.dashboard-contest {
+    margin-top: 10px;
+    padding-bottom: 10px;
+}

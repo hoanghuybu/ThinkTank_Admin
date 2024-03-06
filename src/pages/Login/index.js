@@ -84,23 +84,24 @@ function LoginPage() {
                         />
                     </div>
                     <div className="justify-content-center d-flex align-items-center">
-                        <button type="submit" className="btn-login">
-                            Login
-                        </button>
+                        {isLoading ? (
+                            <ThreeDots
+                                height="80"
+                                width="80"
+                                radius="9"
+                                color="#f07b3f"
+                                ariaLabel="three-dots-loading"
+                                wrapperStyle={{}}
+                                wrapperClassName=""
+                                visible={true}
+                            />
+                        ) : (
+                            <button type="submit" className="btn-login">
+                                Login
+                            </button>
+                        )}
                     </div>
                 </form>
-                {isLoading && (
-                    <ThreeDots
-                        height="80"
-                        width="80"
-                        radius="9"
-                        color="rgba(105, 108, 255, 0.85)"
-                        ariaLabel="three-dots-loading"
-                        wrapperStyle={{}}
-                        wrapperClassName=""
-                        visible={true}
-                    />
-                )}
             </div>
             <div className="row-3 justify-content-center d-flex align-items-center">
                 Copyright © 2024 ThinkTank. All rights reserved.

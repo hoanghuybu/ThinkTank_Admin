@@ -94,7 +94,6 @@ function PlayerManagement() {
                                             >
                                                 {item?.status === true ? 'Active' : 'InActive'}
                                             </span>
-                                            {/* {item?.status === true ? 'Active' : 'InActive'} */}
                                         </td>
                                         <td>
                                             <Dropdown>

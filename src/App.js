@@ -6,6 +6,8 @@ import { DefaultLayouts } from '~/layouts';
 import { Fragment } from 'react';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import '@coreui/coreui/dist/css/coreui.min.css';
+import 'bootstrap/dist/css/bootstrap.min.css';
 
 function App() {
     const [hasAccessToken, setHasAccessToken] = useState(!!sessionStorage.getItem('accessToken'));
