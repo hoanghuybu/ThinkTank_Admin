@@ -18,6 +18,7 @@ const route = {
     contestGame: '/Contest/ContestGame',
     contestCreate: '/Contest/CreateContest',
     leaderboard: '/Leaderboard',
+    resourceDetail: '/GameResource/ResourceDetail',
 };
 
 export default route;

@@ -10,6 +10,10 @@ const images = {
     medalOne: require('~/assets/images/medal1.png'),
     medalTwo: require('~/assets/images/medal2.png'),
     medalThree: require('~/assets/images/medal3.png'),
+    Flipcard: require('~/assets/images/Flipcard_image.png'),
+    MusicPassword: require('~/assets/images/MusicPassword_image.png'),
+    FindAnonymous: require('~/assets/images/FindAnonymous_image.png'),
+    ImageWalkThroungh: require('~/assets/images/ImageWalkThroungh_image.png'),
 };
 
 export default images;

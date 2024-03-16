@@ -2,7 +2,7 @@ import { CCard, CCardBody, CCardTitle, CCardText, CCardImage, CBadge } from '@co
 import './TopGameCard.scss';
 import images from '~/assets/images';
 
-function TopGameCard({ rank, title, description, image }) {
+function TopGameCard({ rank, title, description, gameId }) {
     let medalImage;
     if (rank === 1) {
         medalImage = images.medalOne;
@@ -14,9 +14,23 @@ function TopGameCard({ rank, title, description, image }) {
     return (
         <CCard className="dashboard-card">
             <CBadge style={{ '--cui-badge-color': 'red' }} position="top-end" shape="rounded-bottom">
-                <img style={{ width: '70px', height: '70px' }} src={medalImage} alt="Medal"></img>
+                <img style={{ width: '60px', height: '60px' }} src={medalImage} alt="Medal"></img>
             </CBadge>
-            <CCardImage top src={image} alt={title} />
+            <CCardImage
+                top
+                src={
+                    gameId === 1
+                        ? images.Flipcard
+                        : gameId === 2
+                        ? images.MusicPassword
+                        : gameId === 4
+                        ? images.ImageWalkThroungh
+                        : gameId === 5
+                        ? images.FindAnonymous
+                        : 'https://www.cdmi.in/courses@2x/2D3D-Game-Design.webp'
+                }
+                alt={title}
+            />
             <CCardBody>
                 <CCardTitle>{title}</CCardTitle>
                 <CCardText>{description}</CCardText>

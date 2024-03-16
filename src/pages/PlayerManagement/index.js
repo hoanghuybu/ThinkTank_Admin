@@ -79,7 +79,7 @@ function PlayerManagement() {
                                                 className="column-image"
                                                 // src={item.image}
                                                 src="https://play-lh.googleusercontent.com/ZvMvaLTdYMrD6U1B3wPKL6siMYG8nSTEnzhLiMsH7QHwQXs3ZzSZuYh3_PTxoU5nKqU"
-                                                alt={`Image of ${item.name}`}
+                                                alt={`${item?.name}`}
                                             />
                                         </td>
                                         <td>{item?.fullName}</td>

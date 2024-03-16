@@ -12,7 +12,6 @@ function HeaderGame() {
                 {/* <Link to={config.route.contest} className={styles.logo}>
                     <FontAwesomeIcon className={styles.logoImage} icon={faArrowLeft}></FontAwesomeIcon>
                 </Link> */}
-                <h2 className={styles.contestTitle}>Contest Flipcard</h2>
                 <div></div>
             </div>
         </header>

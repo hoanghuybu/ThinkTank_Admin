@@ -64,10 +64,6 @@
     background-color: var(--primary) !important;
 }
 
-#multi-step-form {
-    overflow-x: hidden;
-}
-
 .card-content {
     display: flex;
     align-items: center;
@@ -89,13 +85,22 @@
     height: auto;
     object-fit: cover;
 }
+.column-image {
+    height: 25px;
+    width: 25px;
+    border-radius: 50%;
+}
 
-// .bg-label-danger {
-//     background-color: #ffe0db !important;
-//     color: #ff3e1d !important;
-// }
+#multi-step-form {
+    overflow-x: hidden;
+}
 
-// .bg-label-success {
-//     background-color: #e8fadf !important;
-//     color: #71dd37 !important;
-// }
+.bg-label-danger {
+    background-color: #ffe0db !important;
+    color: #ff3e1d !important;
+}
+
+.bg-label-success {
+    background-color: #e8fadf !important;
+    color: #71dd37 !important;
+}

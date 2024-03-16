@@ -18,6 +18,7 @@ function Button({
     disable = false,
     rounded = false,
     className = false,
+    type = false,
     leftIcon = false,
     ...passProps
 }) {
@@ -74,6 +75,7 @@ Button.propTypes = {
     disable: PropTypes.bool,
     rounded: PropTypes.bool,
     className: PropTypes.string,
+    type: PropTypes.string,
     leftIcon: PropTypes.node,
 };
 

@@ -16,6 +16,14 @@
     font-weight: 500;
 }
 
+.link-wrapper {
+    cursor: pointer;
+
+    &:hover {
+        background: rgba(22, 24, 35, 0.03);
+    }
+}
+
 @media (max-width: 767.98px) {
     .border-sm-start-none {
         border-left: none !important;

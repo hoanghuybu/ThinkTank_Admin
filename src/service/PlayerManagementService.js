@@ -1,8 +1,9 @@
 import * as request from '~/untils/request';
 
 export const getListPlayers = async (Page, PageSize, token) => {
+    let response;
     try {
-        const res = await request.getApi('/accounts', {
+        response = await request.getApi('/accounts', {
             params: {
                 Page,
                 PageSize,
@@ -11,21 +12,30 @@ export const getListPlayers = async (Page, PageSize, token) => {
                 Authorization: 'Bearer ' + token,
             },
         });
-        return res.data;
+        return response.data;
     } catch (error) {
         throw error;
+    } finally {
+        if (response && response.request && response.request._headerSent) {
+            response.request.end();
+        }
     }
 };
 
 export const banPlayers = async (accountId, token) => {
+    let response;
     try {
-        const res = await request.getApi(`/accounts/${accountId}/account-banned`, {
+        response = await request.getApi(`/accounts/${accountId}/account-banned`, {
             headers: {
                 Authorization: 'Bearer ' + token,
             },
         });
-        return res.data;
+        return response.data;
     } catch (error) {
         throw error;
+    } finally {
+        if (response && response.request && response.request._headerSent) {
+            response.request.end();
+        }
     }
 };
