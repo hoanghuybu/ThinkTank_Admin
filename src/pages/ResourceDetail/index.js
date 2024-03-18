@@ -34,7 +34,6 @@ function ResourceDetail() {
             render: 'Update succes',
             type: 'success',
             autoClose: 5000,
-            // className: 'rotateY animated',
         });
 
     //handle pagination
@@ -211,7 +210,7 @@ function ResourceDetail() {
                 formSubmit.push({
                     value: `${image.description};${image.url}`,
                     topicId: topicId,
-                    typeOfAssetId: 20,
+                    typeOfAssetId: 19,
                 });
             });
         } else if (gameId === '1' || gameId === '4') {

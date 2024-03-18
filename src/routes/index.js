@@ -15,9 +15,10 @@ import Analysis from '~/pages/Analysis';
 import Contest from '~/pages/Contest';
 import Leaderboard from '~/pages/Leaderboard';
 import ContestGame from '~/pages/ContestGame';
+import ContestDetail from '~/pages/ContestDetail';
 import ResourceDetail from '~/pages/ResourceDetail';
 
-import { WhiteLayouts, HeaderGameOnly } from '~/layouts';
+import { WhiteLayouts, HeaderGameOnly, HeaderOnly } from '~/layouts';
 import config from '~/config';
 
 const publicRounter = [
@@ -27,13 +28,14 @@ const publicRounter = [
     { path: config.route.dashboard, component: Dashboard },
     { path: config.route.gameResource, component: GameResource },
     { path: config.route.resourceDetail, component: ResourceDetail, layouts: HeaderGameOnly },
+    { path: config.route.contestDetail, component: ContestDetail, layouts: HeaderOnly },
 ];
 
 const privateRounter = [
     { path: config.route.playerManagement, component: PlayerManagement },
-    // { path: config.route.gameResource, component: GameResource },
+
     { path: config.route.analysis, component: Analysis },
-    // { path: config.route.contest, component: Contest },
+
     { path: config.route.leaderboard, component: Leaderboard },
 ];
 

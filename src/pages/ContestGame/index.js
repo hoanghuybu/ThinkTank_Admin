@@ -4,9 +4,8 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import React, { useState, useEffect } from 'react';
-import * as playerManagementService from '~/service/PlayerManagementService';
 import { Dropdown, Modal, Form } from 'react-bootstrap';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { Uploader } from 'rsuite';
 import { FaCameraRetro, FaMusic } from 'react-icons/fa';
 import * as contestService from '~/service/ContestService';
@@ -15,7 +14,7 @@ import { toast } from 'react-toastify';
 function ContestGame() {
     const [currentPage, setCurrentPage] = useState(1);
     const [currentStep, setCurrentStep] = useState(1);
-    const [listPlayers, setListPlayer] = useState([]);
+    const [listContests, setListContest] = useState([]);
     const [listImageURL, setListImageURL] = useState([]);
     const [gameId, setGameId] = useState();
     const [thumnailURL, setThumnailURL] = useState();
@@ -26,6 +25,7 @@ function ContestGame() {
     const location = useLocation();
     const [show, setShow] = useState(false);
     const toastId = React.useRef(null);
+    const navigate = useNavigate();
 
     //Toast
     const notifyToast = () => (toastId.current = toast('In process, please wait ...', { autoClose: false }));
@@ -35,7 +35,6 @@ function ContestGame() {
             render: 'Update succes',
             type: 'success',
             autoClose: 5000,
-            // className: 'rotateY animated',
         });
 
     //handle pagination
@@ -43,7 +42,7 @@ function ContestGame() {
 
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
-    const currentData = listPlayers.slice(startIndex, endIndex);
+    const currentData = listContests.slice(startIndex, endIndex);
 
     const paginate = (pageNumber) => {
         setCurrentPage(pageNumber);
@@ -138,23 +137,21 @@ function ContestGame() {
         setListImageURL(updatedImageList);
     };
 
-    //API
-
-    const getListPlayers = async () => {
-        try {
-            const token = sessionStorage.getItem('accessToken');
-            const result = await playerManagementService.getListPlayers(null, null, token);
-            setListPlayer(result.results);
-        } catch (error) {
-            console.log(error);
-        }
+    //handle view detail contest
+    const handleViewClick = (item) => {
+        navigate('/Contest/ContestDetail', { state: { contest: item } });
     };
 
-    const handleBlockPlayer = async (accountId) => {
-        const token = sessionStorage.getItem('accessToken');
-        const result = await playerManagementService.banPlayers(accountId, token);
-        if (result) {
-            getListPlayers();
+    //API
+
+    const getListContest = async () => {
+        try {
+            const token = sessionStorage.getItem('accessToken');
+            const id = parseInt(gameId, 10);
+            const result = await contestService.getListContestByGameID(null, null, id, 1, token);
+            setListContest(result.results);
+        } catch (error) {
+            console.log(error);
         }
     };
 
@@ -231,8 +228,10 @@ function ContestGame() {
     }, [location]);
 
     useEffect(() => {
-        getListPlayers();
-    }, []);
+        if (gameId) {
+            getListContest();
+        }
+    }, [gameId]);
 
     return (
         <>
@@ -593,7 +592,17 @@ function ContestGame() {
                                                         listType="picture"
                                                         onSuccess={handleUploadSuccess}
                                                         onRemove={handleRemoveFile}
-                                                        action="https://thinktank-sep490.azurewebsites.net/api/files/contests?type=1"
+                                                        action={`https://thinktank-sep490.azurewebsites.net/api/files/contests?type=${
+                                                            gameId === '1'
+                                                                ? '3'
+                                                                : gameId === '2'
+                                                                ? '2'
+                                                                : gameId === '4'
+                                                                ? '4'
+                                                                : gameId === '5'
+                                                                ? '1'
+                                                                : ''
+                                                        }`}
                                                         // draggable
                                                     >
                                                         <div>{gameId === '2' ? <FaMusic /> : <FaCameraRetro />}</div>
@@ -642,6 +651,7 @@ function ContestGame() {
                                     <tr>
                                         <th className="text-center">STT</th>
                                         <th>Name Contest</th>
+                                        <th>Name Game</th>
                                         <th>Start Date</th>
                                         <th>End Date</th>
                                         <th>Actions</th>
@@ -650,10 +660,11 @@ function ContestGame() {
                                 <tbody className="table-border-bottom-0">
                                     {currentData.map((item, index) => (
                                         <tr key={index}>
-                                            <td className="text-center">{item?.code}</td>
-                                            <td>{item?.fullName}</td>
-                                            <td>{item?.dateOfBirth}</td>
-                                            <td>{item?.email}</td>
+                                            <td className="text-center">{index + 1}</td>
+                                            <td>{item?.name}</td>
+                                            <td>{item?.gameName}</td>
+                                            <td>{item?.startTime}</td>
+                                            <td>{item?.endTime}</td>
 
                                             <td>
                                                 <Dropdown>
@@ -662,7 +673,7 @@ function ContestGame() {
                                                     </Dropdown.Toggle>
 
                                                     <Dropdown.Menu>
-                                                        <Dropdown.Item onClick={() => handleBlockPlayer(item.id)}>
+                                                        <Dropdown.Item onClick={() => handleViewClick(item)}>
                                                             View
                                                         </Dropdown.Item>
                                                     </Dropdown.Menu>
@@ -676,8 +687,8 @@ function ContestGame() {
                     </div>
                     <div className="w-100 d-flex justify-content-between">
                         <h4 className="table-text mt-1">
-                            Showing {startIndex + 1} to {endIndex > listPlayers.length ? listPlayers.length : endIndex}{' '}
-                            of {listPlayers.length}
+                            Showing {startIndex + 1} to{' '}
+                            {endIndex > listContests.length ? listContests.length : endIndex} of {listContests.length}
                         </h4>
                         <div className="pagination">
                             <button
@@ -689,7 +700,7 @@ function ContestGame() {
                             </button>
                             <span className="mx-2">
                                 <ul className="pagination d-flex align-items-center h-100">
-                                    {Array(Math.ceil(listPlayers.length / itemsPerPage))
+                                    {Array(Math.ceil(listContests.length / itemsPerPage))
                                         .fill()
                                         .map((_, index) => (
                                             <li
@@ -706,7 +717,7 @@ function ContestGame() {
                             <button
                                 className="btn-pagi"
                                 onClick={() => setCurrentPage(currentPage + 1)}
-                                disabled={endIndex >= listPlayers.length}
+                                disabled={endIndex >= listContests.length}
                             >
                                 <FontAwesomeIcon icon={faAngleRight}></FontAwesomeIcon>
                             </button>
