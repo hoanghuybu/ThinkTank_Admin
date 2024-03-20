@@ -29,14 +29,11 @@ const publicRounter = [
     { path: config.route.gameResource, component: GameResource },
     { path: config.route.resourceDetail, component: ResourceDetail, layouts: HeaderGameOnly },
     { path: config.route.contestDetail, component: ContestDetail, layouts: HeaderOnly },
-];
-
-const privateRounter = [
+    { path: config.route.analysis, component: Analysis, layouts: WhiteLayouts },
     { path: config.route.playerManagement, component: PlayerManagement },
-
-    { path: config.route.analysis, component: Analysis },
-
     { path: config.route.leaderboard, component: Leaderboard },
 ];
+
+const privateRounter = [];
 
 export { privateRounter, publicRounter };

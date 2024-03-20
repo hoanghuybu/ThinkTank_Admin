@@ -6,7 +6,6 @@ import {
     AiOutlineDashboard,
     AiOutlineUser,
     AiOutlineVideoCameraAdd,
-    AiOutlineBarChart,
     AiOutlineCrown,
     AiOutlineBuild,
 } from 'react-icons/ai';
@@ -26,7 +25,7 @@ function SideBar() {
                     to={config.route.gameResource}
                     icon={<AiOutlineVideoCameraAdd />}
                 ></MenuItems>
-                <MenuItems title="Analysis" to={config.route.analysis} icon={<AiOutlineBarChart />}></MenuItems>
+
                 <MenuItems title="Contest" to={config.route.contest} icon={<AiOutlineBuild />}></MenuItems>
                 <MenuItems title="Leaderboard" to={config.route.leaderboard} icon={<AiOutlineCrown />}></MenuItems>
             </MenuSidebar>

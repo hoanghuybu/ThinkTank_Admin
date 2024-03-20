@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
 
 //util
 import * as playerManagementService from '~/service/PlayerManagementService';
@@ -13,6 +14,7 @@ import Search from '~/components/Search';
 function PlayerManagement() {
     const [currentPage, setCurrentPage] = useState(1);
     const [listPlayers, setListPlayer] = useState([]);
+    const navigate = useNavigate();
 
     const itemsPerPage = 2;
 
@@ -104,6 +106,11 @@ function PlayerManagement() {
                                                 <Dropdown.Menu>
                                                     <Dropdown.Item onClick={() => handleBlockPlayer(item.id)}>
                                                         Block
+                                                    </Dropdown.Item>
+                                                    <Dropdown.Item
+                                                        onClick={() => navigate(`/Analysis?playerId=${item.id}`)}
+                                                    >
+                                                        View Analysis
                                                     </Dropdown.Item>
                                                 </Dropdown.Menu>
                                             </Dropdown>
