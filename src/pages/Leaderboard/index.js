@@ -1,11 +1,292 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
+import { Form, Carousel } from 'react-bootstrap';
+import * as dashboardManagement from '../../service/DashboardService';
+import * as leaderboardService from '../../service/LeaderboardService';
+import * as contestService from '../../service/ContestService';
 import './Leaderboard.scss';
+import images from '~/assets/images';
+
+const dados = [
+    {
+        id: 1,
+        name: 'Laura',
+        image: 'https://cdn-icons-png.flaticon.com/512/186/186037.png',
+        level: 16,
+        xp: 100,
+        coins: 500,
+        love: 6,
+        beacons: 2,
+        resources: 70,
+    },
+    {
+        id: 1,
+        name: 'Laura',
+        image: 'https://cdn-icons-png.flaticon.com/512/186/186037.png',
+        level: 16,
+        xp: 100,
+        coins: 500,
+        love: 6,
+        beacons: 2,
+        resources: 70,
+    },
+    {
+        id: 1,
+        name: 'Laura',
+        image: 'https://cdn-icons-png.flaticon.com/512/186/186037.png',
+        level: 16,
+        xp: 100,
+        coins: 500,
+        love: 6,
+        beacons: 2,
+        resources: 70,
+    },
+    {
+        id: 1,
+        name: 'Laura',
+        image: 'https://cdn-icons-png.flaticon.com/512/186/186037.png',
+        level: 16,
+        xp: 100,
+        coins: 500,
+        love: 6,
+        beacons: 2,
+        resources: 70,
+    },
+    {
+        id: 1,
+        name: 'Laura',
+        image: 'https://cdn-icons-png.flaticon.com/512/186/186037.png',
+        level: 16,
+        xp: 100,
+        coins: 500,
+        love: 6,
+        beacons: 2,
+        resources: 70,
+    },
+    {
+        id: 1,
+        name: 'Laura',
+        image: 'https://cdn-icons-png.flaticon.com/512/186/186037.png',
+        level: 16,
+        xp: 100,
+        coins: 500,
+        love: 6,
+        beacons: 2,
+        resources: 70,
+    },
+    {
+        id: 1,
+        name: 'Laura',
+        image: 'https://cdn-icons-png.flaticon.com/512/186/186037.png',
+        level: 16,
+        xp: 100,
+        coins: 500,
+        love: 6,
+        beacons: 2,
+        resources: 70,
+    },
+    {
+        id: 1,
+        name: 'Laura',
+        image: 'https://cdn-icons-png.flaticon.com/512/186/186037.png',
+        level: 16,
+        xp: 100,
+        coins: 500,
+        love: 6,
+        beacons: 2,
+        resources: 70,
+    },
+    {
+        id: 1,
+        name: 'Laura',
+        image: 'https://cdn-icons-png.flaticon.com/512/186/186037.png',
+        level: 16,
+        xp: 100,
+        coins: 500,
+        love: 6,
+        beacons: 2,
+        resources: 70,
+    },
+    {
+        id: 1,
+        name: 'Laura',
+        image: 'https://cdn-icons-png.flaticon.com/512/186/186037.png',
+        level: 16,
+        xp: 100,
+        coins: 500,
+        love: 6,
+        beacons: 2,
+        resources: 70,
+    },
+    {
+        id: 1,
+        name: 'Laura',
+        image: 'https://cdn-icons-png.flaticon.com/512/186/186037.png',
+        level: 16,
+        xp: 100,
+        coins: 500,
+        love: 6,
+        beacons: 2,
+        resources: 70,
+    },
+    {
+        id: 1,
+        name: 'Laura',
+        image: 'https://cdn-icons-png.flaticon.com/512/186/186037.png',
+        level: 16,
+        xp: 100,
+        coins: 500,
+        love: 6,
+        beacons: 2,
+        resources: 70,
+    },
+    {
+        id: 1,
+        name: 'Laura',
+        image: 'https://cdn-icons-png.flaticon.com/512/186/186037.png',
+        level: 16,
+        xp: 100,
+        coins: 500,
+        love: 6,
+        beacons: 2,
+        resources: 70,
+    },
+    {
+        id: 1,
+        name: 'Laura',
+        image: 'https://cdn-icons-png.flaticon.com/512/186/186037.png',
+        level: 16,
+        xp: 100,
+        coins: 500,
+        love: 6,
+        beacons: 2,
+        resources: 70,
+    },
+    {
+        id: 1,
+        name: 'Laura',
+        image: 'https://cdn-icons-png.flaticon.com/512/186/186037.png',
+        level: 16,
+        xp: 100,
+        coins: 500,
+        love: 6,
+        beacons: 2,
+        resources: 70,
+    },
+    {
+        id: 1,
+        name: 'Laura',
+        image: 'https://cdn-icons-png.flaticon.com/512/186/186037.png',
+        level: 16,
+        xp: 100,
+        coins: 500,
+        love: 6,
+        beacons: 2,
+        resources: 70,
+    },
+    {
+        id: 1,
+        name: 'Laura',
+        image: 'https://cdn-icons-png.flaticon.com/512/186/186037.png',
+        level: 16,
+        xp: 100,
+        coins: 500,
+        love: 6,
+        beacons: 2,
+        resources: 70,
+    },
+    {
+        id: 1,
+        name: 'Laura',
+        image: 'https://cdn-icons-png.flaticon.com/512/186/186037.png',
+        level: 16,
+        xp: 100,
+        coins: 500,
+        love: 6,
+        beacons: 2,
+        resources: 70,
+    },
+];
 
 function Leaderboard() {
     const [selectedButton, setSelectedButton] = useState('Game');
+    const [listGames, setListGames] = useState([]);
+    const [listLeaderboardGame, setListLeaderboardGame] = useState([]);
+    const [listLeaderboardContest, setListLeaderboardContest] = useState([]);
+    const [index, setIndex] = useState(0);
+    const [gameId, setGameId] = useState(1);
+    const [listContests, setListContest] = useState([]);
+    const [contestId, setContestId] = useState('');
 
+    //handle Select game
+    const handleSelect = (selectedIndex) => {
+        setIndex(selectedIndex);
+
+        if (listGames) {
+            const selectedGameId = listGames[selectedIndex].id;
+            setGameId(selectedGameId);
+        }
+    };
+
+    //API
+    const getListGames = async () => {
+        try {
+            const accessToken = sessionStorage.getItem('accessToken');
+            const result = await dashboardManagement.getListGames(accessToken);
+            setListGames(result.results);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getListLeaderboardGame = async () => {
+        console.log(gameId);
+        try {
+            const accessToken = sessionStorage.getItem('accessToken');
+            const result = await leaderboardService.getListLeaderboardGame(accessToken, gameId);
+            setListLeaderboardGame(result);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getListContest = async () => {
+        try {
+            const token = sessionStorage.getItem('accessToken');
+            const id = parseInt(gameId, 10);
+            const result = await contestService.getListContestByGameID(null, null, id, 1, token);
+            setListContest(result.results);
+            setContestId('');
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    const getListLeaderboardContest = async () => {
+        try {
+            const accessToken = sessionStorage.getItem('accessToken');
+            const result = await leaderboardService.getListLeaderboardContest(accessToken, contestId);
+            setListLeaderboardContest(result);
+        } catch (error) {
+            console.log(error);
+        }
+    };
+
+    useEffect(() => {
+        getListGames();
+    }, []);
+
+    useEffect(() => {
+        getListLeaderboardGame();
+        getListContest();
+    }, [gameId]);
+
+    useEffect(() => {
+        if (contestId) {
+            getListLeaderboardContest();
+        }
+    }, [contestId]);
     return (
-        <div className="container">
+        <div className="container-leaderboard">
             <div className="frame">
                 <header>Leaderboard</header>
                 <div className="button-group">
@@ -22,6 +303,166 @@ function Leaderboard() {
                         Contest
                     </button>
                 </div>
+                <div className="w-100 mt-4">
+                    <h1 className="text-center">Select Game</h1>
+                    <Carousel variant="dark" activeIndex={index} onSelect={handleSelect} interval={null}>
+                        {listGames.map((item) => (
+                            <Carousel.Item>
+                                <img
+                                    className="d-block w-100"
+                                    src={
+                                        item?.id === 1
+                                            ? images.Flipcard
+                                            : item?.id === 2
+                                            ? images.MusicPassword
+                                            : item?.id === 4
+                                            ? images.ImageWalkThroungh
+                                            : item?.id === 5
+                                            ? images.FindAnonymous
+                                            : 'https://via.placeholder.com/800x400'
+                                    }
+                                    alt={item?.name}
+                                />
+                                <Carousel.Caption>
+                                    <h3>{item?.name}</h3>
+                                    <p>{item?.amoutPlayer} Player was played.</p>
+                                </Carousel.Caption>
+                            </Carousel.Item>
+                        ))}
+                    </Carousel>
+                </div>
+                {selectedButton === 'Contest' && (
+                    <div className="w-100 row m-3">
+                        <h1 className="text-center">Select Contest</h1>
+
+                        <div>
+                            <Form.Group controlId="formCoinBetting">
+                                <Form.Select value={contestId} onChange={(e) => setContestId(e.target.value)}>
+                                    <option value="">Select Contest</option>
+                                    {listContests.map((item, index) => (
+                                        <option key={index} value={item.id}>
+                                            {item.name}
+                                        </option>
+                                    ))}
+                                </Form.Select>
+                            </Form.Group>
+                        </div>
+                    </div>
+                )}
+                {selectedButton === 'Game' && (
+                    <div className="w-100">
+                        <div className="top-leaders-list">
+                            {listLeaderboardGame.map((leader, index) => (
+                                <div className="leader" key={index}>
+                                    {index + 1 <= 3 && (
+                                        <div className="containerImage">
+                                            <img className="image" loading="lazy" src={leader?.avatar} alt="Player" />
+                                            <div className="crown">
+                                                <svg
+                                                    id="crown1"
+                                                    fill="#0f74b5"
+                                                    data-name="Layer 1"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 100 50"
+                                                >
+                                                    <polygon
+                                                        className="cls-1"
+                                                        points="12.7 50 87.5 50 100 0 75 25 50 0 25.6 25 0 0 12.7 50"
+                                                    />
+                                                </svg>
+                                            </div>
+                                            <div className="leaderName">{leader.fullName}</div>
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                        <div className="playerslist">
+                            {listLeaderboardGame && listLeaderboardGame.length > 0 ? (
+                                <div className="table-leaderboard">
+                                    <div>Rank</div>
+                                    <div>Name</div>
+                                    <div>Avatar</div>
+                                    <div>Mark</div>
+                                </div>
+                            ) : (
+                                <h2 className="text-center">No Data</h2>
+                            )}
+                            <div className="list">
+                                {listLeaderboardGame.map((leader, index) => (
+                                    <div className="player" key={index}>
+                                        <span> {leader.rank}</span>
+                                        <div className="user">
+                                            <span> {leader.fullName} </span>
+                                        </div>
+                                        <span>
+                                            {' '}
+                                            <img className="image" src={leader.avatar} alt="Player" />{' '}
+                                        </span>
+                                        <span> {leader.mark} </span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                )}
+                {selectedButton === 'Contest' && (
+                    <div className="w-100">
+                        <div className="top-leaders-list">
+                            {listLeaderboardContest.map((leader, index) => (
+                                <div className="leader" key={index}>
+                                    {index + 1 <= 3 && (
+                                        <div className="containerImage">
+                                            <img className="image" loading="lazy" src={leader?.avatar} alt="Player" />
+                                            <div className="crown">
+                                                <svg
+                                                    id="crown1"
+                                                    fill="#0f74b5"
+                                                    data-name="Layer 1"
+                                                    xmlns="http://www.w3.org/2000/svg"
+                                                    viewBox="0 0 100 50"
+                                                >
+                                                    <polygon
+                                                        className="cls-1"
+                                                        points="12.7 50 87.5 50 100 0 75 25 50 0 25.6 25 0 0 12.7 50"
+                                                    />
+                                                </svg>
+                                            </div>
+                                            <div className="leaderName">{leader.fullName}</div>
+                                        </div>
+                                    )}
+                                </div>
+                            ))}
+                        </div>
+                        <div className="playerslist">
+                            {listLeaderboardContest && listLeaderboardContest.length > 0 ? (
+                                <div className="table-leaderboard">
+                                    <div>Rank</div>
+                                    <div>Name</div>
+                                    <div>Avatar</div>
+                                    <div>Mark</div>
+                                </div>
+                            ) : (
+                                <h2 className="text-center">No Data</h2>
+                            )}
+                            <div className="list">
+                                {listLeaderboardContest.map((leader, index) => (
+                                    <div className="player" key={index}>
+                                        <span> {leader.rank}</span>
+                                        <div className="user">
+                                            <span> {leader.fullName} </span>
+                                        </div>
+                                        <span>
+                                            {' '}
+                                            <img className="image" src={leader.avatar} alt="Player" />{' '}
+                                        </span>
+                                        <span> {leader.mark} </span>
+                                    </div>
+                                ))}
+                            </div>
+                        </div>
+                    </div>
+                )}
             </div>
         </div>
     );
