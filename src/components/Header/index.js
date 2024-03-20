@@ -7,7 +7,7 @@ function Header() {
     return (
         <header className={styles.wrapper}>
             <div className={styles.inner}>
-                <Link to={config.route.home} className={styles.logo}>
+                <Link to={config.route.dashboard} className={styles.logo}>
                     <img className={styles.logoImage} src={images.logoText} alt="Think Tank"></img>
                 </Link>
                 <h2>Think Tank Admin Dashboard</h2>

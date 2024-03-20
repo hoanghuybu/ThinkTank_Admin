@@ -21,8 +21,9 @@ import ResourceDetail from '~/pages/ResourceDetail';
 import { WhiteLayouts, HeaderGameOnly, HeaderOnly } from '~/layouts';
 import config from '~/config';
 
-const publicRounter = [
-    { path: config.route.login, component: LoginPage, layouts: WhiteLayouts },
+const publicRounter = [{ path: config.route.login, component: LoginPage, layouts: WhiteLayouts }];
+
+const privateRounter = [
     { path: config.route.contest, component: Contest },
     { path: config.route.contestGame, component: ContestGame, layouts: HeaderGameOnly },
     { path: config.route.dashboard, component: Dashboard },
@@ -33,7 +34,5 @@ const publicRounter = [
     { path: config.route.playerManagement, component: PlayerManagement },
     { path: config.route.leaderboard, component: Leaderboard },
 ];
-
-const privateRounter = [];
 
 export { privateRounter, publicRounter };
