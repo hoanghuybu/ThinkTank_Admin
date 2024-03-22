@@ -58,9 +58,9 @@ const refreshAccessToken = async () => {
 
         const response = await requestNoToken.post('/accounts/token-verification', data);
 
-        const { resAccessToken } = response.data;
+        const resAccessToken = response.data.accessToken;
         sessionStorage.setItem('accessToken', resAccessToken);
-
+        sessionStorage.setItem('refreshToken', response.data.refreshToken);
         return resAccessToken;
     } catch (error) {
         console.error('Error refreshing access token:', error);
