@@ -14,11 +14,10 @@ function MenuSidebar({ children }) {
 
     const handleLogout = async (e) => {
         e.preventDefault();
-        const accessToken = sessionStorage.getItem('accessToken');
         const accountId = sessionStorage.getItem('accountId');
-        if (accountId && accessToken) {
+        if (accountId) {
             try {
-                const response = await loginService.logout(accountId, accessToken);
+                const response = await loginService.logout();
                 if (response) {
                     sessionStorage.clear();
                     navigate('/');

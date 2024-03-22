@@ -11,8 +11,7 @@ function GameResource() {
 
     const getListGames = async () => {
         try {
-            const accessToken = sessionStorage.getItem('accessToken');
-            const result = await dashboardManagement.getListGames(accessToken);
+            const result = await dashboardManagement.getListGames();
             setListGames(result.results);
         } catch (error) {
             console.log(error);

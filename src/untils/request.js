@@ -8,10 +8,96 @@ const requestAPI = axios.create({
     baseURL: process.env.REACT_APP_THINK_TANK_URL,
 });
 
+const requestNoToken = axios.create({
+    baseURL: process.env.REACT_APP_THINK_TANK_URL,
+});
+
 export const get = async (path, option = {}) => {
     const respone = await request.get(path, option);
     return respone;
 };
+
+export const getNoToken = async (path, option = {}) => {
+    const responseAPI = await requestNoToken.get(path, option);
+    return responseAPI;
+};
+
+export const postNoToken = async (path, data, option = {}) => {
+    const responseAPI = await requestNoToken.post(path, data, option);
+    return responseAPI;
+};
+
+export const putNoToken = async (path, data, option = {}) => {
+    const responseAPI = await requestNoToken.put(path, data, option);
+    return responseAPI;
+};
+
+export const patchNoToken = async (path, data, option = {}) => {
+    const responseAPI = await requestNoToken.patch(path, data, option);
+    return responseAPI;
+};
+
+export const deleteNoToken = async (path, option = {}) => {
+    const responseAPI = await requestNoToken.delete(path, option);
+    return responseAPI;
+};
+
+const refreshAccessToken = async () => {
+    try {
+        const refreshToken = sessionStorage.getItem('refreshToken');
+        const accessToken = sessionStorage.getItem('accessToken');
+        if (!refreshToken) {
+            console.log('No refreshToken');
+            return null;
+        }
+
+        const data = {
+            accessToken: accessToken,
+            refreshToken: refreshToken,
+        };
+
+        const response = await requestNoToken.post('/accounts/token-verification', data);
+
+        const { resAccessToken } = response.data;
+        sessionStorage.setItem('accessToken', resAccessToken);
+
+        return resAccessToken;
+    } catch (error) {
+        console.error('Error refreshing access token:', error);
+        return null;
+    }
+};
+
+requestAPI.interceptors.request.use(
+    async (config) => {
+        const accessToken = sessionStorage.getItem('accessToken');
+        if (accessToken) {
+            config.headers.Authorization = `Bearer ${accessToken}`;
+        }
+        return config;
+    },
+    async (error) => {
+        return Promise.reject(error);
+    },
+);
+
+requestAPI.interceptors.response.use(
+    async (response) => {
+        return response;
+    },
+    async (error) => {
+        const originalRequest = error.config;
+        if (error.response.status === 401 && !originalRequest._retry) {
+            originalRequest._retry = true;
+            const accessToken = await refreshAccessToken();
+            if (accessToken) {
+                originalRequest.headers.Authorization = `Bearer ${accessToken}`;
+                return axios(originalRequest);
+            }
+        }
+        return Promise.reject(error);
+    },
+);
 
 export const getApi = async (path, option = {}) => {
     const responseAPI = await requestAPI.get(path, option);

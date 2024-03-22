@@ -1,13 +1,9 @@
 import * as request from '~/untils/request';
 
-export const createContest = async (data, token) => {
+export const createContest = async (data) => {
     let response;
     try {
-        response = await request.postApi('/contests', data, {
-            headers: {
-                Authorization: 'Bearer ' + token,
-            },
-        });
+        response = await request.postApi('/contests', data);
         return response.data;
     } catch (error) {
         throw error;
@@ -18,7 +14,7 @@ export const createContest = async (data, token) => {
     }
 };
 
-export const getListContestByGameID = async (Page, PageSize, GameId, ContestStatus, token) => {
+export const getListContestByGameID = async (Page, PageSize, GameId, ContestStatus) => {
     let response;
     try {
         response = await request.getApi('/contests', {
@@ -28,9 +24,6 @@ export const getListContestByGameID = async (Page, PageSize, GameId, ContestStat
                 GameId,
                 ContestStatus,
             },
-            headers: {
-                Authorization: 'Bearer ' + token,
-            },
         });
         return response.data;
     } catch (error) {
@@ -42,14 +35,10 @@ export const getListContestByGameID = async (Page, PageSize, GameId, ContestStat
     }
 };
 
-export const updateContest = async (data, id, token) => {
+export const updateContest = async (data, id) => {
     let response;
     try {
-        response = await request.putApi(`/contests/${id}`, data, {
-            headers: {
-                Authorization: 'Bearer ' + token,
-            },
-        });
+        response = await request.putApi(`/contests/${id}`, data);
         return response.data;
     } catch (error) {
         throw error;

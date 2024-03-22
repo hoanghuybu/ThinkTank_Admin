@@ -230,8 +230,7 @@ function Leaderboard() {
     //API
     const getListGames = async () => {
         try {
-            const accessToken = sessionStorage.getItem('accessToken');
-            const result = await dashboardManagement.getListGames(accessToken);
+            const result = await dashboardManagement.getListGames();
             setListGames(result.results);
         } catch (error) {
             console.log(error);
@@ -241,8 +240,7 @@ function Leaderboard() {
     const getListLeaderboardGame = async () => {
         console.log(gameId);
         try {
-            const accessToken = sessionStorage.getItem('accessToken');
-            const result = await leaderboardService.getListLeaderboardGame(accessToken, gameId);
+            const result = await leaderboardService.getListLeaderboardGame(gameId);
             setListLeaderboardGame(result);
         } catch (error) {
             console.log(error);
@@ -251,9 +249,8 @@ function Leaderboard() {
 
     const getListContest = async () => {
         try {
-            const token = sessionStorage.getItem('accessToken');
             const id = parseInt(gameId, 10);
-            const result = await contestService.getListContestByGameID(null, null, id, 1, token);
+            const result = await contestService.getListContestByGameID(null, null, id, 1);
             setListContest(result.results);
             setContestId('');
         } catch (error) {

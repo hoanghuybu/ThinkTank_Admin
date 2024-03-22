@@ -141,9 +141,8 @@ function ResourceDetail() {
     //API
     const getListResources = async () => {
         try {
-            const token = sessionStorage.getItem('accessToken');
             const id = parseInt(gameId, 10);
-            const result = await resourceGameService.getListResourceByGameID(null, null, id, token);
+            const result = await resourceGameService.getListResourceByGameID(null, null, id);
             setListResource(result.results);
         } catch (error) {
             console.log(error);
@@ -152,8 +151,7 @@ function ResourceDetail() {
 
     const getListTopic = async () => {
         try {
-            const token = sessionStorage.getItem('accessToken');
-            const result = await resourceGameService.getListTopicsOfGame(gameId, token);
+            const result = await resourceGameService.getListTopicsOfGame(gameId);
             if (result) {
                 setListTopic(result.results);
             }
@@ -163,12 +161,11 @@ function ResourceDetail() {
     };
 
     const handleDeleteResource = async (resourceId) => {
-        const token = sessionStorage.getItem('accessToken');
         const id = parseInt(resourceId, 10);
         const formSubmit = [id];
         console.log(formSubmit);
         try {
-            const result = await resourceGameService.deleteReource(formSubmit, token);
+            const result = await resourceGameService.deleteResource(formSubmit);
             if (result) {
                 getListResources();
             }
@@ -180,14 +177,13 @@ function ResourceDetail() {
     const handleOtherTopicSubmit = async (e) => {
         e.preventDefault();
         const gameIdNumber = parseInt(gameId, 10);
-        const token = sessionStorage.getItem('accessToken');
         const formSubmit = {
             name: otherTopic,
             gameId: gameIdNumber,
         };
 
         try {
-            const response = await resourceGameService.createNewTopic(formSubmit, token);
+            const response = await resourceGameService.createNewTopic(formSubmit);
             if (response) {
                 getListTopic();
                 handleOhterTopicClose();
@@ -203,7 +199,6 @@ function ResourceDetail() {
         notifyToast();
         let formSubmit = [];
         const topicId = parseInt(topic, 10);
-        const token = sessionStorage.getItem('accessToken');
 
         if (gameId === '5') {
             listImageURL.forEach((image) => {
@@ -234,7 +229,7 @@ function ResourceDetail() {
         console.log(formSubmit);
 
         try {
-            const response = await resourceGameService.createResource(formSubmit, token);
+            const response = await resourceGameService.createResource(formSubmit);
 
             if (response) {
                 updateToast();

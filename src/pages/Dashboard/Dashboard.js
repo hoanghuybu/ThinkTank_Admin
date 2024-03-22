@@ -14,12 +14,9 @@ function Dashboard() {
 
     const getListGames = async () => {
         try {
-            const accessToken = sessionStorage.getItem('accessToken');
-            if (accessToken) {
-                const result = await dashboardManagement.getListGames(accessToken);
-                const gameSort = result.results.sort((a, b) => b.amoutPlayer - a.amoutPlayer);
-                setListGames(gameSort.slice(0, 3));
-            }
+            const result = await dashboardManagement.getListGames();
+            const gameSort = result.results.sort((a, b) => b.amoutPlayer - a.amoutPlayer);
+            setListGames(gameSort.slice(0, 3));
         } catch (error) {
             console.log(error);
         }
@@ -27,11 +24,8 @@ function Dashboard() {
 
     const getGameReport = async () => {
         try {
-            const accessToken = sessionStorage.getItem('accessToken');
-            if (accessToken) {
-                const result = await dashboardManagement.getGameReport(accessToken);
-                setGameReport(result);
-            }
+            const result = await dashboardManagement.getGameReport();
+            setGameReport(result);
         } catch (error) {
             console.log(error);
         }

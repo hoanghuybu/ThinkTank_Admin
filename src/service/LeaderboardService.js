@@ -1,13 +1,9 @@
 import * as request from '~/untils/request';
 
-export const getListLeaderboardGame = async (token, gameId) => {
+export const getListLeaderboardGame = async (gameId) => {
     let res;
     try {
-        res = await request.getApi(`/achievements/${gameId}/leaderboard`, {
-            headers: {
-                Authorization: 'Bearer ' + token,
-            },
-        });
+        res = await request.getApi(`/achievements/${gameId}/leaderboard`);
         return res.data;
     } catch (error) {
         throw error;
@@ -18,14 +14,10 @@ export const getListLeaderboardGame = async (token, gameId) => {
     }
 };
 
-export const getListLeaderboardContest = async (token, contestId) => {
+export const getListLeaderboardContest = async (contestId) => {
     let res;
     try {
-        res = await request.getApi(`/contests/${contestId}/leaderboard`, {
-            headers: {
-                Authorization: 'Bearer ' + token,
-            },
-        });
+        res = await request.getApi(`/contests/${contestId}/leaderboard`);
         return res.data;
     } catch (error) {
         throw error;

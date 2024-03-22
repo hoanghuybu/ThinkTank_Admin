@@ -146,9 +146,8 @@ function ContestGame() {
 
     const getListContest = async () => {
         try {
-            const token = sessionStorage.getItem('accessToken');
             const id = parseInt(gameId, 10);
-            const result = await contestService.getListContestByGameID(null, null, id, 1, token);
+            const result = await contestService.getListContestByGameID(null, null, id, 1);
             setListContest(result.results);
         } catch (error) {
             console.log(error);
@@ -160,7 +159,6 @@ function ContestGame() {
 
         notifyToast();
 
-        const token = sessionStorage.getItem('accessToken');
         const gameIdNumber = parseInt(gameId, 10);
         let newAssets = [];
         if (gameIdNumber === 1 || gameIdNumber === 4) {
@@ -202,7 +200,7 @@ function ContestGame() {
         console.log(formSubmit);
 
         try {
-            const response = await contestService.createContest(formSubmit, token);
+            const response = await contestService.createContest(formSubmit);
 
             if (response) {
                 updateToast();

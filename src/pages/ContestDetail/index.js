@@ -85,7 +85,6 @@ function ContestDetail() {
         let updatedAssets = [];
         let updatedAssets1 = [];
         let updatedAssets2 = [];
-        const token = sessionStorage.getItem('accessToken');
         if (contest.assetOfContests) {
             if (contest.gameId === 1) {
                 updatedAssets1 = contest.assetOfContests.map((asset) => ({
@@ -151,7 +150,7 @@ function ContestDetail() {
             assets: updatedAssets,
         };
         try {
-            const response = await contestService.updateContest(formSubmit, contest.id, token);
+            const response = await contestService.updateContest(formSubmit, contest.id);
 
             if (response) {
                 updateToast();

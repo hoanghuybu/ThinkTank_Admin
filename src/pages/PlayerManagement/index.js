@@ -28,8 +28,7 @@ function PlayerManagement() {
 
     const getListPlayers = async () => {
         try {
-            const token = sessionStorage.getItem('accessToken');
-            const result = await playerManagementService.getListPlayers(null, null, token);
+            const result = await playerManagementService.getListPlayers(null, null);
             setListPlayer(result.results);
         } catch (error) {
             console.log(error);
@@ -37,8 +36,7 @@ function PlayerManagement() {
     };
 
     const handleBlockPlayer = async (accountId) => {
-        const token = sessionStorage.getItem('accessToken');
-        const result = await playerManagementService.banPlayers(accountId, token);
+        const result = await playerManagementService.banPlayers(accountId);
         if (result) {
             getListPlayers();
         }

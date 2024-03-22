@@ -4,6 +4,8 @@ import { useNavigate } from 'react-router-dom';
 import { ThreeDots } from 'react-loader-spinner';
 import jwtDecode from 'jwt-decode';
 import { toast } from 'react-toastify';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faUser, faLock } from '@fortawesome/free-solid-svg-icons';
 
 //util
 import * as loginService from '~/service/LoginService';
@@ -58,53 +60,71 @@ function LoginPage() {
         }
     };
     return (
-        <div className="h-100">
-            <div className="row-1 justify-content-center d-flex align-items-center">
-                <img className="row-1-image" alt="Think Tank Logo" src={images.logoText} />
-            </div>
-            <div className="row-2 row justify-content-center d-flex align-items-center">
-                <h1 className="login-title justify-content-center d-flex align-items-center fw-bold">Login</h1>
-                <form onSubmit={onSubmit} className="form-admin-login">
-                    <div className="mb-3">
-                        <label className="form-label fw-bold">Username</label>
-                        <input
-                            type="text"
-                            ref={userNameRef}
-                            className="form-control form-control-lg"
-                            placeholder="Enter your username"
-                        />
-                    </div>
-                    <div className="mb-3">
-                        <label className="form-label fw-bold">Password</label>
-                        <input
-                            type="password"
-                            ref={passwordRef}
-                            className="form-control form-control-lg"
-                            placeholder="Enter your password"
-                        />
-                    </div>
-                    <div className="justify-content-center d-flex align-items-center">
-                        {isLoading ? (
-                            <ThreeDots
-                                height="80"
-                                width="80"
-                                radius="9"
-                                color="#f07b3f"
-                                ariaLabel="three-dots-loading"
-                                wrapperStyle={{}}
-                                wrapperClassName=""
-                                visible={true}
+        <div className="login-container">
+            <div class="circle-top-left"></div>
+            <div class="circle-bottom-right"></div>
+
+            <div className="row-2 row ">
+                <div className="col-6 d-flex justify-content-center align-items-center">
+                    <form onSubmit={onSubmit} className="form-admin-login">
+                        <h1 className="welcome-text">
+                            Welcome to <br />
+                            <div className="d-flex justify-content-center align-items-center">
+                                <img src={images.logoImage} alt="Think Tank Logo" className="welcome-logo"></img>
+                                <span class="highlight-text">Think Tank</span>
+                            </div>
+                        </h1>
+                        <p className="welcome-p text-center">
+                            Welcome admin to the Think Tank website! We're thrilled to have you onboard and look forward
+                            to your contributions
+                        </p>
+                        <div className="mb-3 input-with-icon">
+                            <FontAwesomeIcon className="input-icon" icon={faUser}></FontAwesomeIcon>
+                            <input
+                                type="text"
+                                ref={userNameRef}
+                                className="form-control form-control-lg login-input"
+                                placeholder="Username"
                             />
-                        ) : (
-                            <button type="submit" className="btn-login">
-                                Login
-                            </button>
-                        )}
+                        </div>
+                        <div className="mb-3 input-with-icon">
+                            <FontAwesomeIcon className="input-icon" icon={faLock}></FontAwesomeIcon>
+                            <input
+                                type="password"
+                                ref={passwordRef}
+                                className="form-control form-control-lg login-input"
+                                placeholder="Password"
+                            />
+                        </div>
+                        <div className="justify-content-center d-flex align-items-center">
+                            {isLoading ? (
+                                <ThreeDots
+                                    height="80"
+                                    width="80"
+                                    radius="9"
+                                    color="#f07b3f"
+                                    ariaLabel="three-dots-loading"
+                                    wrapperStyle={{}}
+                                    wrapperClassName=""
+                                    visible={true}
+                                />
+                            ) : (
+                                <button type="submit" className="btn-login">
+                                    Login
+                                </button>
+                            )}
+                        </div>
+                    </form>
+                </div>
+                <div className="col-6 login-background d-flex justify-content-center align-items-center">
+                    <div className="background-content">
+                        <h1 className="background-text text-center">Think Tank</h1>
+                        <p className="background-p text-center">
+                            {' '}
+                            Think Tank app boosts memory, sharpens focus, and enhances resilience amidst life's chaos.
+                        </p>
                     </div>
-                </form>
-            </div>
-            <div className="row-3 justify-content-center d-flex align-items-center">
-                Copyright © 2024 ThinkTank. All rights reserved.
+                </div>
             </div>
         </div>
     );

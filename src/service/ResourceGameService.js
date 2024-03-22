@@ -1,15 +1,12 @@
 import * as request from '~/untils/request';
 
-export const getListTopicsOfGame = async (GameId, token) => {
+export const getListTopicsOfGame = async (GameId) => {
     let response;
     try {
         const response = await request.getApi('/topics', {
             params: {
                 GameId,
             },
-            headers: {
-                Authorization: 'Bearer ' + token,
-            },
         });
 
         return response.data;
@@ -22,14 +19,10 @@ export const getListTopicsOfGame = async (GameId, token) => {
     }
 };
 
-export const createNewTopic = async (data, token) => {
+export const createNewTopic = async (data) => {
     let response;
     try {
-        response = await request.postApi('/topics', data, {
-            headers: {
-                Authorization: 'Bearer ' + token,
-            },
-        });
+        response = await request.postApi('/topics', data);
         return response.data;
     } catch (error) {
         throw error;
@@ -40,14 +33,10 @@ export const createNewTopic = async (data, token) => {
     }
 };
 
-export const createResource = async (data, token) => {
+export const createResource = async (data) => {
     let response;
     try {
-        response = await request.postApi('/assets', data, {
-            headers: {
-                Authorization: 'Bearer ' + token,
-            },
-        });
+        response = await request.postApi('/assets', data);
         return response.data;
     } catch (error) {
         throw error;
@@ -58,7 +47,7 @@ export const createResource = async (data, token) => {
     }
 };
 
-export const getListResourceByGameID = async (Page, PageSize, GameId, token) => {
+export const getListResourceByGameID = async (Page, PageSize, GameId) => {
     let response;
     try {
         response = await request.getApi('/assets', {
@@ -67,9 +56,6 @@ export const getListResourceByGameID = async (Page, PageSize, GameId, token) => 
                 PageSize,
                 GameId,
             },
-            headers: {
-                Authorization: 'Bearer ' + token,
-            },
         });
         return response.data;
     } catch (error) {
@@ -81,14 +67,11 @@ export const getListResourceByGameID = async (Page, PageSize, GameId, token) => 
     }
 };
 
-export const deleteReource = async (data, token) => {
+export const deleteResource = async (data) => {
     let response;
     console.log(data);
     try {
         response = await request.deleteApi('/assets', {
-            headers: {
-                Authorization: 'Bearer ' + token,
-            },
             data: data,
         });
         return response.data;

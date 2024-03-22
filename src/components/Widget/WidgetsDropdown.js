@@ -10,11 +10,8 @@ const WidgetsDropdown = () => {
 
     const getContestReport = async () => {
         try {
-            const accessToken = sessionStorage.getItem('accessToken');
-            if (accessToken) {
-                const result = await dashboardManagement.getContestReport(accessToken);
-                setContestReport(result);
-            }
+            const result = await dashboardManagement.getContestReport();
+            setContestReport(result);
         } catch (error) {
             console.log(error);
         }
@@ -32,19 +29,6 @@ const WidgetsDropdown = () => {
                     color="primary"
                     value={<>Top contest </>}
                     title={contestReport?.nameTopContest}
-                    // action={
-                    //     <CDropdown alignment="end">
-                    //         <CDropdownToggle color="transparent" caret={false} className="p-0">
-                    //             <CIcon icon={cilOptions} className="text-high-emphasis-inverse" />
-                    //         </CDropdownToggle>
-                    //         <CDropdownMenu>
-                    //             <CDropdownItem>Action</CDropdownItem>
-                    //             <CDropdownItem>Another action</CDropdownItem>
-                    //             <CDropdownItem>Something else here...</CDropdownItem>
-                    //             <CDropdownItem disabled>Disabled action</CDropdownItem>
-                    //         </CDropdownMenu>
-                    //     </CDropdown>
-                    // }
                     chart={
                         <CChartLine
                             className="mt-3 mx-3"
@@ -112,19 +96,6 @@ const WidgetsDropdown = () => {
                     color="info"
                     value={<>Average Score </>}
                     title={contestReport?.percentAverageScore}
-                    // action={
-                    //     <CDropdown alignment="end">
-                    //         <CDropdownToggle color="transparent" caret={false} className="p-0">
-                    //             <CIcon icon={cilOptions} className="text-high-emphasis-inverse" />
-                    //         </CDropdownToggle>
-                    //         <CDropdownMenu>
-                    //             <CDropdownItem>Action</CDropdownItem>
-                    //             <CDropdownItem>Another action</CDropdownItem>
-                    //             <CDropdownItem>Something else here...</CDropdownItem>
-                    //             <CDropdownItem disabled>Disabled action</CDropdownItem>
-                    //         </CDropdownMenu>
-                    //     </CDropdown>
-                    // }
                     chart={
                         <CChartLine
                             className="mt-3 mx-3"

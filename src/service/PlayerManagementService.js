@@ -1,15 +1,12 @@
 import * as request from '~/untils/request';
 
-export const getListPlayers = async (Page, PageSize, token) => {
+export const getListPlayers = async (Page, PageSize) => {
     let response;
     try {
         response = await request.getApi('/accounts', {
             params: {
                 Page,
                 PageSize,
-            },
-            headers: {
-                Authorization: 'Bearer ' + token,
             },
         });
         return response.data;
@@ -22,14 +19,10 @@ export const getListPlayers = async (Page, PageSize, token) => {
     }
 };
 
-export const banPlayers = async (accountId, token) => {
+export const banPlayers = async (accountId) => {
     let response;
     try {
-        response = await request.getApi(`/accounts/${accountId}/account-banned`, {
-            headers: {
-                Authorization: 'Bearer ' + token,
-            },
-        });
+        response = await request.getApi(`/accounts/${accountId}/account-banned`);
         return response.data;
     } catch (error) {
         throw error;

@@ -1,13 +1,9 @@
 import * as request from '~/untils/request';
 
-export const getListGames = async (token) => {
+export const getListGames = async () => {
     let res;
     try {
-        res = await request.getApi('/games', {
-            headers: {
-                Authorization: 'Bearer ' + token,
-            },
-        });
+        res = await request.getApi('/games');
         return res.data;
     } catch (error) {
         throw error;
@@ -18,14 +14,10 @@ export const getListGames = async (token) => {
     }
 };
 
-export const getGameReport = async (token) => {
+export const getGameReport = async () => {
     let res;
     try {
-        res = await request.getApi('/games/game-report', {
-            headers: {
-                Authorization: 'Bearer ' + token,
-            },
-        });
+        res = await request.getApi('/games/game-report');
         return res.data;
     } catch (error) {
         throw error;
@@ -36,14 +28,10 @@ export const getGameReport = async (token) => {
     }
 };
 
-export const getContestReport = async (token) => {
+export const getContestReport = async () => {
     let res;
     try {
-        res = await request.getApi('/contests/contest-report', {
-            headers: {
-                Authorization: 'Bearer ' + token,
-            },
-        });
+        res = await request.getApi('/contests/contest-report');
         return res.data;
     } catch (error) {
         throw error;
