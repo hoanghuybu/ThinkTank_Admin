@@ -18,16 +18,34 @@ function LoginPage() {
     const [isLoading, setIsLoading] = useState(false);
     const userNameRef = useRef();
     const passwordRef = useRef();
+    const [validationErrors, setValidationErrors] = useState({});
     const navigate = useNavigate();
 
     const onSubmit = async (e) => {
         e.preventDefault();
         setIsLoading(true);
+
+        const errors = {};
+
         const formSubmit = {
             userName: userNameRef.current.value,
             password: passwordRef.current.value,
             fcm: '',
         };
+
+        if (userNameRef.current.value.trim() === '') {
+            errors.username = 'Username is required';
+        }
+
+        if (passwordRef.current.value.trim() === '') {
+            errors.password = 'Password is required';
+        }
+
+        if (Object.keys(errors).length > 0) {
+            setValidationErrors(errors);
+            setIsLoading(false);
+            return;
+        }
 
         try {
             const response = await loginService.login(formSubmit);
@@ -78,23 +96,33 @@ function LoginPage() {
                             Welcome admin to the Think Tank website! We're thrilled to have you onboard and look forward
                             to your contributions
                         </p>
-                        <div className="mb-3 input-with-icon">
-                            <FontAwesomeIcon className="input-icon" icon={faUser}></FontAwesomeIcon>
-                            <input
-                                type="text"
-                                ref={userNameRef}
-                                className="form-control form-control-lg login-input"
-                                placeholder="Username"
-                            />
+                        <div className="mb-3 input-container">
+                            <div className="input-with-icon">
+                                <FontAwesomeIcon className="input-icon" icon={faUser}></FontAwesomeIcon>
+                                <input
+                                    type="text"
+                                    ref={userNameRef}
+                                    className="form-control form-control-lg login-input"
+                                    placeholder="Username"
+                                />
+                            </div>
+                            {validationErrors.username && (
+                                <div>
+                                    <span className="error">{validationErrors.username}</span>
+                                </div>
+                            )}
                         </div>
-                        <div className="mb-3 input-with-icon">
-                            <FontAwesomeIcon className="input-icon" icon={faLock}></FontAwesomeIcon>
-                            <input
-                                type="password"
-                                ref={passwordRef}
-                                className="form-control form-control-lg login-input"
-                                placeholder="Password"
-                            />
+                        <div className="mb-3 input-container">
+                            <div className="input-with-icon">
+                                <FontAwesomeIcon className="input-icon" icon={faLock}></FontAwesomeIcon>
+                                <input
+                                    type="password"
+                                    ref={passwordRef}
+                                    className="form-control form-control-lg login-input"
+                                    placeholder="Password"
+                                />
+                            </div>
+                            {validationErrors.password && <span className="error">{validationErrors.password}</span>}
                         </div>
                         <div className="justify-content-center d-flex align-items-center">
                             {isLoading ? (

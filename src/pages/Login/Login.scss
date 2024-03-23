@@ -96,7 +96,14 @@
         color: #888888;
     }
 
+    .input-container {
+        position: relative;
+        display: flex;
+        flex-direction: column;
+    }
+
     .input-with-icon {
+        flex: 1;
         position: relative;
     }
 
@@ -111,6 +118,11 @@
     .login-input {
         padding-top: 10px;
         padding-left: 40px;
+    }
+
+    .error {
+        color: red;
+        font-size: 12px;
     }
 }
 
