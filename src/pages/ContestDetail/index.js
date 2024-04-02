@@ -13,10 +13,11 @@ function ContestDetail() {
     const startTimeRef = useRef();
     const endTimeRef = useRef();
     const coinBettingRef = useRef();
+    const playTimeRef = useRef();
     const location = useLocation();
     const [contest, setContest] = useState(location.state.contest);
     const [listImageURL, setListImageURL] = useState([]);
-    const [thumnailURL, setThumnailURL] = useState();
+    const [thumnailURL, setThumnailURL] = useState('');
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 3;
     const toastId = React.useRef(null);
@@ -142,11 +143,12 @@ function ContestDetail() {
 
         const formSubmit = {
             name: nameContestRef.current.value,
-            thumbnail: thumnailURL,
+            thumbnail: thumnailURL?.url,
             startTime: startTimeRef.current.value,
             endTime: endTimeRef.current.value,
             coinBetting: coinBettingRef.current.value,
             gameId: contest?.gameId,
+            playTime: playTimeRef.current.value,
             assets: updatedAssets,
         };
         try {
@@ -224,16 +226,11 @@ function ContestDetail() {
                                         <div className="col-sm-2">
                                             <img
                                                 className="media-object rounded-circle thumb48"
-                                                // src={
-                                                //     item.type === 'gift'
-                                                //         ? 'https://img.freepik.com/free-vector/cartoon-colorful-magic-gift-box-composition_91128-1030.jpg?w=826&t=st=1698229464~exp=1698230064~hmac=807848d8a330ea10b4469674edc7a5e1f33314f8d89156c149129b9231d6ca62'
-                                                //         : item.type === 'product'
-                                                //         ? 'https://cdn-icons-png.flaticon.com/512/5782/5782489.png'
-                                                //         : item.type === 'service'
-                                                //         ? 'https://cdn-icons-png.flaticon.com/512/2105/2105138.png'
-                                                //         : '../../assets/images/DefaultAvatar.jpg'
-                                                // }
-                                                src="https://cdn-icons-png.flaticon.com/512/2105/2105138.png"
+                                                src={
+                                                    item.value
+                                                        ? item.value
+                                                        : 'https://cdn-icons-png.flaticon.com/512/2105/2105138.png'
+                                                }
                                                 alt="Contest"
                                             />
                                         </div>
@@ -382,6 +379,22 @@ function ContestDetail() {
                                                         className="form-control phone-mask"
                                                         defaultValue={contest?.coinBetting}
                                                         ref={coinBettingRef}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div className="row mb-3">
+                                                <label
+                                                    className="col-sm-3 col-form-label"
+                                                    htmlFor="basic-default-phone"
+                                                >
+                                                    Play Time
+                                                </label>
+                                                <div className="col-sm-9">
+                                                    <input
+                                                        type="number"
+                                                        className="form-control phone-mask"
+                                                        defaultValue={contest?.playTime}
+                                                        ref={playTimeRef}
                                                     />
                                                 </div>
                                             </div>

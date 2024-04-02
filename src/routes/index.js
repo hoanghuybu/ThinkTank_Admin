@@ -1,14 +1,5 @@
-// import Home from '~/pages/Home';
-// import Following from '~/pages/Following';
-// import Upload from '~/pages/Upload';
-// import Profile from '~/pages/Profile';
-// import Live from '~/pages/Live';
 import LoginPage from '~/pages/Login';
-// import Details from '~/pages/Details';
-// import UserDetails from '~/pages/Details/UserDetails';
-// import CreateUser from '~/pages/CreateUser';
-// import Report from '~/pages/Report';
-import Dashboard from '~/pages/Dashboard/Dashboard';
+import Dashboard from '~/pages/Dashboard';
 import PlayerManagement from '~/pages/PlayerManagement';
 import GameResource from '~/pages/GameResource';
 import Analysis from '~/pages/Analysis';

@@ -79,7 +79,7 @@ function LoginPage() {
     };
     return (
         <div className="login-container">
-            <div class="circle-top-left"></div>
+            <div className="circle-top-left"></div>
             <div class="circle-bottom-right"></div>
 
             <div className="row-2 row ">
@@ -89,7 +89,7 @@ function LoginPage() {
                             Welcome to <br />
                             <div className="d-flex justify-content-center align-items-center">
                                 <img src={images.logoImage} alt="Think Tank Logo" className="welcome-logo"></img>
-                                <span class="highlight-text">Think Tank</span>
+                                <span className="highlight-text">Think Tank</span>
                             </div>
                         </h1>
                         <p className="welcome-p text-center">

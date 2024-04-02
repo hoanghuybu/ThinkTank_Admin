@@ -53,7 +53,12 @@ function TableCustome({ data }) {
                         display: 'inline-block',
                     }}
                 >
-                    <img className="icon-analysis" src={rowData.missionsImg} style={{ filter: 'grayscale(100%)' }} />
+                    <img
+                        className="icon-analysis"
+                        src={rowData.missionsImg}
+                        style={{ filter: 'grayscale(100%)' }}
+                        alt="Icon Analysis"
+                    />
                 </div>
             )}
         </Cell>

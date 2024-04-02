@@ -22,6 +22,7 @@ function ContestGame() {
     const [startTime, setStartTime] = useState('');
     const [endTime, setEndTime] = useState('');
     const [coinBetting, setCoinBetting] = useState('');
+    const [playTime, setPlayTime] = useState();
     const location = useLocation();
     const [show, setShow] = useState(false);
     const toastId = React.useRef(null);
@@ -160,6 +161,7 @@ function ContestGame() {
         notifyToast();
 
         const gameIdNumber = parseInt(gameId, 10);
+        const playTimeNumber = parseInt(playTime, 10);
         let newAssets = [];
         if (gameIdNumber === 1 || gameIdNumber === 4) {
             listImageURL.forEach((image) => {
@@ -194,6 +196,7 @@ function ContestGame() {
             endTime: endTime,
             coinBetting: coinBetting,
             gameId: gameIdNumber,
+            playTime: playTimeNumber,
             assets: newAssets,
         };
 
@@ -358,6 +361,15 @@ function ContestGame() {
                                                         <option value="200">200</option>
                                                         <option value="300">300</option>
                                                     </Form.Select>
+                                                </Form.Group>
+
+                                                <Form.Group controlId="formPlayTime">
+                                                    <Form.Label>Play Time</Form.Label>
+                                                    <Form.Control
+                                                        type="number"
+                                                        value={playTime}
+                                                        onChange={(e) => setPlayTime(e.target.value)}
+                                                    />
                                                 </Form.Group>
                                             </div>
                                             <div className="w-100 d-flex justify-content-between">
@@ -563,6 +575,15 @@ function ContestGame() {
                                                         <option value="200">200</option>
                                                         <option value="300">300</option>
                                                     </Form.Select>
+                                                </Form.Group>
+
+                                                <Form.Group controlId="formPlayTime">
+                                                    <Form.Label>Play Time</Form.Label>
+                                                    <Form.Control
+                                                        type="number"
+                                                        value={playTime}
+                                                        onChange={(e) => setPlayTime(e.target.value)}
+                                                    />
                                                 </Form.Group>
                                             </div>
                                             <div className="w-100 d-flex justify-content-between">

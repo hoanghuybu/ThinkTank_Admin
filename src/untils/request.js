@@ -51,6 +51,11 @@ const refreshAccessToken = async () => {
             return null;
         }
 
+        if (!accessToken) {
+            console.log('No accessToken');
+            return null;
+        }
+
         const data = {
             accessToken: accessToken,
             refreshToken: refreshToken,
@@ -58,7 +63,7 @@ const refreshAccessToken = async () => {
 
         const response = await requestNoToken.post('/accounts/token-verification', data);
 
-        const resAccessToken = response.data.accessToken;
+        const resAccessToken = await response.data.accessToken;
         sessionStorage.setItem('accessToken', resAccessToken);
         sessionStorage.setItem('refreshToken', response.data.refreshToken);
         return resAccessToken;
@@ -87,6 +92,7 @@ requestAPI.interceptors.response.use(
     },
     async (error) => {
         const originalRequest = error.config;
+        console.log(error.config);
         if (error.response.status === 401 && !originalRequest._retry) {
             originalRequest._retry = true;
             const accessToken = await refreshAccessToken();
