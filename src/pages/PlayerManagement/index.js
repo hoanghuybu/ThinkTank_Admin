@@ -1,35 +1,57 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { Table, Pagination, Button, Input, InputGroup, Stack, DOMHelper } from 'rsuite';
 
 //util
 import * as playerManagementService from '~/service/PlayerManagementService';
-
-import { Dropdown } from 'react-bootstrap';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight, faFilter } from '@fortawesome/free-solid-svg-icons';
 import './PlayerManagement.scss';
-import Search from '~/components/Search';
-// import { getApi } from '~/untils/request';
+
+import SearchIcon from '@rsuite/icons/Search';
+
+const { Column, HeaderCell, Cell } = Table;
+const CompactCell = (props) => <Cell {...props} style={{ padding: 6 }} />;
+const ImageCell = ({ rowData, dataKey, ...props }) => (
+    <Cell {...props} style={{ padding: 0 }}>
+        <div
+            style={{
+                width: 40,
+                height: 40,
+                background: '#f5f5f5',
+                borderRadius: 6,
+                marginTop: 2,
+                overflow: 'hidden',
+                display: 'inline-block',
+            }}
+        >
+            <img
+                alt="user avatar"
+                src={rowData.avatar ? rowData.avatar : 'https://via.placeholder.com/40x40'}
+                width="40"
+            />
+        </div>
+    </Cell>
+);
+
+const { getHeight } = DOMHelper;
 
 function PlayerManagement() {
-    const [currentPage, setCurrentPage] = useState(1);
     const [listPlayers, setListPlayer] = useState([]);
+    const [limit, setLimit] = useState(10);
+    const [page, setPage] = useState(1);
+    const [sortColumn, setSortColumn] = useState();
+    const [sortType, setSortType] = useState();
+    const [loading, setLoading] = useState(false);
+    const [searchKeyword, setSearchKeyword] = useState('');
     const navigate = useNavigate();
 
-    const itemsPerPage = 2;
-
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const currentData = listPlayers.slice(startIndex, endIndex);
-
-    const paginate = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
-
     const getListPlayers = async () => {
+        setLoading(true);
         try {
-            const result = await playerManagementService.getListPlayers(null, null);
-            setListPlayer(result.results);
+            const result = await playerManagementService.getListPlayers(null, 1000);
+            if (result) {
+                setLoading(false);
+                setListPlayer(result.results);
+            }
         } catch (error) {
             console.log(error);
         }
@@ -42,6 +64,98 @@ function PlayerManagement() {
         }
     };
 
+    // handle funtion table
+    // const getData = () => {
+    //     let sortedData = listPlayers;
+    //     if (sortedData) {
+    //         sortedData.filter((item) => {
+    //             if (!item.fullName.includes(searchKeyword)) {
+    //                 return false;
+    //             }
+
+    //             // if (rating && item.rating !== rating) {
+    //             //   return false;
+    //             // }
+
+    //             return true;
+    //         });
+    //     }
+    //     if (sortColumn && sortType) {
+    //         return sortedData.sort((a, b) => {
+    //             let x = a[sortColumn];
+    //             let y = b[sortColumn];
+    //             if (typeof x === 'string') {
+    //                 x = x.charCodeAt();
+    //             }
+    //             if (typeof y === 'string') {
+    //                 y = y.charCodeAt();
+    //             }
+    //             if (sortType === 'asc') {
+    //                 return x - y;
+    //             } else {
+    //                 return y - x;
+    //             }
+    //         });
+    //     }
+    //     return sortedData;
+    // };
+
+    const handleSortColumn = (sortColumn, sortType) => {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+            setSortColumn(sortColumn);
+            setSortType(sortType);
+        }, 500);
+    };
+
+    const handleChangeLimit = (dataKey) => {
+        setPage(1);
+        setLimit(dataKey);
+    };
+
+    const getFilteredData = () => {
+        let sortedData = listPlayers;
+        if (sortedData) {
+            sortedData = sortedData.filter((item) => {
+                if (!item.fullName.includes(searchKeyword)) {
+                    return false;
+                }
+
+                // if (rating && item.rating !== rating) {
+                //   return false;
+                // }
+
+                return true;
+            });
+        }
+        if (sortColumn && sortType) {
+            sortedData = sortedData.sort((a, b) => {
+                let x = a[sortColumn];
+                let y = b[sortColumn];
+                if (typeof x === 'string') {
+                    x = x.charCodeAt();
+                }
+                if (typeof y === 'string') {
+                    y = y.charCodeAt();
+                }
+                if (sortType === 'asc') {
+                    return x - y;
+                } else {
+                    return y - x;
+                }
+            });
+        }
+
+        return sortedData;
+    };
+
+    const data = getFilteredData().filter((v, i) => {
+        const start = limit * (page - 1);
+        const end = start + limit;
+        return i >= start && i < end;
+    });
+
     useEffect(() => {
         getListPlayers();
     }, []);
@@ -50,111 +164,125 @@ function PlayerManagement() {
         <div className="content-wrapper">
             <div className="container-xxl flex-grow-1 container-p-y">
                 <div className="w-100 d-flex justify-content-end mt-4 mb-4">
-                    <Search></Search>
+                    {/* <Search></Search>
                     <button className="btn-pagi mx-2">
                         <FontAwesomeIcon icon={faFilter}></FontAwesomeIcon>
-                    </button>
+                    </button> */}
+                    <Stack spacing={6}>
+                        {/* <SelectPicker
+            label="Rating"
+            data={ratingList}
+            searchable={false}
+            value={rating}
+            onChange={setRating}
+          /> */}
+                        <InputGroup inside>
+                            <Input placeholder="Search" value={searchKeyword} onChange={setSearchKeyword} />
+                            <InputGroup.Addon>
+                                <SearchIcon />
+                            </InputGroup.Addon>
+                        </InputGroup>
+                    </Stack>
                 </div>
-                <div className="card">
-                    <div className="table-responsive text-nowrap">
-                        <table className="table table-hover">
-                            <thead>
-                                <tr>
-                                    <th className="text-center">Code</th>
-                                    <th className="text-center">Image</th>
-                                    <th>Name</th>
-                                    <th>Birthday</th>
-                                    <th>Email</th>
-                                    <th>Gender</th>
-                                    <th>Status</th>
-                                    <th>Actions</th>
-                                </tr>
-                            </thead>
-                            <tbody className="table-border-bottom-0">
-                                {currentData.map((item, index) => (
-                                    <tr key={index}>
-                                        <td className="text-center">{item?.code}</td>
-                                        <td className="text-center">
-                                            <img
-                                                className="column-image"
-                                                // src={item.image}
-                                                src="https://play-lh.googleusercontent.com/ZvMvaLTdYMrD6U1B3wPKL6siMYG8nSTEnzhLiMsH7QHwQXs3ZzSZuYh3_PTxoU5nKqU"
-                                                alt={`${item?.name}`}
-                                            />
-                                        </td>
-                                        <td>{item?.fullName}</td>
-                                        <td>{item?.dateOfBirth}</td>
-                                        <td>{item?.email}</td>
-                                        <td>{item?.gender}</td>
-                                        <td>
-                                            <span
-                                                className={`badge ${
-                                                    item?.status === true ? 'bg-label-success' : 'bg-label-danger'
-                                                } me-1`}
-                                            >
-                                                {item?.status === true ? 'Active' : 'InActive'}
-                                            </span>
-                                        </td>
-                                        <td>
-                                            <Dropdown>
-                                                <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                                                    Select Actions
-                                                </Dropdown.Toggle>
 
-                                                <Dropdown.Menu>
-                                                    <Dropdown.Item onClick={() => handleBlockPlayer(item.id)}>
-                                                        Block
-                                                    </Dropdown.Item>
-                                                    <Dropdown.Item
-                                                        onClick={() => navigate(`/Analysis?playerId=${item.id}`)}
-                                                    >
-                                                        View Analysis
-                                                    </Dropdown.Item>
-                                                </Dropdown.Menu>
-                                            </Dropdown>
-                                        </td>
-                                    </tr>
-                                ))}
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-                <div className="w-100 d-flex justify-content-between">
-                    <h4 className="table-text mt-1">
-                        Showing {startIndex + 1} to {endIndex > listPlayers.length ? listPlayers.length : endIndex} of{' '}
-                        {listPlayers.length}
-                    </h4>
-                    <div className="pagination">
-                        <button
-                            className="btn-pagi"
-                            onClick={() => setCurrentPage(currentPage - 1)}
-                            disabled={currentPage === 1}
-                        >
-                            <FontAwesomeIcon icon={faAngleLeft}></FontAwesomeIcon>
-                        </button>
-                        <span className="mx-2">
-                            <ul className="pagination d-flex align-items-center h-100">
-                                {Array(Math.ceil(listPlayers.length / itemsPerPage))
-                                    .fill()
-                                    .map((_, index) => (
-                                        <li
-                                            key={index}
-                                            className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}
-                                        >
-                                            <button className="page-link" onClick={() => paginate(index + 1)}>
-                                                {index + 1}
-                                            </button>
-                                        </li>
-                                    ))}
-                            </ul>
-                        </span>
-                        <button
-                            className="btn-pagi"
-                            onClick={() => setCurrentPage(currentPage + 1)}
-                            disabled={endIndex >= listPlayers.length}
-                        >
-                            <FontAwesomeIcon icon={faAngleRight}></FontAwesomeIcon>
-                        </button>
+                <div className="card">
+                    <Table
+                        height={Math.max(getHeight(window) - 200, 400)}
+                        data={data}
+                        sortColumn={sortColumn}
+                        sortType={sortType}
+                        onSortColumn={handleSortColumn}
+                        loading={loading}
+                        // virtualized
+                    >
+                        <Column width={100} align="center" fixed sortable>
+                            <HeaderCell>Code</HeaderCell>
+                            <Cell dataKey="code" />
+                        </Column>
+
+                        <Column width={80} align="center">
+                            <HeaderCell>Avatar</HeaderCell>
+                            <ImageCell dataKey="avatar" />
+                        </Column>
+
+                        <Column width={200} fixed fullText sortable>
+                            <HeaderCell>Name</HeaderCell>
+                            <CompactCell dataKey="fullName" />
+                        </Column>
+
+                        <Column width={100} sortable>
+                            <HeaderCell>Gender</HeaderCell>
+                            <Cell dataKey="gender" />
+                        </Column>
+                        <Column width={200} flexGrow={1} fullText sortable>
+                            <HeaderCell>Email</HeaderCell>
+                            <CompactCell dataKey="email" />
+                        </Column>
+                        <Column width={50} flexGrow={1} sortable>
+                            <HeaderCell>Report Number</HeaderCell>
+                            <Cell dataKey="amountReport" />
+                        </Column>
+                        <Column width={50} flexGrow={1}>
+                            <HeaderCell>Status</HeaderCell>
+                            <Cell>
+                                {(rowData) => (
+                                    <span
+                                        className={`badge ${
+                                            rowData?.status === true ? 'bg-label-success' : 'bg-label-danger'
+                                        } me-1`}
+                                    >
+                                        {rowData?.status === true ? 'Active' : 'InActive'}
+                                    </span>
+                                )}
+                            </Cell>
+                        </Column>
+                        <Column width={50} flexGrow={1}>
+                            <HeaderCell> View Analysis</HeaderCell>
+                            <Cell>
+                                {(rowData) => (
+                                    <Button
+                                        color="green"
+                                        appearance="primary"
+                                        onClick={() => navigate(`/Analysis?playerId=${rowData.id}`)}
+                                    >
+                                        View
+                                    </Button>
+                                )}
+                            </Cell>
+                        </Column>
+                        <Column width={50} flexGrow={1}>
+                            <HeaderCell> Block Player</HeaderCell>
+                            <Cell>
+                                {(rowData) => (
+                                    <Button
+                                        color="red"
+                                        appearance="primary"
+                                        onClick={() => handleBlockPlayer(rowData.id)}
+                                    >
+                                        Block
+                                    </Button>
+                                )}
+                            </Cell>
+                        </Column>
+                    </Table>
+                    <div style={{ padding: 20 }}>
+                        <Pagination
+                            prev
+                            next
+                            first
+                            last
+                            ellipsis
+                            boundaryLinks
+                            maxButtons={5}
+                            size="xs"
+                            layout={['total', '-', 'limit', '|', 'pager', 'skip']}
+                            total={listPlayers?.length}
+                            limitOptions={[10, 30, 50]}
+                            limit={limit}
+                            activePage={page}
+                            onChangePage={setPage}
+                            onChangeLimit={handleChangeLimit}
+                        />
                     </div>
                 </div>
             </div>

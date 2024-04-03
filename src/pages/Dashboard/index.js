@@ -229,7 +229,7 @@ function Dashboard() {
                                         <div className="card-body">
                                             <Carousel variant="dark" activeIndex={index} onSelect={handleSelect}>
                                                 {listGame.map((item) => (
-                                                    <Carousel.Item>
+                                                    <Carousel.Item key={item.id}>
                                                         <img
                                                             className="d-block w-100"
                                                             src={
