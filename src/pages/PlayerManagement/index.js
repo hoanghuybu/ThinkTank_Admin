@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Table, Pagination, Button, Input, InputGroup, Stack, DOMHelper } from 'rsuite';
+import { Table, Pagination, Button, Input, InputGroup, Stack, DOMHelper, Modal, Panel, PanelGroup } from 'rsuite';
 
 //util
 import * as playerManagementService from '~/service/PlayerManagementService';
@@ -42,8 +42,12 @@ function PlayerManagement() {
     const [sortType, setSortType] = useState();
     const [loading, setLoading] = useState(false);
     const [searchKeyword, setSearchKeyword] = useState('');
+    const [open, setOpen] = React.useState(false);
+    const [blockId, setBlockId] = useState(0);
+    const [listReport, setListReport] = useState([]);
     const navigate = useNavigate();
 
+    //API
     const getListPlayers = async () => {
         setLoading(true);
         try {
@@ -57,48 +61,26 @@ function PlayerManagement() {
         }
     };
 
-    const handleBlockPlayer = async (accountId) => {
-        const result = await playerManagementService.banPlayers(accountId);
-        if (result) {
-            getListPlayers();
+    const handleBlockPlayer = async () => {
+        if (blockId) {
+            const result = await playerManagementService.banPlayers(blockId);
+            if (result) {
+                getListPlayers();
+                setOpen(false);
+            }
+        }
+    };
+
+    const hanldeReportPlayer = async (value) => {
+        setBlockId(value);
+        setOpen(true);
+        if (value) {
+            const result = await playerManagementService.listReports(value);
+            setListReport(result.results);
         }
     };
 
     // handle funtion table
-    // const getData = () => {
-    //     let sortedData = listPlayers;
-    //     if (sortedData) {
-    //         sortedData.filter((item) => {
-    //             if (!item.fullName.includes(searchKeyword)) {
-    //                 return false;
-    //             }
-
-    //             // if (rating && item.rating !== rating) {
-    //             //   return false;
-    //             // }
-
-    //             return true;
-    //         });
-    //     }
-    //     if (sortColumn && sortType) {
-    //         return sortedData.sort((a, b) => {
-    //             let x = a[sortColumn];
-    //             let y = b[sortColumn];
-    //             if (typeof x === 'string') {
-    //                 x = x.charCodeAt();
-    //             }
-    //             if (typeof y === 'string') {
-    //                 y = y.charCodeAt();
-    //             }
-    //             if (sortType === 'asc') {
-    //                 return x - y;
-    //             } else {
-    //                 return y - x;
-    //             }
-    //         });
-    //     }
-    //     return sortedData;
-    // };
 
     const handleSortColumn = (sortColumn, sortType) => {
         setLoading(true);
@@ -121,10 +103,6 @@ function PlayerManagement() {
                 if (!item.fullName.includes(searchKeyword)) {
                     return false;
                 }
-
-                // if (rating && item.rating !== rating) {
-                //   return false;
-                // }
 
                 return true;
             });
@@ -156,6 +134,10 @@ function PlayerManagement() {
         return i >= start && i < end;
     });
 
+    //handle Modal
+
+    const handleClose = () => setOpen(false);
+
     useEffect(() => {
         getListPlayers();
     }, []);
@@ -163,19 +145,32 @@ function PlayerManagement() {
     return (
         <div className="content-wrapper">
             <div className="container-xxl flex-grow-1 container-p-y">
+                <Modal overflow size="50rem" open={open} onClose={handleClose}>
+                    <Modal.Header>
+                        <Modal.Title>Report Reason</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <PanelGroup>
+                            {listReport &&
+                                listReport.map((report, index) => {
+                                    <Panel key={index} header={report?.userName1}>
+                                        <h3>Title Report: {report?.title}</h3>
+                                        <h4>Description Report: {report?.description}</h4>
+                                    </Panel>;
+                                })}
+                        </PanelGroup>
+                    </Modal.Body>
+                    <Modal.Footer>
+                        <Button onClick={handleClose} appearance="subtle">
+                            Cancel
+                        </Button>
+                        <Button onClick={handleBlockPlayer} appearance="primary">
+                            Ok
+                        </Button>
+                    </Modal.Footer>
+                </Modal>
                 <div className="w-100 d-flex justify-content-end mt-4 mb-4">
-                    {/* <Search></Search>
-                    <button className="btn-pagi mx-2">
-                        <FontAwesomeIcon icon={faFilter}></FontAwesomeIcon>
-                    </button> */}
                     <Stack spacing={6}>
-                        {/* <SelectPicker
-            label="Rating"
-            data={ratingList}
-            searchable={false}
-            value={rating}
-            onChange={setRating}
-          /> */}
                         <InputGroup inside>
                             <Input placeholder="Search" value={searchKeyword} onChange={setSearchKeyword} />
                             <InputGroup.Addon>
@@ -257,7 +252,7 @@ function PlayerManagement() {
                                     <Button
                                         color="red"
                                         appearance="primary"
-                                        onClick={() => handleBlockPlayer(rowData.id)}
+                                        onClick={() => hanldeReportPlayer(rowData.id)}
                                     >
                                         Block
                                     </Button>

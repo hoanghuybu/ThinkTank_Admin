@@ -32,3 +32,17 @@ export const banPlayers = async (accountId) => {
         }
     }
 };
+
+export const listReports = async (accountId) => {
+    let response;
+    try {
+        response = await request.getApi(`/reports?AccountId2=${accountId}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    } finally {
+        if (response && response.request && response.request._headerSent) {
+            response.request.end();
+        }
+    }
+};

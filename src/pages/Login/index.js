@@ -80,7 +80,7 @@ function LoginPage() {
     return (
         <div className="login-container">
             <div className="circle-top-left"></div>
-            <div class="circle-bottom-right"></div>
+            <div className="circle-bottom-right"></div>
 
             <div className="row-2 row ">
                 <div className="col-6 d-flex justify-content-center align-items-center">

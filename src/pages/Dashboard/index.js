@@ -166,7 +166,7 @@ function Dashboard() {
                                         </div>
                                     </div>
                                     <div className="col-md-4">
-                                        <h4 className="card-header m-0 py-3 text-center"> Top 1 Contest </h4>
+                                        <h4 className="card-header m-0 py-3 text-center"> Top 2 Contest </h4>
                                         {contestReport?.bestContestes &&
                                             contestReport?.bestContestes.map((bestContest, index) => (
                                                 <div key={index} className="card-body">
