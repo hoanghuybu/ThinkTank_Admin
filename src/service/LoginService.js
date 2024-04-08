@@ -17,12 +17,7 @@ export const login = async (data) => {
 export const logout = async (accountId) => {
     let response;
     try {
-        response = await request.postApi('/accounts/token-revoke', {
-            params: {
-                accountId,
-            },
-        });
-
+        response = await request.postApi(`/accounts/${accountId}/token-revoke`);
         return response.data;
     } catch (error) {
         throw error;

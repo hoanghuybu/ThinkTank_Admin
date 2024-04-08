@@ -103,8 +103,8 @@ function Leaderboard() {
                 <div className="w-100 mt-4">
                     <h1 className="text-center">Select Game</h1>
                     <Carousel variant="dark" activeIndex={index} onSelect={handleSelect} interval={null}>
-                        {listGames.map((item) => (
-                            <Carousel.Item>
+                        {listGames.map((item, index) => (
+                            <Carousel.Item key={index}>
                                 <img
                                     className="d-block w-100"
                                     src={

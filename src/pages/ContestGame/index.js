@@ -1,18 +1,45 @@
 import './ContestGame.scss';
 import Button from '~/components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import React, { useState, useEffect } from 'react';
-import { Dropdown, Modal, Form } from 'react-bootstrap';
+import { Modal, Form } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { Uploader } from 'rsuite';
 import { FaCameraRetro, FaMusic } from 'react-icons/fa';
 import * as contestService from '~/service/ContestService';
 import { toast } from 'react-toastify';
+import { Table, Pagination, DOMHelper } from 'rsuite';
+import { Button as RsuiteButton } from 'rsuite';
+
+const { Column, HeaderCell, Cell } = Table;
+
+const CompactCell = (props) => <Cell {...props} style={{ padding: 6 }} />;
+
+const ImageCell = ({ rowData, dataKey, ...props }) => (
+    <Cell {...props} style={{ padding: 3 }}>
+        <div
+            style={{
+                width: 150,
+                height: 80,
+                background: '#f5f5f5',
+                borderRadius: 6,
+                overflow: 'hidden',
+                display: 'inline-block',
+            }}
+        >
+            <img
+                alt="user avatar"
+                src={rowData.thumbnail ? rowData.thumbnail : 'https://via.placeholder.com/40x40'}
+                width="150"
+            />
+        </div>
+    </Cell>
+);
+
+const { getHeight } = DOMHelper;
 
 function ContestGame() {
-    const [currentPage, setCurrentPage] = useState(1);
     const [currentStep, setCurrentStep] = useState(1);
     const [listContests, setListContest] = useState([]);
     const [listImageURL, setListImageURL] = useState([]);
@@ -25,6 +52,12 @@ function ContestGame() {
     const [playTime, setPlayTime] = useState();
     const location = useLocation();
     const [show, setShow] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [limit, setLimit] = useState(10);
+    const [page, setPage] = useState(1);
+    const [sortColumn, setSortColumn] = useState();
+    const [sortType, setSortType] = useState();
+    const [searchKeyword, setSearchKeyword] = useState('');
     const toastId = React.useRef(null);
     const navigate = useNavigate();
 
@@ -38,19 +71,11 @@ function ContestGame() {
             autoClose: 5000,
         });
 
-    //handle pagination
-    const itemsPerPage = 2;
-
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const currentData = listContests.slice(startIndex, endIndex);
-
-    const paginate = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
-
     //handle modal
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        handleResetData();
+        setShow(false);
+    };
     const handleShow = () => setShow(true);
 
     //handle multi step form
@@ -61,10 +86,32 @@ function ContestGame() {
         }
     };
 
+    const isStepDataValid = () => {
+        switch (currentStep) {
+            case 1:
+                return name !== '' && thumnailURL !== null && thumnailURL !== undefined;
+            case 2:
+                return startTime !== '' && endTime !== '' && coinBetting !== '' && playTime !== '';
+            case 3:
+                return listImageURL.length > 0;
+            case 4:
+                const allObjectsHaveDescription = listImageURL.every((obj) => obj.hasOwnProperty('description'));
+
+                const allObjectsHaveNumberCharacteristic = listImageURL.every((obj) =>
+                    obj.hasOwnProperty('numberCharacteristic'),
+                );
+                return allObjectsHaveDescription && allObjectsHaveNumberCharacteristic;
+            default:
+                return false;
+        }
+    };
+
     const nextStep = () => {
-        if (currentStep < 3) {
+        if (isStepDataValid()) {
             setCurrentStep(currentStep + 1);
             updateProgressBar();
+        } else {
+            toast.info('Please all items in this step before going to the next step.');
         }
     };
 
@@ -88,9 +135,11 @@ function ContestGame() {
     };
 
     const nextFourStep = () => {
-        if (currentStep < 4) {
+        if (isStepDataValid()) {
             setCurrentStep(currentStep + 1);
             updateFourProgressBar();
+        } else {
+            toast.info('Please add at least one item to the list before proceeding.');
         }
     };
 
@@ -108,6 +157,17 @@ function ContestGame() {
 
     //handle upload contest
     const acceptValue = gameId === '1' || gameId === '3' || gameId === '4' || gameId === '5' ? 'image/*' : 'audio/*';
+
+    const handleResetData = () => {
+        setName('');
+        setStartTime('');
+        setEndTime('');
+        setCoinBetting('');
+        setPlayTime('');
+        setListImageURL([]);
+        setThumnailURL({});
+        setCurrentStep(1);
+    };
 
     const handleUploadSuccess = (response) => {
         const startIndex = response[0].lastIndexOf('%2F') + 3;
@@ -138,18 +198,77 @@ function ContestGame() {
         setListImageURL(updatedImageList);
     };
 
+    console.log(listImageURL);
+
     //handle view detail contest
     const handleViewClick = (item) => {
         navigate('/Contest/ContestDetail', { state: { contest: item } });
     };
 
+    //handle table contest
+    const handleSortColumn = (sortColumn, sortType) => {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+            setSortColumn(sortColumn);
+            setSortType(sortType);
+        }, 500);
+    };
+
+    const handleChangeLimit = (dataKey) => {
+        setPage(1);
+        setLimit(dataKey);
+    };
+
+    const getFilteredData = () => {
+        let sortedData = listContests;
+        if (sortedData) {
+            sortedData = sortedData.filter((item) => {
+                if (!item.name.includes(searchKeyword)) {
+                    return false;
+                }
+
+                return true;
+            });
+        }
+        if (sortColumn && sortType) {
+            sortedData = sortedData.sort((a, b) => {
+                let x = a[sortColumn];
+                let y = b[sortColumn];
+                if (typeof x === 'string') {
+                    x = x.charCodeAt();
+                }
+                if (typeof y === 'string') {
+                    y = y.charCodeAt();
+                }
+                if (sortType === 'asc') {
+                    return x - y;
+                } else {
+                    return y - x;
+                }
+            });
+        }
+
+        return sortedData;
+    };
+
+    const data = getFilteredData().filter((v, i) => {
+        const start = limit * (page - 1);
+        const end = start + limit;
+        return i >= start && i < end;
+    });
+
     //API
 
     const getListContest = async () => {
+        setLoading(true);
         try {
             const id = parseInt(gameId, 10);
             const result = await contestService.getListContestByGameID(null, null, id, 1);
-            setListContest(result.results);
+            if (result) {
+                setLoading(false);
+                setListContest(result.results);
+            }
         } catch (error) {
             console.log(error);
         }
@@ -158,68 +277,156 @@ function ContestGame() {
     const handleContestSubmit = async (e) => {
         e.preventDefault();
 
-        notifyToast();
-
-        const gameIdNumber = parseInt(gameId, 10);
-        const playTimeNumber = parseInt(playTime, 10);
-        let newAssets = [];
-        if (gameIdNumber === 1 || gameIdNumber === 4) {
-            listImageURL.forEach((image) => {
-                newAssets.push({
-                    value: image.url,
-                    contestId: 0,
-                    typeOfAssetId: 3,
-                });
-            });
-        } else if (gameIdNumber === 2) {
-            listImageURL.forEach((image) => {
-                newAssets.push({
-                    value: image.url,
-                    contestId: 0,
-                    typeOfAssetId: 5,
-                });
-            });
-        } else if (gameIdNumber === 5) {
-            listImageURL.forEach((image) => {
-                newAssets.push({
-                    value: `${image.description};${image.url}`,
-                    contestId: 0,
-                    typeOfAssetId: 4,
-                });
-            });
-        }
-
-        const formSubmit = {
-            name: name,
-            thumbnail: thumnailURL.url,
-            startTime: startTime,
-            endTime: endTime,
-            coinBetting: coinBetting,
-            gameId: gameIdNumber,
-            playTime: playTimeNumber,
-            assets: newAssets,
-        };
-
-        console.log(formSubmit);
-
-        try {
-            const response = await contestService.createContest(formSubmit);
-
-            if (response) {
-                updateToast();
-            }
-        } catch (error) {
-            if (error.response) {
-                toast.dismiss(toastId.current);
-                toast.error(error.response.data.error);
-            } else if (error.request) {
-                toast.dismiss(toastId.current);
-                console.log(error.request);
+        if (gameId === '5') {
+            if (currentStep < 4) {
+                e.preventDefault();
+                nextFourStep();
             } else {
-                toast.dismiss(toastId.current);
-                console.log('Error', error.message);
+                e.preventDefault();
+
+                const gameIdNumber = parseInt(gameId, 10);
+                const playTimeNumber = parseInt(playTime, 10);
+                let newAssets = [];
+                if (gameIdNumber === 1 || gameIdNumber === 4) {
+                    listImageURL.forEach((image) => {
+                        newAssets.push({
+                            value: image.url,
+                            contestId: 0,
+                            typeOfAssetId: 3,
+                        });
+                    });
+                } else if (gameIdNumber === 2) {
+                    listImageURL.forEach((image) => {
+                        newAssets.push({
+                            value: image.url,
+                            contestId: 0,
+                            typeOfAssetId: 5,
+                        });
+                    });
+                } else if (gameIdNumber === 5) {
+                    listImageURL.forEach((image) => {
+                        newAssets.push({
+                            value: `${image.description};${image.url}`,
+                            contestId: 0,
+                            typeOfAssetId: 4,
+                        });
+                    });
+                }
+
+                const formSubmit = {
+                    name: name,
+                    thumbnail: thumnailURL.url,
+                    startTime: startTime,
+                    endTime: endTime,
+                    coinBetting: coinBetting,
+                    gameId: gameIdNumber,
+                    playTime: playTimeNumber,
+                    assets: newAssets,
+                };
+
+                console.log(formSubmit);
+
+                try {
+                    const response = await contestService.createContest(formSubmit);
+
+                    if (response) {
+                        updateToast();
+                    }
+                } catch (error) {
+                    if (error.response) {
+                        toast.dismiss(toastId.current);
+                        toast.error(error.response.data.error);
+                    } else if (error.request) {
+                        toast.dismiss(toastId.current);
+                        console.log(error.request);
+                    } else {
+                        toast.dismiss(toastId.current);
+                        console.log('Error', error.message);
+                    }
+                    console.log(error.config);
+                }
             }
-            console.log(error.config);
+        } else {
+            if (currentStep < 3) {
+                e.preventDefault();
+                nextStep();
+            } else {
+                e.preventDefault();
+                if (gameId === '1') {
+                    if (![3, 4, 6, 8, 10, 12, 14].includes(listImageURL.length)) {
+                        toast.info(
+                            'The number of images is not appropriate.Please add correct 3, 4, 6, 8, 10, 12, 14 images',
+                        );
+                        return;
+                    } else {
+                        notifyToast();
+                    }
+                } else {
+                    notifyToast();
+                }
+                const gameIdNumber = parseInt(gameId, 10);
+                const playTimeNumber = parseInt(playTime, 10);
+                let newAssets = [];
+                if (gameIdNumber === 1 || gameIdNumber === 4) {
+                    listImageURL.forEach((image) => {
+                        newAssets.push({
+                            value: image.url,
+                            contestId: 0,
+                            typeOfAssetId: 3,
+                        });
+                    });
+                } else if (gameIdNumber === 2) {
+                    listImageURL.forEach((image) => {
+                        newAssets.push({
+                            value: image.url,
+                            contestId: 0,
+                            typeOfAssetId: 5,
+                        });
+                    });
+                } else if (gameIdNumber === 5) {
+                    listImageURL.forEach((image) => {
+                        newAssets.push({
+                            value: `${image.description};${image.url};${image.number}`,
+                            contestId: 0,
+                            typeOfAssetId: 4,
+                        });
+                    });
+                }
+
+                const formSubmit = {
+                    name: name,
+                    thumbnail: thumnailURL.url,
+                    startTime: startTime,
+                    endTime: endTime,
+                    coinBetting: coinBetting,
+                    gameId: gameIdNumber,
+                    playTime: playTimeNumber,
+                    assets: newAssets,
+                };
+
+                console.log(formSubmit);
+
+                try {
+                    const response = await contestService.createContest(formSubmit);
+
+                    if (response) {
+                        updateToast();
+                        await getListContest().then(handleResetData);
+                    }
+                } catch (error) {
+                    if (error.response) {
+                        toast.dismiss(toastId.current);
+                        toast.error(error.response.data.error);
+                    } else if (error.request) {
+                        toast.dismiss(toastId.current);
+                        console.log(error.request);
+                    } else {
+                        toast.dismiss(toastId.current);
+                        console.log('Error', error.message);
+                    }
+                    console.log(error.config);
+                }
+            }
         }
     };
 
@@ -318,9 +525,7 @@ function ContestGame() {
                                                 </div>
                                             </div>
                                             <div className="w-100 d-flex justify-content-end">
-                                                <Button primary onClick={nextFourStep}>
-                                                    Next
-                                                </Button>
+                                                <Button primary>Next</Button>
                                             </div>
                                         </>
                                     )}
@@ -376,9 +581,7 @@ function ContestGame() {
                                                 <Button primary onClick={prevFourStep}>
                                                     Previous
                                                 </Button>
-                                                <Button primary onClick={nextFourStep}>
-                                                    Next
-                                                </Button>
+                                                <Button primary>Next</Button>
                                             </div>
                                         </>
                                     )}
@@ -409,9 +612,7 @@ function ContestGame() {
                                                 <Button primary onClick={prevStep}>
                                                     Previous
                                                 </Button>
-                                                <Button primary onClick={nextFourStep}>
-                                                    Next
-                                                </Button>
+                                                <Button primary>Next</Button>
                                             </div>
                                         </>
                                     )}
@@ -421,16 +622,27 @@ function ContestGame() {
                                                 {listImageURL.map((imageUrl, index) => (
                                                     <div className="card-content w-100 card">
                                                         <div key={index} className="input-image-container w-100">
-                                                            <image
-                                                                src={
-                                                                    imageUrl.url
-                                                                        ? imageUrl.url
-                                                                        : 'https://via.placeholder.com/50x50'
-                                                                }
-                                                                alt="Image"
-                                                                className="card-image"
-                                                            />
-                                                            <div className="w-100 mx-4">
+                                                            <div
+                                                                style={{
+                                                                    width: 60,
+                                                                    height: 60,
+                                                                    background: '#f5f5f5',
+                                                                    borderRadius: 6,
+                                                                    overflow: 'hidden',
+                                                                    display: 'inline-block',
+                                                                }}
+                                                            >
+                                                                <img
+                                                                    src={
+                                                                        imageUrl.url
+                                                                            ? imageUrl.url
+                                                                            : 'https://via.placeholder.com/50x50'
+                                                                    }
+                                                                    alt="Game Resource"
+                                                                    className="card-image"
+                                                                />
+                                                            </div>
+                                                            <div className="w-100">
                                                                 <h4>{imageUrl.name}</h4>
                                                                 <input
                                                                     type="text"
@@ -532,9 +744,7 @@ function ContestGame() {
                                                 </div>
                                             </div>
                                             <div className="w-100 d-flex justify-content-end">
-                                                <Button primary onClick={nextStep}>
-                                                    Next
-                                                </Button>
+                                                <Button primary>Next</Button>
                                             </div>
                                         </>
                                     )}
@@ -590,9 +800,7 @@ function ContestGame() {
                                                 <Button primary onClick={prevStep}>
                                                     Previous
                                                 </Button>
-                                                <Button primary onClick={nextStep}>
-                                                    Next
-                                                </Button>
+                                                <Button primary>Next</Button>
                                             </div>
                                         </>
                                     )}
@@ -651,7 +859,18 @@ function ContestGame() {
                 </Modal.Footer>
             </Modal>
             <div className="d-flex align-items-center flex-column">
-                <h1 className="contest-title">Contest of Flip card</h1>
+                <h1 className="contest-title">
+                    Contest of{' '}
+                    {gameId === '1'
+                        ? 'Flip Card'
+                        : gameId === '2'
+                        ? 'Music Password'
+                        : gameId === '4'
+                        ? 'Images Walkthrough'
+                        : gameId === '5'
+                        ? 'Find Anonymous'
+                        : ''}
+                </h1>
                 <div className="w-100 d-flex justify-content-end">
                     <Button
                         outline
@@ -664,82 +883,74 @@ function ContestGame() {
                 </div>
                 <div className="w-100 m-5">
                     <div className="card">
-                        <div className="table-responsive text-nowrap">
-                            <table className="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th className="text-center">STT</th>
-                                        <th>Name Contest</th>
-                                        <th>Name Game</th>
-                                        <th>Start Date</th>
-                                        <th>End Date</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="table-border-bottom-0">
-                                    {currentData.map((item, index) => (
-                                        <tr key={index}>
-                                            <td className="text-center">{index + 1}</td>
-                                            <td>{item?.name}</td>
-                                            <td>{item?.gameName}</td>
-                                            <td>{item?.startTime}</td>
-                                            <td>{item?.endTime}</td>
+                        <Table
+                            height={Math.max(getHeight(window) - 200, 400)}
+                            data={data}
+                            sortColumn={sortColumn}
+                            sortType={sortType}
+                            onSortColumn={handleSortColumn}
+                            loading={loading}
+                            rowHeight={90}
+                            // virtualized
+                        >
+                            <Column width={200} align="center">
+                                <HeaderCell>Thumnail</HeaderCell>
+                                <ImageCell dataKey="thumbnail" />
+                            </Column>
 
-                                            <td>
-                                                <Dropdown>
-                                                    <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                                                        Select Actions
-                                                    </Dropdown.Toggle>
+                            <Column width={200} fixed fullText sortable>
+                                <HeaderCell>Contest Name</HeaderCell>
+                                <CompactCell dataKey="name" />
+                            </Column>
 
-                                                    <Dropdown.Menu>
-                                                        <Dropdown.Item onClick={() => handleViewClick(item)}>
-                                                            View
-                                                        </Dropdown.Item>
-                                                    </Dropdown.Menu>
-                                                </Dropdown>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div className="w-100 d-flex justify-content-between">
-                        <h4 className="table-text mt-1">
-                            Showing {startIndex + 1} to{' '}
-                            {endIndex > listContests.length ? listContests.length : endIndex} of {listContests.length}
-                        </h4>
-                        <div className="pagination">
-                            <button
-                                className="btn-pagi"
-                                onClick={() => setCurrentPage(currentPage - 1)}
-                                disabled={currentPage === 1}
-                            >
-                                <FontAwesomeIcon icon={faAngleLeft}></FontAwesomeIcon>
-                            </button>
-                            <span className="mx-2">
-                                <ul className="pagination d-flex align-items-center h-100">
-                                    {Array(Math.ceil(listContests.length / itemsPerPage))
-                                        .fill()
-                                        .map((_, index) => (
-                                            <li
-                                                key={index}
-                                                className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}
-                                            >
-                                                <button className="page-link" onClick={() => paginate(index + 1)}>
-                                                    {index + 1}
-                                                </button>
-                                            </li>
-                                        ))}
-                                </ul>
-                            </span>
-                            <button
-                                className="btn-pagi"
-                                onClick={() => setCurrentPage(currentPage + 1)}
-                                disabled={endIndex >= listContests.length}
-                            >
-                                <FontAwesomeIcon icon={faAngleRight}></FontAwesomeIcon>
-                            </button>
+                            <Column width={150} fixed fullText sortable>
+                                <HeaderCell>Game Name</HeaderCell>
+                                <CompactCell dataKey="gameName" />
+                            </Column>
+
+                            <Column width={200} fixed fullText sortable>
+                                <HeaderCell>Start Date</HeaderCell>
+                                <CompactCell dataKey="startTime" />
+                            </Column>
+
+                            <Column width={200} fixed fullText sortable>
+                                <HeaderCell>End Date</HeaderCell>
+                                <CompactCell dataKey="endTime" />
+                            </Column>
+
+                            <Column width={40} flexGrow={1}>
+                                <HeaderCell> View Analysis</HeaderCell>
+                                <Cell style={{ padding: 6 }}>
+                                    {(rowData) => (
+                                        <RsuiteButton
+                                            color="green"
+                                            appearance="primary"
+                                            onClick={() => handleViewClick(rowData)}
+                                        >
+                                            View
+                                        </RsuiteButton>
+                                    )}
+                                </Cell>
+                            </Column>
+                        </Table>
+                        <div style={{ padding: 20 }}>
+                            <Pagination
+                                prev
+                                next
+                                first
+                                last
+                                ellipsis
+                                boundaryLinks
+                                maxButtons={5}
+                                size="xs"
+                                layout={['total', '-', 'limit', '|', 'pager', 'skip']}
+                                total={listContests?.length}
+                                limitOptions={[10, 30, 50]}
+                                limit={limit}
+                                activePage={page}
+                                onChangePage={setPage}
+                                onChangeLimit={handleChangeLimit}
+                            />
                         </div>
                     </div>
                 </div>

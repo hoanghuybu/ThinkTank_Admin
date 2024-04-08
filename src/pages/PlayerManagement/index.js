@@ -152,12 +152,12 @@ function PlayerManagement() {
                     <Modal.Body>
                         <PanelGroup>
                             {listReport &&
-                                listReport.map((report, index) => {
+                                listReport.map((report, index) => (
                                     <Panel key={index} header={report?.userName1}>
                                         <h3>Title Report: {report?.title}</h3>
                                         <h4>Description Report: {report?.description}</h4>
-                                    </Panel>;
-                                })}
+                                    </Panel>
+                                ))}
                         </PanelGroup>
                     </Modal.Body>
                     <Modal.Footer>
@@ -233,7 +233,7 @@ function PlayerManagement() {
                         </Column>
                         <Column width={50} flexGrow={1}>
                             <HeaderCell> View Analysis</HeaderCell>
-                            <Cell>
+                            <Cell style={{ padding: 6 }}>
                                 {(rowData) => (
                                     <Button
                                         color="green"
@@ -247,7 +247,7 @@ function PlayerManagement() {
                         </Column>
                         <Column width={50} flexGrow={1}>
                             <HeaderCell> Block Player</HeaderCell>
-                            <Cell>
+                            <Cell style={{ padding: 6 }}>
                                 {(rowData) => (
                                     <Button
                                         color="red"

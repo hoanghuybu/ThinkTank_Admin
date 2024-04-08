@@ -16,11 +16,11 @@ const publicRounter = [{ path: config.route.login, component: LoginPage, layouts
 
 const privateRounter = [
     { path: config.route.contest, component: Contest },
-    { path: config.route.contestGame, component: ContestGame, layouts: HeaderGameOnly },
+    { path: config.route.contestGame, component: ContestGame, layouts: WhiteLayouts },
     { path: config.route.dashboard, component: Dashboard },
     { path: config.route.gameResource, component: GameResource },
-    { path: config.route.resourceDetail, component: ResourceDetail, layouts: HeaderGameOnly },
-    { path: config.route.contestDetail, component: ContestDetail, layouts: HeaderOnly },
+    { path: config.route.resourceDetail, component: ResourceDetail, layouts: WhiteLayouts },
+    { path: config.route.contestDetail, component: ContestDetail, layouts: WhiteLayouts },
     { path: config.route.analysis, component: Analysis, layouts: WhiteLayouts },
     { path: config.route.playerManagement, component: PlayerManagement },
     { path: config.route.leaderboard, component: Leaderboard },

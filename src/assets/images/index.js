@@ -13,6 +13,7 @@ const images = {
     contestImgIcon: require('~/assets/images/contest-img-icon.png'),
     roomImgIcon: require('~/assets/images/room-img-icon.png'),
     userPlusImgIcon: require('~/assets/images/user-plus-img-icon.png'),
+    headphoneImg: require('~/assets/images/headphones.png'),
 };
 
 export default images;

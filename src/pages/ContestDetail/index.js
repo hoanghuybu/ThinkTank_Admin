@@ -7,6 +7,7 @@ import * as contestService from '~/service/ContestService';
 import { Uploader } from 'rsuite';
 import './ContestDetail.scss';
 import { toast } from 'react-toastify';
+import images from '~/assets/images';
 
 function ContestDetail() {
     const nameContestRef = useRef();
@@ -17,7 +18,7 @@ function ContestDetail() {
     const location = useLocation();
     const [contest, setContest] = useState(location.state.contest);
     const [listImageURL, setListImageURL] = useState([]);
-    const [thumnailURL, setThumnailURL] = useState('');
+    const [thumnailURL, setThumnailURL] = useState();
     const [currentPage, setCurrentPage] = useState(1);
     const itemsPerPage = 3;
     const toastId = React.useRef(null);
@@ -78,11 +79,31 @@ function ContestDetail() {
         }));
     };
 
+    //handle value for game find anonymous
+    const handleDescriptionChange = (index, description) => {
+        const updatedImageList = [...listImageURL];
+        updatedImageList[index] = { ...updatedImageList[index], description };
+        setListImageURL(updatedImageList);
+    };
+
     //API
     const handleUpdateContest = async (e) => {
         e.preventDefault();
+        const allObjectsHaveDescription = listImageURL.every((obj) => obj.hasOwnProperty('description'));
 
-        notifyToast();
+        if (contest.gameId === 5) {
+            if (allObjectsHaveDescription) {
+                notifyToast();
+            } else {
+                toast.info('Please fill all description before submit');
+                return;
+            }
+        }
+
+        if (contest.gameId !== 5 && contest.gameId !== 1) {
+            toast.info('Hello');
+        }
+
         let updatedAssets = [];
         let updatedAssets1 = [];
         let updatedAssets2 = [];
@@ -128,7 +149,7 @@ function ContestDetail() {
                 }));
             } else if (contest.gameId === 5) {
                 updatedAssets2 = listImageURL.map((asset) => ({
-                    value: asset.url,
+                    value: `${asset.description};${asset.url}`,
                     typeOfAssetId: 4,
                 }));
             }
@@ -141,9 +162,18 @@ function ContestDetail() {
             updatedAssets.push(...updatedAssets2);
         }
 
+        if (contest.gameId === 1) {
+            if (![3, 4, 6, 8, 10, 12, 14].includes(updatedAssets.length)) {
+                toast.info('The number of images is not appropriate.Please add correct 3, 4, 6, 8, 10, 12, 14 images');
+                return;
+            } else {
+                notifyToast();
+            }
+        }
+
         const formSubmit = {
             name: nameContestRef.current.value,
-            thumbnail: thumnailURL?.url,
+            thumbnail: thumnailURL ? thumnailURL.url : '',
             startTime: startTimeRef.current.value,
             endTime: endTimeRef.current.value,
             coinBetting: coinBettingRef.current.value,
@@ -151,6 +181,7 @@ function ContestDetail() {
             playTime: playTimeRef.current.value,
             assets: updatedAssets,
         };
+        console.log(formSubmit);
         try {
             const response = await contestService.updateContest(formSubmit, contest.id);
 
@@ -224,15 +255,23 @@ function ContestDetail() {
                                 {currentItems.map((item, index) => (
                                     <div className="row mb-3" key={index}>
                                         <div className="col-sm-2">
-                                            <img
-                                                className="media-object rounded-circle thumb48"
-                                                src={
-                                                    item.value
-                                                        ? item.value
-                                                        : 'https://cdn-icons-png.flaticon.com/512/2105/2105138.png'
-                                                }
-                                                alt="Contest"
-                                            />
+                                            {contest?.gameId === 2 ? (
+                                                <img
+                                                    className="media-object rounded-circle thumb48"
+                                                    src={images.headphoneImg}
+                                                    alt="Contest"
+                                                />
+                                            ) : (
+                                                <img
+                                                    className="media-object rounded-circle thumb48"
+                                                    src={
+                                                        item.value
+                                                            ? item.value.replace(/^(.*?);/, '')
+                                                            : 'https://cdn-icons-png.flaticon.com/512/2105/2105138.png'
+                                                    }
+                                                    alt="Contest"
+                                                />
+                                            )}
                                         </div>
                                         <div className="col-sm-8">
                                             <div className="font-weight-bold">
@@ -295,6 +334,52 @@ function ContestDetail() {
                                         </Uploader>
                                     </div>
                                 </div>
+                                {listImageURL.length > 0 && contest?.gameId === 5 && (
+                                    <>
+                                        <div className="col-sm-12">
+                                            <hr />
+                                        </div>
+                                        <div className="col-sm-12">
+                                            {listImageURL.map((imageUrl, index) => (
+                                                <div key={index} className="card-content w-100 card">
+                                                    <div className="input-image-container w-100">
+                                                        <div
+                                                            style={{
+                                                                width: 60,
+                                                                height: 60,
+                                                                background: '#f5f5f5',
+                                                                borderRadius: 6,
+                                                                overflow: 'hidden',
+                                                                display: 'inline-block',
+                                                            }}
+                                                        >
+                                                            <img
+                                                                src={
+                                                                    imageUrl.url
+                                                                        ? imageUrl.url
+                                                                        : 'https://via.placeholder.com/50x50'
+                                                                }
+                                                                alt="Game Resource"
+                                                                className="card-image"
+                                                            />
+                                                        </div>
+                                                        <div className="w-100">
+                                                            <h4>{imageUrl.name}</h4>
+                                                            <input
+                                                                type="text"
+                                                                className="answer-input"
+                                                                placeholder="Enter resource description"
+                                                                onChange={(e) =>
+                                                                    handleDescriptionChange(index, e.target.value)
+                                                                }
+                                                            />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    </>
+                                )}
                             </div>
                         </div>
                     </div>

@@ -17,7 +17,7 @@ function MenuSidebar({ children }) {
         const accountId = sessionStorage.getItem('accountId');
         if (accountId) {
             try {
-                const response = await loginService.logout();
+                const response = await loginService.logout(accountId);
                 if (response) {
                     sessionStorage.clear();
                     navigate('/');

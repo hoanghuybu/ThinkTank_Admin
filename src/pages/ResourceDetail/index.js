@@ -37,7 +37,7 @@ function ResourceDetail() {
         });
 
     //handle pagination
-    const itemsPerPage = 2;
+    const itemsPerPage = 10;
 
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
@@ -142,7 +142,7 @@ function ResourceDetail() {
     const getListResources = async () => {
         try {
             const id = parseInt(gameId, 10);
-            const result = await resourceGameService.getListResourceByGameID(null, null, id);
+            const result = await resourceGameService.getListResourceByGameID(null, 1000, id);
             setListResource(result.results);
         } catch (error) {
             console.log(error);
@@ -258,6 +258,8 @@ function ResourceDetail() {
             getListTopic();
         }
     }, [gameId]);
+
+    console.log(listResources);
 
     return (
         <>
@@ -536,7 +538,7 @@ function ResourceDetail() {
                         : gameId === '2'
                         ? 'Music Password'
                         : gameId === '4'
-                        ? 'Image Walkthroung'
+                        ? 'Image Walkthrough'
                         : gameId === '5'
                         ? 'Find Anonymous'
                         : ''}
