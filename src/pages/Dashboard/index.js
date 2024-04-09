@@ -35,6 +35,7 @@ function Dashboard() {
     const [gameReport, setGameReport] = useState();
     const [contestReport, setContestReport] = useState();
     const [listGames, setListGames] = useState([]);
+    const [contestByMonth, setContestByMonth] = useState({});
 
     useEffect(() => {
         const getGameReport = async () => {
@@ -69,6 +70,38 @@ function Dashboard() {
         getGameReport();
         getContestReport();
     }, []);
+
+    useEffect(() => {
+        if (contestReport) {
+            const monthNames = [
+                'January',
+                'February',
+                'March',
+                'April',
+                'May',
+                'June',
+                'July',
+                'August',
+                'September',
+                'October',
+                'November',
+                'December',
+            ];
+            const contestCountsByMonth = {};
+
+            contestReport.contests.forEach((contest) => {
+                const startMonth = new Date(contest.startTime).getMonth();
+                const endMonth = new Date(contest.endTime).getMonth();
+
+                for (let month = startMonth; month <= endMonth; month++) {
+                    const monthName = monthNames[month];
+                    contestCountsByMonth[monthName] = (contestCountsByMonth[monthName] || 0) + 1;
+                }
+            });
+            console.log(contestCountsByMonth);
+            setContestByMonth(contestCountsByMonth);
+        }
+    }, [contestReport]);
     return (
         <>
             <div className="content-wrapper-dashboard">
@@ -140,27 +173,21 @@ function Dashboard() {
                                         <div className="w-100 p-4">
                                             <CCard>
                                                 <CCardBody>
-                                                    <CChartBar
-                                                        data={{
-                                                            labels: [
-                                                                'January',
-                                                                'February',
-                                                                'March',
-                                                                'April',
-                                                                'May',
-                                                                'June',
-                                                                'July',
-                                                            ],
-                                                            datasets: [
-                                                                {
-                                                                    label: 'Contest',
-                                                                    backgroundColor: '#F07B3F',
-                                                                    data: [40, 20, 12, 39, 10, 40, 39, 80, 40],
-                                                                },
-                                                            ],
-                                                        }}
-                                                        labels="months"
-                                                    />
+                                                    {contestByMonth && (
+                                                        <CChartBar
+                                                            data={{
+                                                                labels: Object.keys(contestByMonth),
+                                                                datasets: [
+                                                                    {
+                                                                        label: 'Contest',
+                                                                        backgroundColor: '#F07B3F',
+                                                                        data: Object.values(contestByMonth),
+                                                                    },
+                                                                ],
+                                                            }}
+                                                            labels="months"
+                                                        />
+                                                    )}
                                                 </CCardBody>
                                             </CCard>
                                         </div>
@@ -244,6 +271,7 @@ function Dashboard() {
                                                                     : 'https://via.placeholder.com/290x130'
                                                             }
                                                             alt={item.name}
+                                                            height={150}
                                                         />
                                                         <Carousel.Caption>
                                                             <h3>{item?.name}</h3>

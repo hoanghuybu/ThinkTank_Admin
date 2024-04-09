@@ -52,6 +52,7 @@ function Contest() {
                                                                     : 'https://mdbcdn.b-cdn.net/img/Photos/Horizontal/E-commerce/Products/img%20(4).webp'
                                                             }
                                                             className="w-100"
+                                                            height={150}
                                                         />
                                                     </div>
                                                 </div>

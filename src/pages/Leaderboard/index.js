@@ -119,6 +119,7 @@ function Leaderboard() {
                                             : 'https://via.placeholder.com/800x400'
                                     }
                                     alt={item?.name}
+                                    height={350}
                                 />
                                 <Carousel.Caption>
                                     <h3>{item?.name}</h3>
