@@ -185,8 +185,8 @@ function ContestGame() {
         setThumnailURL({ name: fileName, url: response[0] });
     };
 
-    const handleRemoveThumnailFile = (file) => {
-        setThumnailURL((prevListImageURL) => prevListImageURL.filter((item) => item.name !== file.name));
+    const handleRemoveThumnailFile = () => {
+        setThumnailURL();
     };
 
     //handle value for game find anonymous
