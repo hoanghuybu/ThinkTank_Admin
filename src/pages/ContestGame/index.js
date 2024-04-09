@@ -5,11 +5,10 @@ import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import React, { useState, useEffect } from 'react';
 import { Modal, Form } from 'react-bootstrap';
 import { useLocation, useNavigate } from 'react-router-dom';
-import { Uploader } from 'rsuite';
 import { FaCameraRetro, FaMusic } from 'react-icons/fa';
 import * as contestService from '~/service/ContestService';
 import { toast } from 'react-toastify';
-import { Table, Pagination, DOMHelper } from 'rsuite';
+import { Table, Pagination, DOMHelper, Uploader } from 'rsuite';
 import { Button as RsuiteButton } from 'rsuite';
 
 const { Column, HeaderCell, Cell } = Table;
@@ -66,7 +65,7 @@ function ContestGame() {
 
     const updateToast = () =>
         toast.update(toastId.current, {
-            render: 'Update succes',
+            render: 'Create success',
             type: 'success',
             autoClose: 5000,
         });
@@ -97,10 +96,7 @@ function ContestGame() {
             case 4:
                 const allObjectsHaveDescription = listImageURL.every((obj) => obj.hasOwnProperty('description'));
 
-                const allObjectsHaveNumberCharacteristic = listImageURL.every((obj) =>
-                    obj.hasOwnProperty('numberCharacteristic'),
-                );
-                return allObjectsHaveDescription && allObjectsHaveNumberCharacteristic;
+                return allObjectsHaveDescription;
             default:
                 return false;
         }
@@ -112,6 +108,7 @@ function ContestGame() {
             updateProgressBar();
         } else {
             toast.info('Please all items in this step before going to the next step.');
+            return;
         }
     };
 
@@ -140,6 +137,7 @@ function ContestGame() {
             updateFourProgressBar();
         } else {
             toast.info('Please add at least one item to the list before proceeding.');
+            return;
         }
     };
 
@@ -277,6 +275,9 @@ function ContestGame() {
     const handleContestSubmit = async (e) => {
         e.preventDefault();
 
+        console.log(currentStep);
+        console.log('submit');
+
         if (gameId === '5') {
             if (currentStep < 4) {
                 e.preventDefault();
@@ -284,6 +285,11 @@ function ContestGame() {
             } else {
                 e.preventDefault();
 
+                if (!isStepDataValid()) {
+                    toast.info('Please all items in this step before going to the next step.');
+                    return;
+                }
+                notifyToast();
                 const gameIdNumber = parseInt(gameId, 10);
                 const playTimeNumber = parseInt(playTime, 10);
                 let newAssets = [];
@@ -331,6 +337,7 @@ function ContestGame() {
 
                     if (response) {
                         updateToast();
+                        await getListContest().then(handleResetData);
                     }
                 } catch (error) {
                     if (error.response) {
@@ -363,6 +370,10 @@ function ContestGame() {
                     }
                 } else {
                     notifyToast();
+                }
+                if (!isStepDataValid()) {
+                    toast.info('Please all items in this step before going to the next step.');
+                    return;
                 }
                 const gameIdNumber = parseInt(gameId, 10);
                 const playTimeNumber = parseInt(playTime, 10);

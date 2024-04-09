@@ -1,18 +1,49 @@
 import './ResourceDetail.scss';
 import Button from '~/components/Button';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faAngleLeft, faAngleRight } from '@fortawesome/free-solid-svg-icons';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
 import React, { useState, useEffect } from 'react';
 import * as resourceGameService from '~/service/ResourceGameService';
-import { Dropdown, Modal, Form } from 'react-bootstrap';
+import { Modal, Form } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
-import { Uploader } from 'rsuite';
+import { Uploader, DOMHelper, Table, Pagination } from 'rsuite';
+import { Button as RsuiteButton } from 'rsuite';
 import { FaCameraRetro, FaMusic } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import images from '~/assets/images';
+
+const { Column, HeaderCell, Cell } = Table;
+
+const CompactCell = (props) => <Cell {...props} style={{ padding: 6 }} />;
+
+const ImageCell = ({ gameId, rowData, dataKey, ...props }) => (
+    <Cell {...props} style={{ padding: 3 }}>
+        <div
+            style={{
+                width: 150,
+                height: 80,
+                background: '#f5f5f5',
+                borderRadius: 6,
+                overflow: 'hidden',
+                display: 'inline-block',
+            }}
+        >
+            {gameId === '2' ? (
+                <img alt="user avatar" src={images.headphoneImg} width="80" />
+            ) : (
+                <img
+                    alt="user avatar"
+                    src={rowData.value ? rowData.value.replace(/^(.*?);/, '') : 'https://via.placeholder.com/40x40'}
+                    width="150"
+                />
+            )}
+        </div>
+    </Cell>
+);
+
+const { getHeight } = DOMHelper;
 
 function ResourceDetail() {
-    const [currentPage, setCurrentPage] = useState(1);
     const [currentStep, setCurrentStep] = useState(1);
     const [listResources, setListResource] = useState([]);
     const [listTopic, setListTopic] = useState([]);
@@ -22,6 +53,12 @@ function ResourceDetail() {
     const [show, setShow] = useState(false);
     const [gameId, setGameId] = useState();
     const [otherTopic, setOtherTopic] = useState('');
+    const [limit, setLimit] = useState(10);
+    const [page, setPage] = useState(1);
+    const [sortColumn, setSortColumn] = useState();
+    const [sortType, setSortType] = useState();
+    const [loading, setLoading] = useState(false);
+    const [searchKeyword, setSearchKeyword] = useState('');
     const [showOtherForm, setShowOtherForm] = useState(false);
 
     const toastId = React.useRef(null);
@@ -36,21 +73,16 @@ function ResourceDetail() {
             autoClose: 5000,
         });
 
-    //handle pagination
-    const itemsPerPage = 10;
-
-    const startIndex = (currentPage - 1) * itemsPerPage;
-    const endIndex = startIndex + itemsPerPage;
-    const currentData = listResources.slice(startIndex, endIndex);
-
-    const paginate = (pageNumber) => {
-        setCurrentPage(pageNumber);
-    };
-
     //handle modal
-    const handleClose = () => setShow(false);
+    const handleClose = () => {
+        handleResetData();
+        setShow(false);
+    };
     const handleShow = () => setShow(true);
-    const handleOhterTopicClose = () => setShowOtherForm(false);
+    const handleOhterTopicClose = () => {
+        handleResetData();
+        setShowOtherForm(false);
+    };
 
     //handle multi step form
     const displayStep = (stepNumber) => {
@@ -60,10 +92,33 @@ function ResourceDetail() {
         }
     };
 
+    const handleResetData = () => {
+        setTopic();
+        setListImageURL([]);
+        setCurrentStep(1);
+    };
+
+    const isStepDataValid = () => {
+        switch (currentStep) {
+            case 1:
+                return topic !== null && topic !== undefined;
+            case 2:
+                return listImageURL.length > 0;
+            case 3:
+                return listImageURL.every((obj) => obj.hasOwnProperty('description'));
+
+            default:
+                return false;
+        }
+    };
+
     const nextStep = () => {
-        if (currentStep < 3) {
+        if (isStepDataValid()) {
             setCurrentStep(currentStep + 1);
             updateProgressBar();
+        } else {
+            toast.info('Please all items in this step before going to the next step.');
+            return;
         }
     };
 
@@ -87,9 +142,12 @@ function ResourceDetail() {
     };
 
     const nextTwoStep = () => {
-        if (currentStep < 2) {
+        if (isStepDataValid()) {
             setCurrentStep(currentStep + 1);
-            updateTwoProgressBar();
+            updateProgressBar();
+        } else {
+            toast.info('Please all items in this step before going to the next step.');
+            return;
         }
     };
 
@@ -138,12 +196,69 @@ function ResourceDetail() {
         setListImageURL(updatedImageList);
     };
 
+    //handle table resource
+    const handleSortColumn = (sortColumn, sortType) => {
+        setLoading(true);
+        setTimeout(() => {
+            setLoading(false);
+            setSortColumn(sortColumn);
+            setSortType(sortType);
+        }, 500);
+    };
+
+    const handleChangeLimit = (dataKey) => {
+        setPage(1);
+        setLimit(dataKey);
+    };
+
+    const getFilteredData = () => {
+        let sortedData = listResources;
+        if (sortedData) {
+            sortedData = sortedData.filter((item) => {
+                if (!item.topicName.includes(searchKeyword)) {
+                    return false;
+                }
+
+                return true;
+            });
+        }
+        if (sortColumn && sortType) {
+            sortedData = sortedData.sort((a, b) => {
+                let x = a[sortColumn];
+                let y = b[sortColumn];
+                if (typeof x === 'string') {
+                    x = x.charCodeAt();
+                }
+                if (typeof y === 'string') {
+                    y = y.charCodeAt();
+                }
+                if (sortType === 'asc') {
+                    return x - y;
+                } else {
+                    return y - x;
+                }
+            });
+        }
+
+        return sortedData;
+    };
+
+    const data = getFilteredData().filter((v, i) => {
+        const start = limit * (page - 1);
+        const end = start + limit;
+        return i >= start && i < end;
+    });
+
     //API
     const getListResources = async () => {
+        setLoading(true);
         try {
             const id = parseInt(gameId, 10);
             const result = await resourceGameService.getListResourceByGameID(null, 1000, id);
-            setListResource(result.results);
+            if (result) {
+                setListResource(result.results);
+                setLoading(false);
+            }
         } catch (error) {
             console.log(error);
         }
@@ -167,7 +282,7 @@ function ResourceDetail() {
         try {
             const result = await resourceGameService.deleteResource(formSubmit);
             if (result) {
-                getListResources();
+                await getListResources();
             }
         } catch (error) {
             console.log(error);
@@ -176,6 +291,11 @@ function ResourceDetail() {
 
     const handleOtherTopicSubmit = async (e) => {
         e.preventDefault();
+
+        if (!otherTopic) {
+            toast.info('Please all items in this step before going to the next step.');
+            return;
+        }
         const gameIdNumber = parseInt(gameId, 10);
         const formSubmit = {
             name: otherTopic,
@@ -185,7 +305,7 @@ function ResourceDetail() {
         try {
             const response = await resourceGameService.createNewTopic(formSubmit);
             if (response) {
-                getListTopic();
+                await getListTopic().then(setOtherTopic(''));
                 handleOhterTopicClose();
                 handleShow();
             }
@@ -196,54 +316,102 @@ function ResourceDetail() {
 
     const handleSubmitResource = async (e) => {
         e.preventDefault();
-        notifyToast();
-        let formSubmit = [];
-        const topicId = parseInt(topic, 10);
-
         if (gameId === '5') {
-            listImageURL.forEach((image) => {
-                formSubmit.push({
-                    value: `${image.description};${image.url}`,
-                    topicId: topicId,
-                    typeOfAssetId: 19,
-                });
-            });
-        } else if (gameId === '1' || gameId === '4') {
-            listImageURL.forEach((image) => {
-                formSubmit.push({
-                    value: image.url,
-                    topicId: topicId,
-                    typeOfAssetId: 20,
-                });
-            });
-        } else if (gameId === '2') {
-            listImageURL.forEach((image) => {
-                formSubmit.push({
-                    value: image.url,
-                    topicId: topicId,
-                    typeOfAssetId: 24,
-                });
-            });
-        }
-
-        console.log(formSubmit);
-
-        try {
-            const response = await resourceGameService.createResource(formSubmit);
-
-            if (response) {
-                updateToast();
-            }
-        } catch (error) {
-            if (error.response) {
-                toast.dismiss(toastId.current);
-                toast.error(error.response.data.error);
-            } else if (error.request) {
-                console.log(error.request);
+            if (currentStep < 3) {
+                e.preventDefault();
+                nextStep();
             } else {
-                console.log('Error', error.message);
+                e.preventDefault();
+                if (!isStepDataValid()) {
+                    toast.info('Please all items in this step before going to the next step.');
+                    return;
+                }
+                notifyToast();
+                let formSubmit = [];
+                const topicId = parseInt(topic, 10);
+
+                listImageURL.forEach((image) => {
+                    formSubmit.push({
+                        value: `${image.description};${image.url}`,
+                        topicId: topicId,
+                        typeOfAssetId: 19,
+                    });
+                });
+
+                console.log(formSubmit);
+
+                try {
+                    const response = await resourceGameService.createResource(formSubmit);
+
+                    if (response) {
+                        await getListResources().then(handleResetData);
+                        updateToast();
+                    }
+                } catch (error) {
+                    if (error.response) {
+                        toast.dismiss(toastId.current);
+                        toast.error(error.response.data.error);
+                    } else if (error.request) {
+                        console.log(error.request);
+                    } else {
+                        console.log('Error', error.message);
+                    }
+                    console.log(error.config);
+                }
             }
-            console.log(error.config);
+        } else {
+            if (currentStep < 2) {
+                e.preventDefault();
+                nextTwoStep();
+            } else {
+                e.preventDefault();
+                if (!isStepDataValid()) {
+                    toast.info('Please all items in this step before going to the next step.');
+                    return;
+                }
+                notifyToast();
+                let formSubmit = [];
+                const topicId = parseInt(topic, 10);
+
+                if (gameId === '1' || gameId === '4') {
+                    listImageURL.forEach((image) => {
+                        formSubmit.push({
+                            value: image.url,
+                            topicId: topicId,
+                            typeOfAssetId: 20,
+                        });
+                    });
+                } else if (gameId === '2') {
+                    listImageURL.forEach((image) => {
+                        formSubmit.push({
+                            value: image.url,
+                            topicId: topicId,
+                            typeOfAssetId: 24,
+                        });
+                    });
+                }
+
+                console.log(formSubmit);
+
+                try {
+                    const response = await resourceGameService.createResource(formSubmit);
+
+                    if (response) {
+                        await getListResources().then(handleResetData);
+                        updateToast();
+                    }
+                } catch (error) {
+                    if (error.response) {
+                        toast.dismiss(toastId.current);
+                        toast.error(error.response.data.error);
+                    } else if (error.request) {
+                        console.log(error.request);
+                    } else {
+                        console.log('Error', error.message);
+                    }
+                    console.log(error.config);
+                }
+            }
         }
     };
 
@@ -335,9 +503,7 @@ function ResourceDetail() {
                                                 </Form.Group>
                                             </div>
                                             <div className="w-100 d-flex justify-content-end">
-                                                <Button primary onClick={nextTwoStep}>
-                                                    Next
-                                                </Button>
+                                                <Button primary>Next</Button>
                                             </div>
                                         </>
                                     )}
@@ -430,9 +596,7 @@ function ResourceDetail() {
                                                 </Form.Group>
                                             </div>
                                             <div className="w-100 d-flex justify-content-end">
-                                                <Button primary onClick={nextStep}>
-                                                    Next
-                                                </Button>
+                                                <Button primary>Next</Button>
                                             </div>
                                         </>
                                     )}
@@ -554,102 +718,83 @@ function ResourceDetail() {
                     </Button>
                 </div>
                 <div className="w-100 m-5">
-                    <div className="card">
-                        <div className="table-responsive text-nowrap">
-                            <table className="table table-hover">
-                                <thead>
-                                    <tr>
-                                        <th className="text-center">STT</th>
-                                        <th className="text-center">Image</th>
-                                        <th>Topic Name</th>
-                                        <th>Game Name</th>
-                                        <th>Status</th>
-                                        <th>Actions</th>
-                                    </tr>
-                                </thead>
-                                <tbody className="table-border-bottom-0">
-                                    {currentData.map((item, index) => (
-                                        <tr key={index}>
-                                            <td className="text-center">{index + 1}</td>
-                                            <td className="text-center">
-                                                <img
-                                                    className="column-image"
-                                                    src={
-                                                        item.value
-                                                            ? item.value.replace(/^(.*?);/, '')
-                                                            : 'https://play-lh.googleusercontent.com/ZvMvaLTdYMrD6U1B3wPKL6siMYG8nSTEnzhLiMsH7QHwQXs3ZzSZuYh3_PTxoU5nKqU'
-                                                    }
-                                                    alt={`${item?.name}`}
-                                                />
-                                            </td>
-                                            <td>{item?.topicName}</td>
-                                            <td>{item?.gameName}</td>
-                                            <td>
-                                                <span
-                                                    className={`badge ${
-                                                        item?.status === true ? 'bg-label-success' : 'bg-label-danger'
-                                                    } me-1`}
-                                                >
-                                                    {item?.status === true ? 'Active' : 'InActive'}
-                                                </span>
-                                            </td>
-                                            <td>
-                                                <Dropdown>
-                                                    <Dropdown.Toggle variant="secondary" id="dropdown-basic">
-                                                        Select Actions
-                                                    </Dropdown.Toggle>
+                    <Table
+                        height={Math.max(getHeight(window) - 200, 400)}
+                        data={data}
+                        sortColumn={sortColumn}
+                        sortType={sortType}
+                        onSortColumn={handleSortColumn}
+                        loading={loading}
+                        rowHeight={90}
+                        // virtualized
+                    >
+                        <Column width={50} fixed fullText sortable align="center">
+                            <HeaderCell>Id</HeaderCell>
+                            <CompactCell dataKey="id" />
+                        </Column>
+                        <Column width={200} flexGrow={1} align="center">
+                            <HeaderCell>Image</HeaderCell>
+                            <ImageCell gameId={gameId} dataKey="value" />
+                        </Column>
 
-                                                    <Dropdown.Menu>
-                                                        <Dropdown.Item onClick={() => handleDeleteResource(item.id)}>
-                                                            Delete
-                                                        </Dropdown.Item>
-                                                    </Dropdown.Menu>
-                                                </Dropdown>
-                                            </td>
-                                        </tr>
-                                    ))}
-                                </tbody>
-                            </table>
-                        </div>
-                    </div>
-                    <div className="w-100 d-flex justify-content-between">
-                        <h4 className="table-text mt-1">
-                            Showing {startIndex + 1} to{' '}
-                            {endIndex > listResources.length ? listResources.length : endIndex} of{' '}
-                            {listResources.length}
-                        </h4>
-                        <div className="pagination">
-                            <button
-                                className="btn-pagi"
-                                onClick={() => setCurrentPage(currentPage - 1)}
-                                disabled={currentPage === 1}
-                            >
-                                <FontAwesomeIcon icon={faAngleLeft}></FontAwesomeIcon>
-                            </button>
-                            <span className="mx-2">
-                                <ul className="pagination d-flex align-items-center h-100">
-                                    {Array(Math.ceil(listResources.length / itemsPerPage))
-                                        .fill()
-                                        .map((_, index) => (
-                                            <li
-                                                key={index}
-                                                className={`page-item ${currentPage === index + 1 ? 'active' : ''}`}
-                                            >
-                                                <button className="page-link" onClick={() => paginate(index + 1)}>
-                                                    {index + 1}
-                                                </button>
-                                            </li>
-                                        ))}
-                                </ul>
-                            </span>
-                            <button
-                                className="btn-pagi"
-                                onClick={() => setCurrentPage(currentPage + 1)}
-                                disabled={endIndex >= listResources.length}
-                            >
-                                <FontAwesomeIcon icon={faAngleRight}></FontAwesomeIcon>
-                            </button>
-                        </div>
+                        <Column width={250} flexGrow={1} fullText sortable>
+                            <HeaderCell>Topic Name</HeaderCell>
+                            <CompactCell dataKey="topicName" />
+                        </Column>
+
+                        <Column width={250} flexGrow={1} fullText sortable>
+                            <HeaderCell>Game Name</HeaderCell>
+                            <CompactCell dataKey="gameName" />
+                        </Column>
+
+                        <Column width={100} fixed fullText sortable>
+                            <HeaderCell>Status</HeaderCell>
+                            <Cell>
+                                {(rowData) => (
+                                    <span
+                                        className={`badge ${
+                                            rowData?.status === true ? 'bg-label-success' : 'bg-label-danger'
+                                        } me-1`}
+                                    >
+                                        {rowData?.status === true ? 'Active' : 'InActive'}
+                                    </span>
+                                )}
+                            </Cell>
+                        </Column>
+
+                        <Column width={100} fixed fullText sortable>
+                            <HeaderCell> View Analysis</HeaderCell>
+                            <Cell style={{ padding: 6 }}>
+                                {(rowData) => (
+                                    <RsuiteButton
+                                        color="red"
+                                        appearance="primary"
+                                        onClick={() => handleDeleteResource(rowData.id)}
+                                    >
+                                        Delete
+                                    </RsuiteButton>
+                                )}
+                            </Cell>
+                        </Column>
+                    </Table>
+                    <div style={{ padding: 20 }}>
+                        <Pagination
+                            prev
+                            next
+                            first
+                            last
+                            ellipsis
+                            boundaryLinks
+                            maxButtons={5}
+                            size="xs"
+                            layout={['total', '-', 'limit', '|', 'pager', 'skip']}
+                            total={listResources?.length}
+                            limitOptions={[10, 30, 50]}
+                            limit={limit}
+                            activePage={page}
+                            onChangePage={setPage}
+                            onChangeLimit={handleChangeLimit}
+                        />
                     </div>
                 </div>
             </div>
