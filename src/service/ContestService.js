@@ -48,3 +48,17 @@ export const updateContest = async (data, id) => {
         }
     }
 };
+
+export const deleteContest = async (id) => {
+    let response;
+    try {
+        response = await request.deleteApi(`/contests/${id}`);
+        return response.data;
+    } catch (error) {
+        throw error;
+    } finally {
+        if (response && response.request && response.request._headerSent) {
+            response.request.end();
+        }
+    }
+};

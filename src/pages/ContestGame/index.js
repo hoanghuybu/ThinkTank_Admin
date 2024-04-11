@@ -257,6 +257,19 @@ function ContestGame() {
         }
     };
 
+    const handleDeleteContest = async (id) => {
+        setLoading(true);
+        try {
+            const result = await contestService.deleteContest(id);
+            if (result) {
+                await getListContest().then(setLoading(false));
+            }
+        } catch (error) {
+            toast.error('Error:' + error.response.data.error);
+            setLoading(false);
+        }
+    };
+
     const handleContestSubmit = async (e) => {
         e.preventDefault();
 
@@ -880,7 +893,7 @@ function ContestGame() {
                                 <CompactCell dataKey="name" />
                             </Column>
 
-                            <Column width={150} fixed fullText sortable>
+                            <Column width={200} fixed fullText sortable>
                                 <HeaderCell>Game Name</HeaderCell>
                                 <CompactCell dataKey="gameName" />
                             </Column>
@@ -905,6 +918,20 @@ function ContestGame() {
                                             onClick={() => handleViewClick(rowData)}
                                         >
                                             View
+                                        </RsuiteButton>
+                                    )}
+                                </Cell>
+                            </Column>
+                            <Column width={40} flexGrow={1}>
+                                <HeaderCell> Delete</HeaderCell>
+                                <Cell style={{ padding: 6 }}>
+                                    {(rowData) => (
+                                        <RsuiteButton
+                                            color="red"
+                                            appearance="primary"
+                                            onClick={() => handleDeleteContest(rowData.id)}
+                                        >
+                                            Delete
                                         </RsuiteButton>
                                     )}
                                 </Cell>
