@@ -22,8 +22,6 @@ function TableCustome({ data }) {
         }
     }, [data]);
 
-    console.log(dataArchivement);
-
     //sub component
     const ImageCell = ({ rowData, dataKey, ...props }) => (
         <Cell {...props} style={{ padding: 0 }}>

@@ -77,14 +77,6 @@ function ContestGame() {
     };
     const handleShow = () => setShow(true);
 
-    //handle multi step form
-    const displayStep = (stepNumber) => {
-        if (stepNumber >= 1 && stepNumber <= 3) {
-            setCurrentStep(stepNumber);
-            updateProgressBar();
-        }
-    };
-
     const isStepDataValid = () => {
         switch (currentStep) {
             case 1:
@@ -101,6 +93,8 @@ function ContestGame() {
                 return false;
         }
     };
+
+    //handle multi step form
 
     const nextStep = () => {
         if (isStepDataValid()) {
@@ -122,13 +116,6 @@ function ContestGame() {
     const updateProgressBar = () => {
         const progressPercentage = ((currentStep - 1) / 2) * 100;
         return { width: progressPercentage + '%' };
-    };
-
-    const displayFourStep = (stepNumber) => {
-        if (stepNumber >= 1 && stepNumber <= 4) {
-            setCurrentStep(stepNumber);
-            updateFourProgressBar();
-        }
     };
 
     const nextFourStep = () => {
@@ -195,8 +182,6 @@ function ContestGame() {
         updatedImageList[index] = { ...updatedImageList[index], description };
         setListImageURL(updatedImageList);
     };
-
-    console.log(listImageURL);
 
     //handle view detail contest
     const handleViewClick = (item) => {
@@ -268,15 +253,12 @@ function ContestGame() {
                 setListContest(result.results);
             }
         } catch (error) {
-            console.log(error);
+            toast.error('Error:' + error);
         }
     };
 
     const handleContestSubmit = async (e) => {
         e.preventDefault();
-
-        console.log(currentStep);
-        console.log('submit');
 
         if (gameId === '5') {
             if (currentStep < 4) {
@@ -330,8 +312,6 @@ function ContestGame() {
                     assets: newAssets,
                 };
 
-                console.log(formSubmit);
-
                 try {
                     const response = await contestService.createContest(formSubmit);
 
@@ -345,12 +325,13 @@ function ContestGame() {
                         toast.error(error.response.data.error);
                     } else if (error.request) {
                         toast.dismiss(toastId.current);
-                        console.log(error.request);
+                        toast.error(error.request);
                     } else {
                         toast.dismiss(toastId.current);
-                        console.log('Error', error.message);
+                        toast.error('Error: ', error.message);
                     }
-                    console.log(error.config);
+                    toast.dismiss(toastId.current);
+                    toast.error(error.config);
                 }
             }
         } else {
@@ -415,8 +396,6 @@ function ContestGame() {
                     assets: newAssets,
                 };
 
-                console.log(formSubmit);
-
                 try {
                     const response = await contestService.createContest(formSubmit);
 
@@ -430,12 +409,13 @@ function ContestGame() {
                         toast.error(error.response.data.error);
                     } else if (error.request) {
                         toast.dismiss(toastId.current);
-                        console.log(error.request);
+                        toast.error(error.request);
                     } else {
                         toast.dismiss(toastId.current);
-                        console.log('Error', error.message);
+                        toast.error('Error', error.message);
                     }
-                    console.log(error.config);
+                    toast.dismiss(toastId.current);
+                    toast.error(error.config);
                 }
             }
         }
@@ -472,18 +452,10 @@ function ContestGame() {
                                 ></div>
                             </div>
                             <div className="step-container d-flex justify-content-between">
-                                <div className="step-circle" onClick={() => displayFourStep(1)}>
-                                    1
-                                </div>
-                                <div className="step-circle" onClick={() => displayFourStep(2)}>
-                                    2
-                                </div>
-                                <div className="step-circle" onClick={() => displayFourStep(3)}>
-                                    3
-                                </div>
-                                <div className="step-circle" onClick={() => displayFourStep(4)}>
-                                    4
-                                </div>
+                                <div className="step-circle">1</div>
+                                <div className="step-circle">2</div>
+                                <div className="step-circle">3</div>
+                                <div className="step-circle">4</div>
                             </div>
 
                             <Form onSubmit={handleContestSubmit} id="multi-step-form">
@@ -694,15 +666,9 @@ function ContestGame() {
                                 ></div>
                             </div>
                             <div className="step-container d-flex justify-content-between">
-                                <div className="step-circle" onClick={() => displayStep(1)}>
-                                    1
-                                </div>
-                                <div className="step-circle" onClick={() => displayStep(2)}>
-                                    2
-                                </div>
-                                <div className="step-circle" onClick={() => displayStep(3)}>
-                                    3
-                                </div>
+                                <div className="step-circle">1</div>
+                                <div className="step-circle">2</div>
+                                <div className="step-circle">3</div>
                             </div>
 
                             <Form onSubmit={handleContestSubmit} id="multi-step-form">

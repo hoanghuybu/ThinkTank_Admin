@@ -6,6 +6,7 @@ import { BiArrowBack } from 'react-icons/bi';
 import * as analysisService from '~/service/AnalysisService';
 import React, { useState, useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 function Analysis() {
     const [accountAnalysis, setAccountAnalysis] = useState();
@@ -17,10 +18,9 @@ function Analysis() {
         try {
             const id = parseInt(accountId, 10);
             const result = await analysisService.getAnalysisByAccountId(id);
-            console.log(result);
             setAccountAnalysis(result);
         } catch (error) {
-            console.log(error);
+            toast.error('Error:' + error);
         }
     };
 

@@ -5,6 +5,7 @@ import * as leaderboardService from '../../service/LeaderboardService';
 import * as contestService from '../../service/ContestService';
 import './Leaderboard.scss';
 import images from '~/assets/images';
+import { toast } from 'react-toastify';
 
 function Leaderboard() {
     const [selectedButton, setSelectedButton] = useState('Game');
@@ -27,23 +28,14 @@ function Leaderboard() {
     };
 
     //API
-    const getListGames = async () => {
-        try {
-            const result = await dashboardManagement.getListGames();
-            setListGames(result.results);
-        } catch (error) {
-            console.log(error);
-        }
-    };
 
     const getListLeaderboardGame = async () => {
-        console.log(gameId);
         try {
             const result = await leaderboardService.getListLeaderboardGame(gameId);
-            console.log(result.results);
+
             setListLeaderboardGame(result.results);
         } catch (error) {
-            console.log(error);
+            toast.error('Error:' + error);
         }
     };
 
@@ -54,7 +46,7 @@ function Leaderboard() {
             setListContest(result.results);
             setContestId('');
         } catch (error) {
-            console.log(error);
+            toast.error('Error:' + error);
         }
     };
 
@@ -64,11 +56,20 @@ function Leaderboard() {
             const result = await leaderboardService.getListLeaderboardContest(accessToken, contestId);
             setListLeaderboardContest(result);
         } catch (error) {
-            console.log(error);
+            toast.error('Error:' + error);
         }
     };
 
     useEffect(() => {
+        const getListGames = async () => {
+            try {
+                const result = await dashboardManagement.getListGames();
+                setListGames(result.results);
+            } catch (error) {
+                toast.error('Error:' + error);
+            }
+        };
+
         getListGames();
     }, []);
 

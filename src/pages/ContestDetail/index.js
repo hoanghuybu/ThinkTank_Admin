@@ -181,7 +181,6 @@ function ContestDetail() {
             playTime: playTimeRef.current.value,
             assets: updatedAssets,
         };
-        console.log(formSubmit);
         try {
             const response = await contestService.updateContest(formSubmit, contest.id);
 
@@ -193,15 +192,17 @@ function ContestDetail() {
                 toast.dismiss(toastId.current);
                 toast.error(error.response.data.error);
             } else if (error.request) {
-                console.log(error.request);
+                toast.dismiss(toastId.current);
+                toast.error(error.request);
             } else {
-                console.log('Error', error.message);
+                toast.dismiss(toastId.current);
+                toast.error('Error: ' + error.message);
             }
-            console.log(error.config);
+            toast.dismiss(toastId.current);
+            toast.error(error.config);
         }
     };
 
-    console.log(contest);
     return (
         <div className="content-wrapper">
             <div className="container-xxl flex-grow-1 container-p-y">

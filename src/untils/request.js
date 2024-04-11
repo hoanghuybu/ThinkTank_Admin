@@ -1,4 +1,5 @@
 import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const request = axios.create({
     baseURL: process.env.REACT_APP_BASE_URL,
@@ -47,12 +48,12 @@ const refreshAccessToken = async () => {
         const refreshToken = sessionStorage.getItem('refreshToken');
         const accessToken = sessionStorage.getItem('accessToken');
         if (!refreshToken) {
-            console.log('No refreshToken');
+            toast.error('No refreshToken');
             return null;
         }
 
         if (!accessToken) {
-            console.log('No accessToken');
+            toast.error('No accessToken');
             return null;
         }
 
@@ -68,7 +69,7 @@ const refreshAccessToken = async () => {
         sessionStorage.setItem('refreshToken', response.data.refreshToken);
         return resAccessToken;
     } catch (error) {
-        console.error('Error refreshing access token:', error);
+        toast.error('Error refreshing access token:', error);
         return null;
     }
 };

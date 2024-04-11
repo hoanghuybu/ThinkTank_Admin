@@ -85,12 +85,6 @@ function ResourceDetail() {
     };
 
     //handle multi step form
-    const displayStep = (stepNumber) => {
-        if (stepNumber >= 1 && stepNumber <= 3) {
-            setCurrentStep(stepNumber);
-            updateProgressBar();
-        }
-    };
 
     const handleResetData = () => {
         setTopic();
@@ -132,13 +126,6 @@ function ResourceDetail() {
     const updateProgressBar = () => {
         const progressPercentage = ((currentStep - 1) / 2) * 100;
         return { width: progressPercentage + '%' };
-    };
-
-    const displayTwoStep = (stepNumber) => {
-        if (stepNumber >= 1 && stepNumber <= 2) {
-            setCurrentStep(stepNumber);
-            updateTwoProgressBar();
-        }
     };
 
     const nextTwoStep = () => {
@@ -260,7 +247,7 @@ function ResourceDetail() {
                 setLoading(false);
             }
         } catch (error) {
-            console.log(error);
+            toast.error('Error:' + error);
         }
     };
 
@@ -271,21 +258,20 @@ function ResourceDetail() {
                 setListTopic(result.results);
             }
         } catch (error) {
-            console.log(error);
+            toast.error('Error:' + error);
         }
     };
 
     const handleDeleteResource = async (resourceId) => {
         const id = parseInt(resourceId, 10);
         const formSubmit = [id];
-        console.log(formSubmit);
         try {
             const result = await resourceGameService.deleteResource(formSubmit);
             if (result) {
                 await getListResources();
             }
         } catch (error) {
-            console.log(error);
+            toast.error('Error:' + error);
         }
     };
 
@@ -310,7 +296,7 @@ function ResourceDetail() {
                 handleShow();
             }
         } catch (error) {
-            console.log(error);
+            toast.error('Error:' + error);
         }
     };
 
@@ -338,8 +324,6 @@ function ResourceDetail() {
                     });
                 });
 
-                console.log(formSubmit);
-
                 try {
                     const response = await resourceGameService.createResource(formSubmit);
 
@@ -352,11 +336,14 @@ function ResourceDetail() {
                         toast.dismiss(toastId.current);
                         toast.error(error.response.data.error);
                     } else if (error.request) {
-                        console.log(error.request);
+                        toast.dismiss(toastId.current);
+                        toast.error('Error: ' + error.request);
                     } else {
-                        console.log('Error', error.message);
+                        toast.dismiss(toastId.current);
+                        toast.error('Error: ' + error.message);
                     }
-                    console.log(error.config);
+                    toast.dismiss(toastId.current);
+                    toast.error('Error: ' + error.config);
                 }
             }
         } else {
@@ -391,8 +378,6 @@ function ResourceDetail() {
                     });
                 }
 
-                console.log(formSubmit);
-
                 try {
                     const response = await resourceGameService.createResource(formSubmit);
 
@@ -405,11 +390,14 @@ function ResourceDetail() {
                         toast.dismiss(toastId.current);
                         toast.error(error.response.data.error);
                     } else if (error.request) {
-                        console.log(error.request);
+                        toast.dismiss(toastId.current);
+                        toast.error('Error: ' + error.request);
                     } else {
-                        console.log('Error', error.message);
+                        toast.dismiss(toastId.current);
+                        toast.error('Error: ' + error.message);
                     }
-                    console.log(error.config);
+                    toast.dismiss(toastId.current);
+                    toast.error('Error: ' + error.config);
                 }
             }
         }
@@ -426,8 +414,6 @@ function ResourceDetail() {
             getListTopic();
         }
     }, [gameId]);
-
-    console.log(listResources);
 
     return (
         <>
@@ -476,12 +462,8 @@ function ResourceDetail() {
                                 ></div>
                             </div>
                             <div className="step-container d-flex justify-content-between">
-                                <div className="step-circle" onClick={() => displayTwoStep(1)}>
-                                    1
-                                </div>
-                                <div className="step-circle" onClick={() => displayTwoStep(2)}>
-                                    2
-                                </div>
+                                <div className="step-circle">1</div>
+                                <div className="step-circle">2</div>
                             </div>
 
                             <Form onSubmit={handleSubmitResource} id="multi-step-form">
@@ -566,15 +548,9 @@ function ResourceDetail() {
                                 ></div>
                             </div>
                             <div className="step-container d-flex justify-content-between">
-                                <div className="step-circle" onClick={() => displayStep(1)}>
-                                    1
-                                </div>
-                                <div className="step-circle" onClick={() => displayStep(2)}>
-                                    2
-                                </div>
-                                <div className="step-circle" onClick={() => displayStep(3)}>
-                                    3
-                                </div>
+                                <div className="step-circle">1</div>
+                                <div className="step-circle">2</div>
+                                <div className="step-circle">3</div>
                             </div>
 
                             <Form onSubmit={handleSubmitResource} id="multi-step-form">

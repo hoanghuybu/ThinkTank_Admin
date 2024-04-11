@@ -68,11 +68,11 @@ function LoginPage() {
             if (error.response) {
                 toast.error(error.response.data.error);
             } else if (error.request) {
-                // console.log(error.request);
+                toast.error('Error: ' + error.request);
             } else {
-                console.log('Error', error.message);
+                toast.error('Error: ' + error.message);
             }
-            console.log(error.config);
+            toast.error('Error: ' + error.config);
         } finally {
             setIsLoading(false);
         }

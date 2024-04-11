@@ -69,7 +69,6 @@ export const getListResourceByGameID = async (Page, PageSize, GameId) => {
 
 export const deleteResource = async (data) => {
     let response;
-    console.log(data);
     try {
         response = await request.deleteApi('/assets', {
             data: data,

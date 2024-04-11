@@ -5,6 +5,7 @@ import { CChartBar, CChartPie } from '@coreui/react-chartjs';
 import { Carousel } from 'react-bootstrap';
 import * as dashboardManagement from '~/service/DashboardService';
 import React, { useState, useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const listGame = [
     {
@@ -43,7 +44,7 @@ function Dashboard() {
                 const result = await dashboardManagement.getGameReport();
                 setGameReport(result);
             } catch (error) {
-                console.log(error);
+                toast.error('Error:' + error);
             }
         };
 
@@ -52,7 +53,7 @@ function Dashboard() {
                 const result = await dashboardManagement.getContestReport();
                 setContestReport(result);
             } catch (error) {
-                console.log(error);
+                toast.error('Error:' + error);
             }
         };
 
@@ -62,7 +63,7 @@ function Dashboard() {
                 const gameSort = result.results.sort((a, b) => b.amoutPlayer - a.amoutPlayer);
                 setListGames(gameSort.slice(0, 3));
             } catch (error) {
-                console.log(error);
+                toast.error('Error:' + error);
             }
         };
 
@@ -98,7 +99,6 @@ function Dashboard() {
                     contestCountsByMonth[monthName] = (contestCountsByMonth[monthName] || 0) + 1;
                 }
             });
-            console.log(contestCountsByMonth);
             setContestByMonth(contestCountsByMonth);
         }
     }, [contestReport]);

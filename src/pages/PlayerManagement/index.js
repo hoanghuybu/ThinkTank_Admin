@@ -7,6 +7,7 @@ import * as playerManagementService from '~/service/PlayerManagementService';
 import './PlayerManagement.scss';
 
 import SearchIcon from '@rsuite/icons/Search';
+import { toast } from 'react-toastify';
 
 const { Column, HeaderCell, Cell } = Table;
 const CompactCell = (props) => <Cell {...props} style={{ padding: 6 }} />;
@@ -57,7 +58,7 @@ function PlayerManagement() {
                 setListPlayer(result.results);
             }
         } catch (error) {
-            console.log(error);
+            toast.error('Error:' + error);
         }
     };
 
@@ -172,7 +173,7 @@ function PlayerManagement() {
                 <div className="w-100 d-flex justify-content-end mt-4 mb-4">
                     <Stack spacing={6}>
                         <InputGroup inside>
-                            <Input placeholder="Search" value={searchKeyword} onChange={setSearchKeyword} />
+                            <Input placeholder="Search by name" value={searchKeyword} onChange={setSearchKeyword} />
                             <InputGroup.Addon>
                                 <SearchIcon />
                             </InputGroup.Addon>

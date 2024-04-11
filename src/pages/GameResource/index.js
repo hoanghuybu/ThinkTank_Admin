@@ -5,6 +5,7 @@ import './GameResource.scss';
 import images from '~/assets/images';
 
 import * as dashboardManagement from '~/service/DashboardService';
+import { toast } from 'react-toastify';
 
 function GameResource() {
     const [listGames, setListGames] = useState([]);
@@ -14,7 +15,7 @@ function GameResource() {
             const result = await dashboardManagement.getListGames();
             setListGames(result.results);
         } catch (error) {
-            console.log(error);
+            toast.error('Error:' + error);
         }
     };
     useEffect(() => {

@@ -5,20 +5,21 @@ import './Contest.scss';
 
 import * as dashboardManagement from '~/service/DashboardService';
 import images from '~/assets/images';
+import { toast } from 'react-toastify';
 
 function Contest() {
     const [listGames, setListGames] = useState([]);
 
-    const getListGames = async () => {
-        try {
-            const result = await dashboardManagement.getListGames();
-            setListGames(result.results);
-        } catch (error) {
-            console.log(error);
-        }
-    };
-
     useEffect(() => {
+        const getListGames = async () => {
+            try {
+                const result = await dashboardManagement.getListGames();
+                setListGames(result.results);
+            } catch (error) {
+                toast.error('Error:' + error);
+            }
+        };
+
         getListGames();
     }, []);
     return (
