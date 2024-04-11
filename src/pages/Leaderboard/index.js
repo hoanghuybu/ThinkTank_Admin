@@ -52,9 +52,8 @@ function Leaderboard() {
 
     const getListLeaderboardContest = async () => {
         try {
-            const accessToken = sessionStorage.getItem('accessToken');
-            const result = await leaderboardService.getListLeaderboardContest(accessToken, contestId);
-            setListLeaderboardContest(result);
+            const result = await leaderboardService.getListLeaderboardContest(contestId);
+            setListLeaderboardContest(result.results);
         } catch (error) {
             toast.error('Error:' + error);
         }
@@ -235,30 +234,32 @@ function Leaderboard() {
                         </div>
                         <div className="playerslist">
                             {listLeaderboardContest && listLeaderboardContest.length > 0 ? (
-                                <div className="table-leaderboard">
-                                    <div>Rank</div>
-                                    <div>Name</div>
-                                    <div>Avatar</div>
-                                    <div>Mark</div>
-                                </div>
+                                <>
+                                    <div className="table-leaderboard">
+                                        <div>Rank</div>
+                                        <div>Name</div>
+                                        <div>Avatar</div>
+                                        <div>Mark</div>
+                                    </div>
+                                    <div className="list">
+                                        {listLeaderboardContest.map((leader, index) => (
+                                            <div className="player" key={index}>
+                                                <span> {leader.rank}</span>
+                                                <div className="user">
+                                                    <span> {leader.fullName} </span>
+                                                </div>
+                                                <span>
+                                                    {' '}
+                                                    <img className="image" src={leader.avatar} alt="Player" />{' '}
+                                                </span>
+                                                <span> {leader.mark} </span>
+                                            </div>
+                                        ))}
+                                    </div>
+                                </>
                             ) : (
                                 <h2 className="text-center">No Data</h2>
                             )}
-                            <div className="list">
-                                {listLeaderboardContest.map((leader, index) => (
-                                    <div className="player" key={index}>
-                                        <span> {leader.rank}</span>
-                                        <div className="user">
-                                            <span> {leader.fullName} </span>
-                                        </div>
-                                        <span>
-                                            {' '}
-                                            <img className="image" src={leader.avatar} alt="Player" />{' '}
-                                        </span>
-                                        <span> {leader.mark} </span>
-                                    </div>
-                                ))}
-                            </div>
                         </div>
                     </div>
                 )}

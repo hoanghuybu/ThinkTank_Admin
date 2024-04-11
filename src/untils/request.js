@@ -102,6 +102,9 @@ requestAPI.interceptors.response.use(
                 return axios(originalRequest);
             }
         }
+        if (error.response.status === 403 && !originalRequest._retry) {
+            toast.warning('Your account is logged in somewhere else, please log out and log in again');
+        }
         return Promise.reject(error);
     },
 );

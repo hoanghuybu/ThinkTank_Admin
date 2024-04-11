@@ -72,7 +72,7 @@ function LoginPage() {
             } else {
                 toast.error('Error: ' + error.message);
             }
-            toast.error('Error: ' + error.config);
+            console.error('Error: ' + error.config);
         } finally {
             setIsLoading(false);
         }
