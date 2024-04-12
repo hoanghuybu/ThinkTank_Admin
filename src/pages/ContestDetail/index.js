@@ -173,7 +173,7 @@ function ContestDetail() {
 
         const formSubmit = {
             name: nameContestRef.current.value,
-            thumbnail: thumnailURL ? thumnailURL.url : '',
+            thumbnail: thumnailURL ? thumnailURL.url : contest.thumbnail,
             startTime: startTimeRef.current.value,
             endTime: endTimeRef.current.value,
             coinBetting: coinBettingRef.current.value,
