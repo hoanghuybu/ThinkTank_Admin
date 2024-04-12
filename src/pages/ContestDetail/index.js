@@ -101,7 +101,7 @@ function ContestDetail() {
         }
 
         if (contest.gameId !== 5 && contest.gameId !== 1) {
-            toast.info('Hello');
+            notifyToast();
         }
 
         let updatedAssets = [];
