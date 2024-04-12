@@ -251,11 +251,11 @@ function PlayerManagement() {
                             <Cell style={{ padding: 6 }}>
                                 {(rowData) => (
                                     <Button
-                                        color="red"
+                                        color={rowData?.status === true ? 'red' : 'orange'}
                                         appearance="primary"
                                         onClick={() => hanldeReportPlayer(rowData.id)}
                                     >
-                                        Block
+                                        {rowData?.status === true ? 'Block' : 'Unblock'}
                                     </Button>
                                 )}
                             </Cell>
