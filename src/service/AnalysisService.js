@@ -6,7 +6,9 @@ export const getAnalysisByAccountId = async (accountId) => {
         response = await request.getApi(`/analyses/${accountId}`);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response.status !== 403) {
+            throw error;
+        }
     } finally {
         if (response && response.request && response.request._headerSent) {
             response.request.end();

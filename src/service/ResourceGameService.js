@@ -11,7 +11,9 @@ export const getListTopicsOfGame = async (GameId) => {
 
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response.status !== 403) {
+            throw error;
+        }
     } finally {
         if (response && response.request && response.request._headerSent) {
             response.request.end();
@@ -25,7 +27,9 @@ export const createNewTopic = async (data) => {
         response = await request.postApi('/topics', data);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response.status !== 403) {
+            throw error;
+        }
     } finally {
         if (response && response.request && response.request._headerSent) {
             response.request.end();
@@ -39,7 +43,9 @@ export const createResource = async (data) => {
         response = await request.postApi('/assets', data);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response.status !== 403) {
+            throw error;
+        }
     } finally {
         if (response && response.request && response.request._headerSent) {
             response.request.end();
@@ -59,7 +65,9 @@ export const getListResourceByGameID = async (Page, PageSize, GameId) => {
         });
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response.status !== 403) {
+            throw error;
+        }
     } finally {
         if (response && response.request && response.request._headerSent) {
             response.request.end();
@@ -75,7 +83,9 @@ export const deleteResource = async (data) => {
         });
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response.status !== 403) {
+            throw error;
+        }
     } finally {
         if (response && response.request && response.request._headerSent) {
             response.request.end();

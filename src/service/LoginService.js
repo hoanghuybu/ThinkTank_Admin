@@ -6,7 +6,9 @@ export const login = async (data) => {
         response = await request.postNoToken('/accounts/authentication-admin', data);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response.status !== 403) {
+            throw error;
+        }
     } finally {
         if (response && response.request && response.request._headerSent) {
             response.request.end();
@@ -20,7 +22,9 @@ export const logout = async (accountId) => {
         response = await request.postApi(`/accounts/${accountId}/token-revoke`);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response.status !== 403) {
+            throw error;
+        }
     } finally {
         if (response && response.request && response.request._headerSent) {
             response.request.end();

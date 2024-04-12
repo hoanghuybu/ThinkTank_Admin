@@ -103,6 +103,7 @@ requestAPI.interceptors.response.use(
             }
         }
         if (error.response.status === 403 && !originalRequest._retry) {
+            originalRequest._retry = true;
             toast.warning('Your account is logged in somewhere else, please log out and log in again');
         }
         return Promise.reject(error);

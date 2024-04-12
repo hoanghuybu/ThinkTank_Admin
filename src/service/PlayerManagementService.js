@@ -11,7 +11,9 @@ export const getListPlayers = async (Page, PageSize) => {
         });
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response.status !== 403) {
+            throw error;
+        }
     } finally {
         if (response && response.request && response.request._headerSent) {
             response.request.end();
@@ -25,7 +27,9 @@ export const banPlayers = async (accountId) => {
         response = await request.getApi(`/accounts/${accountId}/account-banned`);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response.status !== 403) {
+            throw error;
+        }
     } finally {
         if (response && response.request && response.request._headerSent) {
             response.request.end();
@@ -39,7 +43,9 @@ export const listReports = async (accountId) => {
         response = await request.getApi(`/reports?AccountId2=${accountId}`);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response.status !== 403) {
+            throw error;
+        }
     } finally {
         if (response && response.request && response.request._headerSent) {
             response.request.end();

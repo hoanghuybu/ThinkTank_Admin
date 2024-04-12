@@ -95,7 +95,7 @@ function ResourceDetail() {
     const isStepDataValid = () => {
         switch (currentStep) {
             case 1:
-                return topic !== null && topic !== undefined;
+                return topic !== null && topic !== undefined && topic !== '';
             case 2:
                 return listImageURL.length > 0;
             case 3:
@@ -671,7 +671,7 @@ function ResourceDetail() {
                 </Modal.Footer>
             </Modal>
             <div className="d-flex align-items-center flex-column">
-                <h1 className="contest-title">
+                <h1 className="resource-title">
                     Resource of{' '}
                     {gameId === '1'
                         ? 'Flip Card'

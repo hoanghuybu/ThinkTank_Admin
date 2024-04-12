@@ -6,7 +6,9 @@ export const createContest = async (data) => {
         response = await request.postApi('/contests', data);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response.status !== 403) {
+            throw error;
+        }
     } finally {
         if (response && response.request && response.request._headerSent) {
             response.request.end();
@@ -27,7 +29,9 @@ export const getListContestByGameID = async (Page, PageSize, GameId, ContestStat
         });
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response.status !== 403) {
+            throw error;
+        }
     } finally {
         if (response && response.request && response.request._headerSent) {
             response.request.end();
@@ -41,7 +45,9 @@ export const updateContest = async (data, id) => {
         response = await request.putApi(`/contests/${id}`, data);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response.status !== 403) {
+            throw error;
+        }
     } finally {
         if (response && response.request && response.request._headerSent) {
             response.request.end();
@@ -55,7 +61,9 @@ export const deleteContest = async (id) => {
         response = await request.deleteApi(`/contests/${id}`);
         return response.data;
     } catch (error) {
-        throw error;
+        if (error.response.status !== 403) {
+            throw error;
+        }
     } finally {
         if (response && response.request && response.request._headerSent) {
             response.request.end();
