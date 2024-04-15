@@ -762,7 +762,7 @@ function ResourceDetail() {
                             ellipsis
                             boundaryLinks
                             maxButtons={5}
-                            size="xs"
+                            size="md"
                             layout={['total', '-', 'limit', '|', 'pager', 'skip']}
                             total={listResources?.length}
                             limitOptions={[10, 30, 50]}

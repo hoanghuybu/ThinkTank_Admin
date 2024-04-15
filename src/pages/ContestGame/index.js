@@ -956,7 +956,7 @@ function ContestGame() {
                                 ellipsis
                                 boundaryLinks
                                 maxButtons={5}
-                                size="xs"
+                                size="md"
                                 layout={['total', '-', 'limit', '|', 'pager', 'skip']}
                                 total={listContests?.length}
                                 limitOptions={[10, 30, 50]}
