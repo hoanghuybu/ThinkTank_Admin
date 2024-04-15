@@ -2,7 +2,7 @@ import { useLocation } from 'react-router-dom';
 import { BiArrowBack } from 'react-icons/bi';
 import { FaCameraRetro, FaMusic } from 'react-icons/fa';
 import { HiXMark } from 'react-icons/hi2';
-import React, { useEffect, useState, useRef } from 'react';
+import React, { useState, useRef } from 'react';
 import * as contestService from '~/service/ContestService';
 import { Uploader } from 'rsuite';
 import './ContestDetail.scss';

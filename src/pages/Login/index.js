@@ -66,7 +66,7 @@ function LoginPage() {
             }
         } catch (error) {
             if (error.response) {
-                toast.error(error.response.data.error);
+                toast.error(error.response.data.errors);
             } else if (error.request) {
                 toast.error('Error: ' + error.request);
             } else {

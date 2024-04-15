@@ -479,6 +479,7 @@ function ContestGame() {
                                                 <Form.Group controlId="formName">
                                                     <Form.Label>Name Contest</Form.Label>
                                                     <Form.Control
+                                                        size="lg"
                                                         type="text"
                                                         placeholder="Enter contest name"
                                                         value={name}
@@ -533,6 +534,7 @@ function ContestGame() {
                                                         <Form.Group controlId="formStartDate">
                                                             <Form.Label>Start Date</Form.Label>
                                                             <Form.Control
+                                                                size="lg"
                                                                 type="datetime-local"
                                                                 value={startTime}
                                                                 onChange={(e) => setStartTime(e.target.value)}
@@ -543,6 +545,7 @@ function ContestGame() {
                                                         <Form.Group controlId="formEndDate">
                                                             <Form.Label>End Date</Form.Label>
                                                             <Form.Control
+                                                                size="lg"
                                                                 type="datetime-local"
                                                                 value={endTime}
                                                                 onChange={(e) => setEndTime(e.target.value)}
@@ -554,6 +557,7 @@ function ContestGame() {
                                                 <Form.Group controlId="formCoinBetting">
                                                     <Form.Label>Coin Betting</Form.Label>
                                                     <Form.Select
+                                                        size="lg"
                                                         value={coinBetting}
                                                         onChange={(e) => setCoinBetting(e.target.value)}
                                                     >
@@ -565,8 +569,9 @@ function ContestGame() {
                                                 </Form.Group>
 
                                                 <Form.Group controlId="formPlayTime">
-                                                    <Form.Label>Play Time</Form.Label>
+                                                    <Form.Label>Play Time (second)</Form.Label>
                                                     <Form.Control
+                                                        size="lg"
                                                         type="number"
                                                         value={playTime}
                                                         onChange={(e) => setPlayTime(e.target.value)}
@@ -692,6 +697,7 @@ function ContestGame() {
                                                 <Form.Group controlId="formName">
                                                     <Form.Label>Name Contest</Form.Label>
                                                     <Form.Control
+                                                        size="lg"
                                                         type="text"
                                                         placeholder="Enter contest name"
                                                         value={name}
@@ -746,6 +752,7 @@ function ContestGame() {
                                                         <Form.Group controlId="formStartDate">
                                                             <Form.Label>Start Date</Form.Label>
                                                             <Form.Control
+                                                                size="lg"
                                                                 type="datetime-local"
                                                                 value={startTime}
                                                                 onChange={(e) => setStartTime(e.target.value)}
@@ -756,6 +763,7 @@ function ContestGame() {
                                                         <Form.Group controlId="formEndDate">
                                                             <Form.Label>End Date</Form.Label>
                                                             <Form.Control
+                                                                size="lg"
                                                                 type="datetime-local"
                                                                 value={endTime}
                                                                 onChange={(e) => setEndTime(e.target.value)}
@@ -767,6 +775,7 @@ function ContestGame() {
                                                 <Form.Group controlId="formCoinBetting">
                                                     <Form.Label>Coin Betting</Form.Label>
                                                     <Form.Select
+                                                        size="lg"
                                                         value={coinBetting}
                                                         onChange={(e) => setCoinBetting(e.target.value)}
                                                     >
@@ -778,8 +787,9 @@ function ContestGame() {
                                                 </Form.Group>
 
                                                 <Form.Group controlId="formPlayTime">
-                                                    <Form.Label>Play Time</Form.Label>
+                                                    <Form.Label>Play Time (second)</Form.Label>
                                                     <Form.Control
+                                                        size="lg"
                                                         type="number"
                                                         value={playTime}
                                                         onChange={(e) => setPlayTime(e.target.value)}

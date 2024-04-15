@@ -1,6 +1,18 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { Table, Pagination, Button, Input, InputGroup, Stack, DOMHelper, Modal, Panel, PanelGroup } from 'rsuite';
+import {
+    Table,
+    Pagination,
+    Button,
+    Input,
+    InputGroup,
+    Stack,
+    DOMHelper,
+    Modal,
+    Panel,
+    PanelGroup,
+    SelectPicker,
+} from 'rsuite';
 
 //util
 import * as playerManagementService from '~/service/PlayerManagementService';
@@ -33,6 +45,8 @@ const ImageCell = ({ rowData, dataKey, ...props }) => (
     </Cell>
 );
 
+const dataFilter = ['Reported', 'Active', 'Inactive'].map((item) => ({ label: item, value: item }));
+
 const { getHeight } = DOMHelper;
 
 function PlayerManagement() {
@@ -46,6 +60,7 @@ function PlayerManagement() {
     const [open, setOpen] = React.useState(false);
     const [blockId, setBlockId] = useState(0);
     const [listReport, setListReport] = useState([]);
+    const [filter, setFilter] = useState('');
     const navigate = useNavigate();
 
     //API
@@ -102,6 +117,18 @@ function PlayerManagement() {
         if (sortedData) {
             sortedData = sortedData.filter((item) => {
                 if (!item.fullName.includes(searchKeyword)) {
+                    return false;
+                }
+
+                if (filter === 'Reported' && item.amountReport < 0) {
+                    return false;
+                }
+
+                if (filter === 'Active' && !item.status === true) {
+                    return false;
+                }
+
+                if (filter === 'Inactive' && !item.status === false) {
                     return false;
                 }
 
@@ -172,8 +199,20 @@ function PlayerManagement() {
                 </Modal>
                 <div className="w-100 d-flex justify-content-end mt-4 mb-4">
                     <Stack spacing={6}>
+                        <SelectPicker
+                            label="Filter"
+                            data={dataFilter}
+                            searchable={false}
+                            value={filter}
+                            onChange={setFilter}
+                            style={{ width: 224 }}
+                        />
                         <InputGroup inside>
-                            <Input placeholder="Search by name" value={searchKeyword} onChange={setSearchKeyword} />
+                            <Input
+                                placeholder="Search by player name"
+                                value={searchKeyword}
+                                onChange={setSearchKeyword}
+                            />
                             <InputGroup.Addon>
                                 <SearchIcon />
                             </InputGroup.Addon>
@@ -191,12 +230,16 @@ function PlayerManagement() {
                         loading={loading}
                         // virtualized
                     >
+                        <Column width={60} align="center" fixed fullText sortable>
+                            <HeaderCell>Id</HeaderCell>
+                            <CompactCell dataKey="id" />
+                        </Column>
                         <Column width={100} align="center" fixed sortable>
                             <HeaderCell>Code</HeaderCell>
                             <Cell dataKey="code" />
                         </Column>
 
-                        <Column width={80} align="center">
+                        <Column width={80} fixed align="center">
                             <HeaderCell>Avatar</HeaderCell>
                             <ImageCell dataKey="avatar" />
                         </Column>
@@ -214,7 +257,7 @@ function PlayerManagement() {
                             <HeaderCell>Email</HeaderCell>
                             <CompactCell dataKey="email" />
                         </Column>
-                        <Column width={50} flexGrow={1} sortable>
+                        <Column width={100} flexGrow={1} sortable>
                             <HeaderCell>Report Number</HeaderCell>
                             <Cell dataKey="amountReport" />
                         </Column>
@@ -270,7 +313,7 @@ function PlayerManagement() {
                             ellipsis
                             boundaryLinks
                             maxButtons={5}
-                            size="xs"
+                            size="md"
                             layout={['total', '-', 'limit', '|', 'pager', 'skip']}
                             total={listPlayers?.length}
                             limitOptions={[10, 30, 50]}
