@@ -422,13 +422,15 @@ function ContestDetail() {
                                                     Contest Name
                                                 </label>
                                                 <div className="col-sm-9">
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                        id="basic-default-name"
-                                                        defaultValue={contest?.name}
-                                                        ref={nameContestRef}
-                                                    />
+                                                    <div className="input-group input-group-lg">
+                                                        <input
+                                                            type="text"
+                                                            className="form-control"
+                                                            id="basic-default-name"
+                                                            defaultValue={contest?.name}
+                                                            ref={nameContestRef}
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div className="row mb-3">
@@ -439,13 +441,15 @@ function ContestDetail() {
                                                     Start Time
                                                 </label>
                                                 <div className="col-sm-9">
-                                                    <input
-                                                        type="datetime-local"
-                                                        className="form-control"
-                                                        id="basic-default-company"
-                                                        defaultValue={contest?.startTime}
-                                                        ref={startTimeRef}
-                                                    />
+                                                    <div className="input-group input-group-lg">
+                                                        <input
+                                                            type="datetime-local"
+                                                            className="form-control"
+                                                            id="basic-default-company"
+                                                            defaultValue={contest?.startTime}
+                                                            ref={startTimeRef}
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div className="row mb-3">
@@ -456,24 +460,28 @@ function ContestDetail() {
                                                     End Time
                                                 </label>
                                                 <div className="col-sm-9">
-                                                    <input
-                                                        type="datetime-local"
-                                                        className="form-control"
-                                                        id="basic-default-company"
-                                                        defaultValue={contest?.endTime}
-                                                        ref={endTimeRef}
-                                                    />
+                                                    <div className="input-group input-group-lg">
+                                                        <input
+                                                            type="datetime-local"
+                                                            className="form-control"
+                                                            id="basic-default-company"
+                                                            defaultValue={contest?.endTime}
+                                                            ref={endTimeRef}
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div className="row mb-3">
                                                 <label className="col-sm-3 col-form-label">Game Name</label>
                                                 <div className="col-sm-9">
-                                                    <input
-                                                        type="text"
-                                                        className="form-control"
-                                                        defaultValue={contest?.gameName}
-                                                        readOnly
-                                                    />
+                                                    <div className="input-group input-group-lg">
+                                                        <input
+                                                            type="text"
+                                                            className="form-control"
+                                                            defaultValue={contest?.gameName}
+                                                            readOnly
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
 
@@ -485,12 +493,14 @@ function ContestDetail() {
                                                     Coin Betting
                                                 </label>
                                                 <div className="col-sm-9">
-                                                    <input
-                                                        type="number"
-                                                        className="form-control phone-mask"
-                                                        defaultValue={contest?.coinBetting}
-                                                        ref={coinBettingRef}
-                                                    />
+                                                    <div className="input-group input-group-lg">
+                                                        <input
+                                                            type="number"
+                                                            className="form-control phone-mask"
+                                                            defaultValue={contest?.coinBetting}
+                                                            ref={coinBettingRef}
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div className="row mb-3">
@@ -501,12 +511,14 @@ function ContestDetail() {
                                                     Play Time
                                                 </label>
                                                 <div className="col-sm-9">
-                                                    <input
-                                                        type="number"
-                                                        className="form-control phone-mask"
-                                                        defaultValue={contest?.playTime}
-                                                        ref={playTimeRef}
-                                                    />
+                                                    <div className="input-group input-group-lg">
+                                                        <input
+                                                            type="number"
+                                                            className="form-control phone-mask"
+                                                            defaultValue={contest?.playTime}
+                                                            ref={playTimeRef}
+                                                        />
+                                                    </div>
                                                 </div>
                                             </div>
                                             <div className="row mb-3">
@@ -536,7 +548,7 @@ function ContestDetail() {
                                                     >
                                                         <div
                                                             style={{
-                                                                height: 200,
+                                                                height: 231,
                                                                 display: 'flex',
                                                                 alignItems: 'center',
                                                                 justifyContent: 'center',

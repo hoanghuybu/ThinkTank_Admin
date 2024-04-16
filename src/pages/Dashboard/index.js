@@ -141,7 +141,9 @@ function Dashboard() {
                                                 <small className="text-success fw-semibold">Sumary</small>
                                             </div>
                                             <span className="fw-semibold d-block mb-1">Contest</span>
-                                            <h3 className="card-title mb-2">{gameReport?.totalContest} contest</h3>
+                                            <h3 className="card-title fw-normal mb-2">
+                                                {gameReport?.totalContest} contest
+                                            </h3>
                                         </div>
                                     </div>
                                 </div>
@@ -159,7 +161,7 @@ function Dashboard() {
                                                 <small className="text-success fw-semibold">Sumary</small>
                                             </div>
                                             <span className="fw-semibold d-block mb-1">User</span>
-                                            <h3 className="card-title mb-2">{gameReport?.totalUser} user</h3>
+                                            <h3 className="card-title fw-normal mb-2">{gameReport?.totalUser} user</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -169,7 +171,7 @@ function Dashboard() {
                             <div className="card contest-summary-wrapper">
                                 <div className="row row-bordered g-0">
                                     <div className="col-md-8 contest-sumary-card">
-                                        <h4 className="card-header m-0 py-3 text-center">Contest Sumary</h4>
+                                        <h3 className="card-header m-0 py-3 text-center fw-bold">Contest Sumary</h3>
                                         <div className="w-100 p-4">
                                             <CCard>
                                                 <CCardBody>
@@ -193,7 +195,7 @@ function Dashboard() {
                                         </div>
                                     </div>
                                     <div className="col-md-4">
-                                        <h4 className="card-header m-0 py-3 text-center"> Top 1 Contest </h4>
+                                        <h3 className="card-header m-0 py-3 text-center fw-bold"> Top 1 Contest </h3>
                                         {contestReport?.bestContestes &&
                                             contestReport?.bestContestes.map((bestContest, index) => (
                                                 <div key={index} className="card-body">
@@ -229,7 +231,7 @@ function Dashboard() {
                                                 <small className="text-success fw-semibold">Sumary</small>
                                             </div>
                                             <span className="fw-semibold d-block mb-1">Room</span>
-                                            <h3 className="card-title mb-2">{gameReport?.totalRoom} room</h3>
+                                            <h3 className="card-title fw-normal mb-2">{gameReport?.totalRoom} room</h3>
                                         </div>
                                     </div>
                                 </div>
@@ -247,7 +249,9 @@ function Dashboard() {
                                                 <small className="text-success fw-semibold">Sumary</small>
                                             </div>
                                             <span className="fw-semibold d-block mb-1">New User</span>
-                                            <h3 className="card-title mb-2">{gameReport?.totalNewbieUser} user</h3>
+                                            <h3 className="card-title fw-normal mb-2">
+                                                {gameReport?.totalNewbieUser} user
+                                            </h3>
                                         </div>
                                     </div>
                                 </div>
@@ -291,7 +295,7 @@ function Dashboard() {
                             <div className="card h-100">
                                 <div className="card-header d-flex align-items-center justify-content-center pb-0">
                                     <div className="card-title m-3">
-                                        <h4 className="m-0 me-2">Game mode</h4>
+                                        <h3 className="m-0 fw-bold me-2">Game mode</h3>
                                     </div>
                                 </div>
                                 <div className="card-body">
@@ -328,7 +332,7 @@ function Dashboard() {
                             <div className="card h-100">
                                 <div className="card-header d-flex align-items-center justify-content-center pb-0">
                                     <div className="card-title m-3">
-                                        <h4 className="m-0 me-2">Top Game</h4>
+                                        <h3 className="m-0 fw-bold me-2">Top Game</h3>
                                     </div>
                                 </div>
                                 <div className="card-body d-flex align-items-around justify-content-center h-100 w-100 row p-0">

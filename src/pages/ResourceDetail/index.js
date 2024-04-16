@@ -439,6 +439,7 @@ function ResourceDetail() {
                             <Form.Group controlId="formOtherTopic">
                                 <Form.Label>Name Topic</Form.Label>
                                 <Form.Control
+                                    size="lg"
                                     type="text"
                                     placeholder="Enter new topic"
                                     value={otherTopic}

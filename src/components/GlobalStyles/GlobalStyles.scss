@@ -5,6 +5,8 @@
 // Import Chart.js custom tooltips styles
 @import '@coreui/chartjs/scss/coreui-chartjs';
 
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100..900&display=swap');
+
 :root {
     --primary: #f07b3f;
     --black: #000;
@@ -30,7 +32,7 @@ html {
     font-size: 70%;
 }
 body {
-    font-family: var(--font-family);
+    font-family: 'Inter', sans-serif;
     font-size: 1.6rem;
     line-height: 1.5;
     text-rendering: optimizeSpeed;

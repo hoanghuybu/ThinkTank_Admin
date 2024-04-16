@@ -71,7 +71,7 @@ function TableCustome({ data }) {
                         <ImageCell dataKey="avatar" />
                     </Column>
 
-                    <Column width={180}>
+                    <Column width={180} fullText>
                         <HeaderCell>Archivement Name</HeaderCell>
                         <Cell dataKey="name" />
                     </Column>
@@ -83,7 +83,7 @@ function TableCustome({ data }) {
                         </Cell>
                     </Column>
 
-                    <Column width={120}>
+                    <Column width={120} fullText>
                         <HeaderCell>Date</HeaderCell>
                         <Cell dataKey="completedDate" />
                     </Column>

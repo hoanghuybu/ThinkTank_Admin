@@ -6,6 +6,7 @@ import * as contestService from '../../service/ContestService';
 import './Leaderboard.scss';
 import images from '~/assets/images';
 import { toast } from 'react-toastify';
+import { Loader } from 'rsuite';
 
 function Leaderboard() {
     const [selectedButton, setSelectedButton] = useState('Game');
@@ -15,6 +16,7 @@ function Leaderboard() {
     const [index, setIndex] = useState(0);
     const [gameId, setGameId] = useState(1);
     const [listContests, setListContest] = useState([]);
+    const [loading, setLoading] = useState(false);
     const [contestId, setContestId] = useState('');
 
     //handle Select game
@@ -40,11 +42,15 @@ function Leaderboard() {
     };
 
     const getListContest = async () => {
+        setLoading(true);
         try {
             const id = parseInt(gameId, 10);
             const result = await contestService.getListContestByGameID(null, null, id, 1);
-            setListContest(result.results);
-            setContestId('');
+            if (result) {
+                setListContest(result.results);
+                setContestId('');
+                setLoading(false);
+            }
         } catch (error) {
             toast.error('Error:' + error);
         }
@@ -133,18 +139,26 @@ function Leaderboard() {
                     <div className="w-100 row m-3">
                         <h1 className="text-center">Select Contest</h1>
 
-                        <div>
-                            <Form.Group controlId="formCoinBetting">
-                                <Form.Select size="lg" value={contestId} onChange={(e) => setContestId(e.target.value)}>
-                                    <option value="">Select Contest</option>
-                                    {listContests.map((item, index) => (
-                                        <option key={index} value={item.id}>
-                                            {item.name}
-                                        </option>
-                                    ))}
-                                </Form.Select>
-                            </Form.Group>
-                        </div>
+                        {!loading ? (
+                            <div>
+                                <Form.Group controlId="formCoinBetting">
+                                    <Form.Select
+                                        size="lg"
+                                        value={contestId}
+                                        onChange={(e) => setContestId(e.target.value)}
+                                    >
+                                        <option value="">Select Contest</option>
+                                        {listContests.map((item, index) => (
+                                            <option key={index} value={item.id}>
+                                                {item.name}
+                                            </option>
+                                        ))}
+                                    </Form.Select>
+                                </Form.Group>
+                            </div>
+                        ) : (
+                            <Loader size="md"></Loader>
+                        )}
                     </div>
                 )}
                 {selectedButton === 'Game' && (
