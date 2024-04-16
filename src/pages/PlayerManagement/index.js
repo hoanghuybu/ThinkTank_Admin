@@ -120,7 +120,7 @@ function PlayerManagement() {
                     return false;
                 }
 
-                if (filter === 'Reported' && item.amountReport < 0) {
+                if (filter === 'Reported' && !item.amountReport > 0) {
                     return false;
                 }
 
@@ -315,7 +315,7 @@ function PlayerManagement() {
                             maxButtons={5}
                             size="md"
                             layout={['total', '-', 'limit', '|', 'pager', 'skip']}
-                            total={listPlayers?.length}
+                            total={getFilteredData()?.length}
                             limitOptions={[10, 30, 50]}
                             limit={limit}
                             activePage={page}

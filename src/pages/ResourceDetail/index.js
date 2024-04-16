@@ -6,7 +6,7 @@ import React, { useState, useEffect } from 'react';
 import * as resourceGameService from '~/service/ResourceGameService';
 import { Modal, Form } from 'react-bootstrap';
 import { useLocation } from 'react-router-dom';
-import { Uploader, DOMHelper, Table, Pagination } from 'rsuite';
+import { Uploader, DOMHelper, Table, Pagination, Loader, SelectPicker, Stack } from 'rsuite';
 import { Button as RsuiteButton } from 'rsuite';
 import { FaCameraRetro, FaMusic } from 'react-icons/fa';
 import { toast } from 'react-toastify';
@@ -58,7 +58,8 @@ function ResourceDetail() {
     const [sortColumn, setSortColumn] = useState();
     const [sortType, setSortType] = useState();
     const [loading, setLoading] = useState(false);
-    const [searchKeyword, setSearchKeyword] = useState('');
+    const [filterLoading, setFilterLoading] = useState(false);
+    const [filter, setFilter] = useState(0);
     const [showOtherForm, setShowOtherForm] = useState(false);
 
     const toastId = React.useRef(null);
@@ -202,11 +203,7 @@ function ResourceDetail() {
         let sortedData = listResources;
         if (sortedData) {
             sortedData = sortedData.filter((item) => {
-                if (!item.topicName.includes(searchKeyword)) {
-                    return false;
-                }
-
-                return true;
+                return filter === null || item.topicId === filter;
             });
         }
         if (sortColumn && sortType) {
@@ -236,6 +233,12 @@ function ResourceDetail() {
         return i >= start && i < end;
     });
 
+    let dataFilter = [];
+    //Filter by topic
+    if (listTopic.length > 0) {
+        dataFilter = listTopic.map((item) => ({ label: item?.name, value: item?.id }));
+    }
+
     //API
     const getListResources = async () => {
         setLoading(true);
@@ -252,10 +255,12 @@ function ResourceDetail() {
     };
 
     const getListTopic = async () => {
+        setFilterLoading(true);
         try {
             const result = await resourceGameService.getListTopicsOfGame(gameId);
             if (result) {
                 setListTopic(result.results);
+                setFilterLoading(false);
             }
         } catch (error) {
             toast.error('Error:' + error);
@@ -473,7 +478,7 @@ function ResourceDetail() {
                                             <div className="mb-3">
                                                 <Form.Group controlId="formCoinBetting">
                                                     <Form.Label>Game Topic</Form.Label>
-                                                    <Form.Select value={topic} onChange={handleTopicChange}>
+                                                    <Form.Select size="lg" value={topic} onChange={handleTopicChange}>
                                                         <option value="">Select game topic</option>
                                                         {listTopic?.map((topic, index) => (
                                                             <option key={index} value={topic?.id}>
@@ -560,7 +565,7 @@ function ResourceDetail() {
                                             <div className="mb-3">
                                                 <Form.Group controlId="formCoinBetting">
                                                     <Form.Label>Game Topic</Form.Label>
-                                                    <Form.Select value={topic} onChange={handleTopicChange}>
+                                                    <Form.Select size="lg" value={topic} onChange={handleTopicChange}>
                                                         <option value="">Select game topic</option>
                                                         {listTopic?.map((topic, index) => (
                                                             <option key={index} value={topic?.id}>
@@ -693,6 +698,22 @@ function ResourceDetail() {
                         Create Resource
                     </Button>
                 </div>
+                <div className="w-100 d-flex justify-content-end mt-4 mb-4">
+                    <Stack spacing={6}>
+                        {!filterLoading ? (
+                            <SelectPicker
+                                label="Filter by Topic"
+                                data={dataFilter}
+                                searchable={false}
+                                value={filter}
+                                onChange={setFilter}
+                                style={{ width: 224 }}
+                            />
+                        ) : (
+                            <Loader size="md" content="Loading ..." />
+                        )}
+                    </Stack>
+                </div>
                 <div className="w-100 m-5">
                     <Table
                         height={Math.max(getHeight(window) - 200, 400)}
@@ -708,14 +729,19 @@ function ResourceDetail() {
                             <HeaderCell>Id</HeaderCell>
                             <CompactCell dataKey="id" />
                         </Column>
-                        <Column width={200} flexGrow={1} align="center">
+                        <Column width={200} fixed flexGrow={1} align="center">
                             <HeaderCell>Image</HeaderCell>
                             <ImageCell gameId={gameId} dataKey="value" />
                         </Column>
 
-                        <Column width={250} flexGrow={1} fullText sortable>
+                        <Column width={125} flexGrow={1} fullText sortable>
                             <HeaderCell>Topic Name</HeaderCell>
                             <CompactCell dataKey="topicName" />
+                        </Column>
+
+                        <Column width={125} flexGrow={1} fullText sortable>
+                            <HeaderCell>Version</HeaderCell>
+                            <CompactCell dataKey="version" />
                         </Column>
 
                         <Column width={250} flexGrow={1} fullText sortable>
@@ -738,8 +764,8 @@ function ResourceDetail() {
                             </Cell>
                         </Column>
 
-                        <Column width={100} fixed fullText sortable>
-                            <HeaderCell> View Analysis</HeaderCell>
+                        <Column width={100} fixed fullText>
+                            <HeaderCell> Delete</HeaderCell>
                             <Cell style={{ padding: 6 }}>
                                 {(rowData) => (
                                     <RsuiteButton
@@ -764,7 +790,7 @@ function ResourceDetail() {
                             maxButtons={5}
                             size="md"
                             layout={['total', '-', 'limit', '|', 'pager', 'skip']}
-                            total={listResources?.length}
+                            total={getFilteredData()?.length}
                             limitOptions={[10, 30, 50]}
                             limit={limit}
                             activePage={page}

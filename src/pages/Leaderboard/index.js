@@ -135,7 +135,7 @@ function Leaderboard() {
 
                         <div>
                             <Form.Group controlId="formCoinBetting">
-                                <Form.Select value={contestId} onChange={(e) => setContestId(e.target.value)}>
+                                <Form.Select size="lg" value={contestId} onChange={(e) => setContestId(e.target.value)}>
                                     <option value="">Select Contest</option>
                                     {listContests.map((item, index) => (
                                         <option key={index} value={item.id}>

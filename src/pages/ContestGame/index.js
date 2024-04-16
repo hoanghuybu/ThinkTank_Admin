@@ -893,7 +893,7 @@ function ContestGame() {
                             rowHeight={90}
                             // virtualized
                         >
-                            <Column width={200} align="center">
+                            <Column width={200} fixed align="center">
                                 <HeaderCell>Thumnail</HeaderCell>
                                 <ImageCell dataKey="thumbnail" />
                             </Column>
