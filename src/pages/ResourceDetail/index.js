@@ -203,7 +203,7 @@ function ResourceDetail() {
         let sortedData = listResources;
         if (sortedData) {
             sortedData = sortedData.filter((item) => {
-                return filter === null || item.topicId === filter;
+                return filter === 0 || filter === null || item.topicId === filter;
             });
         }
         if (sortColumn && sortType) {
