@@ -10,6 +10,7 @@ import { Uploader, DOMHelper, Table, Pagination, Loader, SelectPicker, Stack } f
 import { Button as RsuiteButton } from 'rsuite';
 import { FaCameraRetro, FaMusic } from 'react-icons/fa';
 import { toast } from 'react-toastify';
+import ReactAudioPlayer from 'react-audio-player';
 import images from '~/assets/images';
 
 const { Column, HeaderCell, Cell } = Table;
@@ -20,7 +21,7 @@ const ImageCell = ({ gameId, rowData, dataKey, ...props }) => (
     <Cell {...props} style={{ padding: 3 }}>
         <div
             style={{
-                width: 150,
+                width: 350,
                 height: 80,
                 background: '#f5f5f5',
                 borderRadius: 6,
@@ -29,12 +30,17 @@ const ImageCell = ({ gameId, rowData, dataKey, ...props }) => (
             }}
         >
             {gameId === '2' ? (
-                <img alt="user avatar" src={images.headphoneImg} width="80" />
+                <>
+                    <img alt="user avatar" src={images.headphoneImg} width="40" />
+                    <div>
+                        <ReactAudioPlayer src={rowData.value} controls />
+                    </div>
+                </>
             ) : (
                 <img
                     alt="user avatar"
                     src={rowData.value ? rowData.value.replace(/^(.*?);/, '') : 'https://via.placeholder.com/40x40'}
-                    width="150"
+                    width="350"
                 />
             )}
         </div>
@@ -729,8 +735,8 @@ function ResourceDetail() {
                             <HeaderCell>Id</HeaderCell>
                             <CompactCell dataKey="id" />
                         </Column>
-                        <Column width={200} fixed flexGrow={1} align="center">
-                            <HeaderCell>Image</HeaderCell>
+                        <Column width={450} fixed flexGrow={1} align="center">
+                            <HeaderCell>Resource</HeaderCell>
                             <ImageCell gameId={gameId} dataKey="value" />
                         </Column>
 
@@ -739,12 +745,12 @@ function ResourceDetail() {
                             <CompactCell dataKey="topicName" />
                         </Column>
 
-                        <Column width={125} flexGrow={1} fullText sortable>
+                        <Column width={50} flexGrow={1} fullText sortable>
                             <HeaderCell>Version</HeaderCell>
                             <CompactCell dataKey="version" />
                         </Column>
 
-                        <Column width={250} flexGrow={1} fullText sortable>
+                        <Column width={200} flexGrow={1} fullText sortable>
                             <HeaderCell>Game Name</HeaderCell>
                             <CompactCell dataKey="gameName" />
                         </Column>

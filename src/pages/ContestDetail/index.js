@@ -7,6 +7,7 @@ import * as contestService from '~/service/ContestService';
 import { Uploader } from 'rsuite';
 import './ContestDetail.scss';
 import { toast } from 'react-toastify';
+import ReactAudioPlayer from 'react-audio-player';
 import images from '~/assets/images';
 
 function ContestDetail() {
@@ -274,21 +275,45 @@ function ContestDetail() {
                                                 />
                                             )}
                                         </div>
-                                        <div className="col-sm-8">
-                                            <div className="font-weight-bold">
-                                                Asset {item?.id}
-                                                <div className="text-muted">{item?.type}</div>
-                                            </div>
-                                        </div>
-                                        <div className="col-sm-2 d-flex align-items-center">
-                                            <button
-                                                onClick={() => handleRemoveAsset(item.id)}
-                                                className="btn p-0 "
-                                                type="button"
-                                            >
-                                                <HiXMark className="button-details" />
-                                            </button>
-                                        </div>
+                                        {contest?.gameId === 2 ? (
+                                            <>
+                                                <div className="col-sm-9 col-8">
+                                                    <div className="font-weight-bold">
+                                                        Asset {item?.id}
+                                                        <div className="text-muted">
+                                                            <ReactAudioPlayer src={item?.value} controls />
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                                <div className="col-sm-1 d-flex align-items-center">
+                                                    <button
+                                                        onClick={() => handleRemoveAsset(item.id)}
+                                                        className="btn p-0 "
+                                                        type="button"
+                                                    >
+                                                        <HiXMark className="button-details" />
+                                                    </button>
+                                                </div>
+                                            </>
+                                        ) : (
+                                            <>
+                                                <div className="col-sm-8">
+                                                    <div className="font-weight-bold">
+                                                        Asset {item?.id}
+                                                        <div className="text-muted">{item?.type}</div>
+                                                    </div>
+                                                </div>
+                                                <div className="col-sm-2 d-flex align-items-center">
+                                                    <button
+                                                        onClick={() => handleRemoveAsset(item.id)}
+                                                        className="btn p-0 "
+                                                        type="button"
+                                                    >
+                                                        <HiXMark className="button-details" />
+                                                    </button>
+                                                </div>
+                                            </>
+                                        )}
                                     </div>
                                 ))}
                                 <ul className="pagination d-flex justify-content-center">
