@@ -3,7 +3,7 @@ import * as request from '~/untils/request';
 export const getListTopicsOfGame = async (GameId) => {
     let response;
     try {
-        const response = await request.getApi('/topics', {
+        const response = await request.getApi('/topics?PageSize=1000&IsHavingAsset=1', {
             params: {
                 GameId,
             },

@@ -715,6 +715,7 @@ function ResourceDetail() {
                                 value={filter}
                                 onChange={setFilter}
                                 style={{ width: 224 }}
+                                virtualized
                             />
                         ) : (
                             <Loader size="md" content="Loading ..." />

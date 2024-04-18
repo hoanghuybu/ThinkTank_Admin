@@ -78,12 +78,16 @@ function PlayerManagement() {
     };
 
     const handleBlockPlayer = async () => {
-        if (blockId) {
-            const result = await playerManagementService.banPlayers(blockId);
-            if (result) {
-                getListPlayers();
-                setOpen(false);
+        try {
+            if (blockId) {
+                const result = await playerManagementService.banPlayers(blockId);
+                if (result) {
+                    getListPlayers();
+                    setOpen(false);
+                }
             }
+        } catch (error) {
+            toast.error('Error:' + error.response.data.error);
         }
     };
 
