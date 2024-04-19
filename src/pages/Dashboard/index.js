@@ -140,8 +140,10 @@ function Dashboard() {
                                                 </div>
                                                 <small className="text-success fw-semibold">Sumary</small>
                                             </div>
-                                            <span className="fw-semibold d-block mb-1">Contest</span>
-                                            <h3 className="card-title fw-normal mb-2">
+                                            <span style={{ fontSize: '20px' }} className="fw-semibold d-block mb-1">
+                                                Contest
+                                            </span>
+                                            <h3 style={{ fontSize: '16px' }} className="card-title fw-normal mb-2">
                                                 {gameReport?.totalContest} contest
                                             </h3>
                                         </div>
@@ -160,8 +162,12 @@ function Dashboard() {
                                                 </div>
                                                 <small className="text-success fw-semibold">Sumary</small>
                                             </div>
-                                            <span className="fw-semibold d-block mb-1">User</span>
-                                            <h3 className="card-title fw-normal mb-2">{gameReport?.totalUser} user</h3>
+                                            <span style={{ fontSize: '20px' }} className="fw-semibold d-block mb-1">
+                                                User
+                                            </span>
+                                            <h3 style={{ fontSize: '16px' }} className="card-title fw-normal mb-2">
+                                                {gameReport?.totalUser} user
+                                            </h3>
                                         </div>
                                     </div>
                                 </div>
@@ -200,9 +206,16 @@ function Dashboard() {
                                             contestReport?.bestContestes.map((bestContest, index) => (
                                                 <div key={index} className="card-body">
                                                     <div className="card text-center">
-                                                        <div className="card-header">Contest Name</div>
+                                                        <div
+                                                            style={{ fontSize: '18px' }}
+                                                            className="card-header fw-semibold"
+                                                        >
+                                                            Contest Name
+                                                        </div>
                                                         <div className="card-body">
-                                                            <p className="card-text">{bestContest?.nameTopContest}</p>
+                                                            <p style={{ fontSize: '16px' }} className="card-text">
+                                                                {bestContest?.nameTopContest}
+                                                            </p>
                                                         </div>
                                                         <div className="card-footer text-muted">
                                                             {' '}
@@ -230,8 +243,12 @@ function Dashboard() {
                                                 </div>
                                                 <small className="text-success fw-semibold">Sumary</small>
                                             </div>
-                                            <span className="fw-semibold d-block mb-1">Room</span>
-                                            <h3 className="card-title fw-normal mb-2">{gameReport?.totalRoom} room</h3>
+                                            <span style={{ fontSize: '20px' }} className="fw-semibold d-block mb-1">
+                                                Room
+                                            </span>
+                                            <h3 style={{ fontSize: '16px' }} className="card-title fw-normal mb-2">
+                                                {gameReport?.totalRoom} room
+                                            </h3>
                                         </div>
                                     </div>
                                 </div>
@@ -248,43 +265,66 @@ function Dashboard() {
                                                 </div>
                                                 <small className="text-success fw-semibold">Sumary</small>
                                             </div>
-                                            <span className="fw-semibold d-block mb-1">New User</span>
-                                            <h3 className="card-title fw-normal mb-2">
+                                            <span style={{ fontSize: '20px' }} className="fw-semibold d-block mb-1">
+                                                New User
+                                            </span>
+                                            <h3 style={{ fontSize: '16px' }} className="card-title fw-normal mb-2">
                                                 {gameReport?.totalNewbieUser} user
                                             </h3>
                                         </div>
                                     </div>
                                 </div>
                                 <div className="col-12 mb-4">
-                                    <div className="card">
-                                        <div className="card-body">
-                                            <Carousel variant="dark" activeIndex={index} onSelect={handleSelect}>
-                                                {listGame.map((item) => (
-                                                    <Carousel.Item key={item.id}>
-                                                        <img
-                                                            className="d-block w-100"
-                                                            src={
-                                                                item.id === 1
-                                                                    ? images.Flipcard
-                                                                    : item.id === 2
-                                                                    ? images.MusicPassword
-                                                                    : item.id === 4
-                                                                    ? images.ImageWalkThroungh
-                                                                    : item.id === 5
-                                                                    ? images.FindAnonymous
-                                                                    : 'https://via.placeholder.com/290x130'
-                                                            }
-                                                            alt={item.name}
-                                                            height={150}
-                                                        />
-                                                        <Carousel.Caption>
-                                                            <h3>{item?.name}</h3>
-                                                            <p>One game in Think Tank</p>
-                                                        </Carousel.Caption>
-                                                    </Carousel.Item>
-                                                ))}
-                                            </Carousel>
-                                        </div>
+                                    <div className="card-carousel">
+                                        <Carousel
+                                            className="h-100"
+                                            variant="dark"
+                                            activeIndex={index}
+                                            onSelect={handleSelect}
+                                        >
+                                            {listGame.map((item) => (
+                                                <Carousel.Item key={item.id}>
+                                                    <img
+                                                        className="d-block w-100"
+                                                        style={{ height: '200px' }}
+                                                        src={
+                                                            item.id === 1
+                                                                ? images.Flipcard
+                                                                : item.id === 2
+                                                                ? images.MusicPassword
+                                                                : item.id === 4
+                                                                ? images.ImageWalkThroungh
+                                                                : item.id === 5
+                                                                ? images.FindAnonymous
+                                                                : 'https://via.placeholder.com/290x130'
+                                                        }
+                                                        alt={item.name}
+                                                        height={150}
+                                                    />
+                                                    <Carousel.Caption>
+                                                        <div
+                                                            style={{
+                                                                backgroundColor: 'rgba(177, 177, 177, 0.6)',
+                                                                padding: '10px 15px 10px 15px',
+                                                            }}
+                                                        >
+                                                            <h3
+                                                                style={{
+                                                                    color: 'white',
+                                                                    fontSize: '20px',
+                                                                    fontWeight: '700',
+                                                                }}
+                                                            >
+                                                                {item?.name}
+                                                            </h3>
+                                                            <p style={{ color: 'white', fontSize: '16px' }}>
+                                                                One game in Think Tank
+                                                            </p>
+                                                        </div>
+                                                    </Carousel.Caption>
+                                                </Carousel.Item>
+                                            ))}
+                                        </Carousel>
                                     </div>
                                 </div>
                             </div>
@@ -330,16 +370,21 @@ function Dashboard() {
                         </div>
                         <div className="col-md-6 col-lg-6 col-xl-6  mb-4">
                             <div className="card h-100">
-                                <div className="card-header d-flex align-items-center justify-content-center pb-0">
-                                    <div className="card-title m-3">
-                                        <h3 className="m-0 fw-bold me-2">Top Game</h3>
+                                <div
+                                    style={{ height: '80px' }}
+                                    className="card-header d-flex align-items-center justify-content-center pb-0"
+                                >
+                                    <div className="card-title mx-3">
+                                        <h3 style={{ fontSize: '25px' }} className="m-0 fw-bold me-2">
+                                            Top Game
+                                        </h3>
                                     </div>
                                 </div>
-                                <div className="card-body d-flex align-items-around justify-content-center h-100 w-100 row p-0">
+                                <div style={{ display: 'contents' }} className="card-body w-100 row p-0">
                                     {listGames &&
                                         listGames.map((items, index) => (
-                                            <div key={index} style={{ height: '100px' }} className="card w-100 p-0">
-                                                <div className="card-body p-0 d-flex row ">
+                                            <div key={index} style={{ height: '150px' }} className="card w-100 p-0">
+                                                <div className="card-body p-0 d-flex row">
                                                     <div
                                                         className={`col-5 book-mark-${
                                                             index + 1

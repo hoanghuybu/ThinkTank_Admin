@@ -36,15 +36,33 @@
         width: 3.375rem;
         height: 3.375rem;
         cursor: pointer;
+        border-radius: 50px;
+        display: inline-block;
+        overflow: hidden;
+        border-radius: 50px;
         img {
             width: 100%;
             height: 100%;
         }
     }
 
+    .contest-summary-wrapper {
+        padding-bottom: 0 !important;
+        max-height: 320px !important;
+    }
+
     .contest-summary-wrapper .col-md-4 {
-        max-height: 300px;
+        max-height: 320px;
         overflow-y: auto;
+    }
+
+    .card-carousel {
+        padding: 0 !important;
+        display: inline-block !important;
+        overflow: hidden !important;
+        height: 200px;
+        width: 100%;
+        border-radius: 2rem;
     }
 
     .contest-summary-wrapper .col-md-4 .text-contest-header {
@@ -109,15 +127,15 @@
     }
 
     .book-mark-1 {
-        background-color: #f8f400;
+        background-color: #e7e300;
         border-top-left-radius: 2rem;
         border-bottom-left-radius: 2rem;
         .triangle {
             width: 0;
             height: 0;
-            border-top: 50px solid transparent;
-            border-right: 80px solid white;
-            border-bottom: 50px solid transparent;
+            border-top: 75px solid transparent;
+            border-right: 105px solid white;
+            border-bottom: 75px solid transparent;
         }
         .rank-top-game {
             font-size: 28px;
@@ -132,9 +150,9 @@
         .triangle {
             width: 0;
             height: 0;
-            border-top: 50px solid transparent;
-            border-right: 80px solid white;
-            border-bottom: 50px solid transparent;
+            border-top: 75px solid transparent;
+            border-right: 105px solid white;
+            border-bottom: 75px solid transparent;
         }
         .rank-top-game {
             font-size: 28px;
@@ -149,9 +167,9 @@
         .triangle {
             width: 0;
             height: 0;
-            border-top: 50px solid transparent;
-            border-right: 80px solid white;
-            border-bottom: 50px solid transparent;
+            border-top: 75px solid transparent;
+            border-right: 105px solid white;
+            border-bottom: 75px solid transparent;
         }
         .rank-top-game {
             font-size: 28px;
