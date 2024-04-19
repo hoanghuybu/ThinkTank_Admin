@@ -21,8 +21,8 @@ const ImageCell = ({ gameId, rowData, dataKey, ...props }) => (
     <Cell {...props} style={{ padding: 3 }}>
         <div
             style={{
-                width: 350,
-                height: 80,
+                width: gameId === '2' ? 350 : 80,
+                height: gameId === '2' ? 90 : 80,
                 background: '#f5f5f5',
                 borderRadius: 6,
                 overflow: 'hidden',
@@ -40,7 +40,7 @@ const ImageCell = ({ gameId, rowData, dataKey, ...props }) => (
                 <img
                     alt="user avatar"
                     src={rowData.value ? rowData.value.replace(/^(.*?);/, '') : 'https://via.placeholder.com/40x40'}
-                    width="350"
+                    width="80"
                 />
             )}
         </div>
