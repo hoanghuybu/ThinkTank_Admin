@@ -56,6 +56,7 @@ function PlayerManagement() {
     const [sortColumn, setSortColumn] = useState();
     const [sortType, setSortType] = useState();
     const [loading, setLoading] = useState(false);
+    const [blockLoading, setBlockLoading] = useState(false);
     const [searchKeyword, setSearchKeyword] = useState('');
     const [open, setOpen] = React.useState(false);
     const [blockId, setBlockId] = useState(0);
@@ -78,16 +79,19 @@ function PlayerManagement() {
     };
 
     const handleBlockPlayer = async () => {
+        setBlockLoading(true);
         try {
             if (blockId) {
                 const result = await playerManagementService.banPlayers(blockId);
                 if (result) {
+                    setBlockLoading(false);
                     getListPlayers();
                     setOpen(false);
                 }
             }
         } catch (error) {
             toast.error('Error:' + error.response.data.error);
+            setBlockLoading(false);
         }
     };
 
@@ -196,9 +200,16 @@ function PlayerManagement() {
                         <Button onClick={handleClose} appearance="subtle">
                             Cancel
                         </Button>
-                        <Button onClick={handleBlockPlayer} appearance="primary">
-                            Ok
-                        </Button>
+                        {blockLoading && (
+                            <Button loading disabled appearance="primary">
+                                Ok
+                            </Button>
+                        )}
+                        {!blockLoading && (
+                            <Button onClick={handleBlockPlayer} appearance="primary">
+                                Ok
+                            </Button>
+                        )}
                     </Modal.Footer>
                 </Modal>
                 <div className="w-100 d-flex justify-content-end mt-4 mb-4">
