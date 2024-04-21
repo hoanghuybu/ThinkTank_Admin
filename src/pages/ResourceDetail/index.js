@@ -307,7 +307,7 @@ function ResourceDetail() {
                 handleShow();
             }
         } catch (error) {
-            toast.error('Error:' + error);
+            toast.error('Error:' + error.response.data.error);
         }
     };
 
@@ -505,9 +505,9 @@ function ResourceDetail() {
                                         <>
                                             <div className="mb-3">
                                                 <label htmlFor="field3" className="form-label">
-                                                    {gameId === '5'
-                                                        ? 'Contest Game Asset : Asset file name must be answer of asset'
-                                                        : 'Contest Game Asset'}
+                                                    {gameId === '2'
+                                                        ? 'Game Asset : Asset file name must be answer of asset'
+                                                        : 'Game Asset'}
                                                 </label>
                                                 <div>
                                                     <Uploader
@@ -752,7 +752,7 @@ function ResourceDetail() {
                             <CompactCell dataKey="version" />
                         </Column>
 
-                        <Column width={200} flexGrow={1} fullText sortable>
+                        <Column width={200} flexGrow={1} fullText>
                             <HeaderCell>Game Name</HeaderCell>
                             <CompactCell dataKey="gameName" />
                         </Column>

@@ -48,10 +48,15 @@
 
     .contest-summary-wrapper {
         padding-bottom: 0 !important;
-        max-height: 320px !important;
+        max-height: 330px !important;
     }
 
     .contest-summary-wrapper .col-md-4 {
+        max-height: 320px;
+        overflow-y: auto;
+    }
+
+    .contest-summary-wrapper .col-md-8 {
         max-height: 320px;
         overflow-y: auto;
     }
