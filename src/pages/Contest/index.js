@@ -67,10 +67,7 @@ function Contest() {
                                                         </div>
                                                     </div>
                                                     <div className="col-md-12 col-lg-8 col-xl-8">
-                                                        <div className="game-title">{game.name}</div>
-                                                        <div className="game-info">
-                                                            {game.amoutPlayer} Player was played.
-                                                        </div>
+                                                        <div className="game-title">Contest Game {game.name}</div>
                                                         <div className="game-description">
                                                             Within the think tank app, a game sharpens short-term
                                                             memory. Challenges hone recall and mental agility. With each

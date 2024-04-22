@@ -5,13 +5,14 @@ import TableCustome from '~/components/TableCustome';
 import { BiArrowBack } from 'react-icons/bi';
 import * as analysisService from '~/service/AnalysisService';
 import React, { useState, useEffect } from 'react';
-import { useLocation } from 'react-router-dom';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 
 function Analysis() {
     const [accountAnalysis, setAccountAnalysis] = useState();
     const [accountId, setAccountId] = useState();
     const location = useLocation();
+    const navigate = useNavigate();
 
     //API
     const getAccountAnalysis = async () => {
@@ -20,7 +21,10 @@ function Analysis() {
             const result = await analysisService.getAnalysisByAccountId(id);
             setAccountAnalysis(result);
         } catch (error) {
-            toast.error('Error:' + error);
+            toast.error('Error:' + error.response.data.error);
+            if (error?.response?.data?.error === 'This account is block') {
+                navigate('/PlayerManagement');
+            }
         }
     };
 

@@ -903,6 +903,11 @@ function ContestGame() {
                                 <CompactCell dataKey="name" />
                             </Column>
 
+                            <Column width={140} fixed fullText sortable align="center">
+                                <HeaderCell>Amout Player</HeaderCell>
+                                <CompactCell dataKey="amoutPlayer" />
+                            </Column>
+
                             <Column width={200} fixed fullText sortable>
                                 <HeaderCell>Game Name</HeaderCell>
                                 <CompactCell dataKey="gameName" />
