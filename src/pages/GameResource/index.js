@@ -62,6 +62,7 @@ function GameResource() {
                                                                 }
                                                                 className="w-100"
                                                                 height={150}
+                                                                style={{ objectFit: 'cover' }}
                                                             />
                                                         </div>
                                                     </div>

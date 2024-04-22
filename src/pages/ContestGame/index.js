@@ -860,7 +860,7 @@ function ContestGame() {
             </Modal>
             <div className="d-flex align-items-center flex-column">
                 <h1 className="contest-title">
-                    Contest of{' '}
+                    Contest Of{' '}
                     {gameId === '1'
                         ? 'Flip Card'
                         : gameId === '2'

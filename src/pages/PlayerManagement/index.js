@@ -338,7 +338,7 @@ function PlayerManagement() {
                         </Column>
                         <Column width={100} align="center" fixed sortable>
                             <HeaderCell>Code</HeaderCell>
-                            <Cell dataKey="code" />
+                            <CompactCell dataKey="code" />
                         </Column>
 
                         <Column width={80} fixed align="center">
@@ -353,7 +353,7 @@ function PlayerManagement() {
 
                         <Column width={100} sortable>
                             <HeaderCell>Gender</HeaderCell>
-                            <Cell dataKey="gender" />
+                            <CompactCell dataKey="gender" />
                         </Column>
                         <Column width={200} flexGrow={1} fullText sortable>
                             <HeaderCell>Email</HeaderCell>
@@ -361,7 +361,7 @@ function PlayerManagement() {
                         </Column>
                         <Column width={200} flexGrow={1} sortable>
                             <HeaderCell>Report Number</HeaderCell>
-                            <Cell dataKey="amountReport" />
+                            <CompactCell dataKey="amountReport" />
                         </Column>
                         <Column width={50} flexGrow={1}>
                             <HeaderCell>Status</HeaderCell>
@@ -450,7 +450,7 @@ function PlayerManagement() {
                         </Column>
                         <Column width={100} align="center" fixed sortable>
                             <HeaderCell>Code</HeaderCell>
-                            <Cell dataKey="code" />
+                            <CompactCell dataKey="code" />
                         </Column>
 
                         <Column width={80} fixed align="center">
@@ -465,7 +465,7 @@ function PlayerManagement() {
 
                         <Column width={100} sortable>
                             <HeaderCell>Gender</HeaderCell>
-                            <Cell dataKey="gender" />
+                            <CompactCell dataKey="gender" />
                         </Column>
                         <Column width={200} flexGrow={1} fullText sortable>
                             <HeaderCell>Email</HeaderCell>
@@ -473,7 +473,7 @@ function PlayerManagement() {
                         </Column>
                         <Column width={100} flexGrow={1} sortable>
                             <HeaderCell>Report Number</HeaderCell>
-                            <Cell dataKey="amountReport" />
+                            <CompactCell dataKey="amountReport" />
                         </Column>
                         <Column width={50} flexGrow={1}>
                             <HeaderCell>Status</HeaderCell>

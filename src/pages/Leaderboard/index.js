@@ -126,10 +126,29 @@ function Leaderboard() {
                                     }
                                     alt={item?.name}
                                     height={350}
+                                    style={{ objectFit: 'contain' }}
                                 />
-                                <Carousel.Caption>
-                                    <h3>{item?.name}</h3>
-                                    <p>{item?.amoutPlayer} Player was played.</p>
+                                <Carousel.Caption className="d-flex justify-content-center align-items-center">
+                                    <div
+                                        style={{
+                                            backgroundColor: 'rgba(177, 177, 177, 0.6)',
+                                            padding: '10px 15px 10px 15px',
+                                            width: '500px',
+                                        }}
+                                    >
+                                        <h3
+                                            style={{
+                                                color: 'black',
+                                                fontSize: '32px',
+                                                fontWeight: '700',
+                                            }}
+                                        >
+                                            {item?.name}
+                                        </h3>
+                                        <p style={{ color: 'black', fontSize: '24px' }}>
+                                            {item?.amoutPlayer} Player was played
+                                        </p>
+                                    </div>
                                 </Carousel.Caption>
                             </Carousel.Item>
                         ))}
