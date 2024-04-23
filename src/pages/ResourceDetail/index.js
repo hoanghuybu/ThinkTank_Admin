@@ -256,7 +256,19 @@ function ResourceDetail() {
                 setLoading(false);
             }
         } catch (error) {
-            toast.error('Error:' + error);
+            if (error.response.data.error) {
+                toast.error(error.response.data.error);
+            }
+            if (error.response.data.errors) {
+                for (let key in error.response.data.errors) {
+                    if (error.response.data.errors.hasOwnProperty(key)) {
+                        error.response.data.errors[key].forEach((errorMessage) => {
+                            const errorString = `${key}: ${errorMessage}`;
+                            toast.error(errorString);
+                        });
+                    }
+                }
+            }
         }
     };
 
@@ -269,7 +281,19 @@ function ResourceDetail() {
                 setFilterLoading(false);
             }
         } catch (error) {
-            toast.error('Error:' + error);
+            if (error.response.data.error) {
+                toast.error(error.response.data.error);
+            }
+            if (error.response.data.errors) {
+                for (let key in error.response.data.errors) {
+                    if (error.response.data.errors.hasOwnProperty(key)) {
+                        error.response.data.errors[key].forEach((errorMessage) => {
+                            const errorString = `${key}: ${errorMessage}`;
+                            toast.error(errorString);
+                        });
+                    }
+                }
+            }
         }
     };
 
@@ -282,7 +306,19 @@ function ResourceDetail() {
                 await getListResources();
             }
         } catch (error) {
-            toast.error('Error:' + error);
+            if (error.response.data.error) {
+                toast.error(error.response.data.error);
+            }
+            if (error.response.data.errors) {
+                for (let key in error.response.data.errors) {
+                    if (error.response.data.errors.hasOwnProperty(key)) {
+                        error.response.data.errors[key].forEach((errorMessage) => {
+                            const errorString = `${key}: ${errorMessage}`;
+                            toast.error(errorString);
+                        });
+                    }
+                }
+            }
         }
     };
 
@@ -307,7 +343,19 @@ function ResourceDetail() {
                 handleShow();
             }
         } catch (error) {
-            toast.error('Error:' + error.response.data.error);
+            if (error.response.data.error) {
+                toast.error(error.response.data.error);
+            }
+            if (error.response.data.errors) {
+                for (let key in error.response.data.errors) {
+                    if (error.response.data.errors.hasOwnProperty(key)) {
+                        error.response.data.errors[key].forEach((errorMessage) => {
+                            const errorString = `${key}: ${errorMessage}`;
+                            toast.error(errorString);
+                        });
+                    }
+                }
+            }
         }
     };
 
@@ -345,7 +393,19 @@ function ResourceDetail() {
                 } catch (error) {
                     if (error.response) {
                         toast.dismiss(toastId.current);
-                        toast.error(error.response.data.error);
+                        if (error.response.data.error) {
+                            toast.error(error.response.data.error);
+                        }
+                        if (error.response.data.errors) {
+                            for (let key in error.response.data.errors) {
+                                if (error.response.data.errors.hasOwnProperty(key)) {
+                                    error.response.data.errors[key].forEach((errorMessage) => {
+                                        const errorString = `${key}: ${errorMessage}`;
+                                        toast.error(errorString);
+                                    });
+                                }
+                            }
+                        }
                     } else if (error.request) {
                         toast.dismiss(toastId.current);
                         toast.error('Error: ' + error.request);
@@ -399,7 +459,19 @@ function ResourceDetail() {
                 } catch (error) {
                     if (error.response) {
                         toast.dismiss(toastId.current);
-                        toast.error(error.response.data.error);
+                        if (error.response.data.error) {
+                            toast.error(error.response.data.error);
+                        }
+                        if (error.response.data.errors) {
+                            for (let key in error.response.data.errors) {
+                                if (error.response.data.errors.hasOwnProperty(key)) {
+                                    error.response.data.errors[key].forEach((errorMessage) => {
+                                        const errorString = `${key}: ${errorMessage}`;
+                                        toast.error(errorString);
+                                    });
+                                }
+                            }
+                        }
                     } else if (error.request) {
                         toast.dismiss(toastId.current);
                         toast.error('Error: ' + error.request);

@@ -74,7 +74,19 @@ function PlayerManagement() {
                 setListPlayerReported(filteredList);
             }
         } catch (error) {
-            toast.error('Error:' + error);
+            if (error.response.data.error) {
+                toast.error(error.response.data.error);
+            }
+            if (error.response.data.errors) {
+                for (let key in error.response.data.errors) {
+                    if (error.response.data.errors.hasOwnProperty(key)) {
+                        error.response.data.errors[key].forEach((errorMessage) => {
+                            const errorString = `${key}: ${errorMessage}`;
+                            toast.error(errorString);
+                        });
+                    }
+                }
+            }
         }
     };
 
@@ -90,7 +102,19 @@ function PlayerManagement() {
                 }
             }
         } catch (error) {
-            toast.error('Error:' + error.response.data.error);
+            if (error.response.data.error) {
+                toast.error(error.response.data.error);
+            }
+            if (error.response.data.errors) {
+                for (let key in error.response.data.errors) {
+                    if (error.response.data.errors.hasOwnProperty(key)) {
+                        error.response.data.errors[key].forEach((errorMessage) => {
+                            const errorString = `${key}: ${errorMessage}`;
+                            toast.error(errorString);
+                        });
+                    }
+                }
+            }
             setBlockLoading(false);
         }
     };
@@ -106,7 +130,19 @@ function PlayerManagement() {
                 }
             }
         } catch (error) {
-            toast.error('Error:' + error.response.data.error);
+            if (error.response.data.error) {
+                toast.error(error.response.data.error);
+            }
+            if (error.response.data.errors) {
+                for (let key in error.response.data.errors) {
+                    if (error.response.data.errors.hasOwnProperty(key)) {
+                        error.response.data.errors[key].forEach((errorMessage) => {
+                            const errorString = `${key}: ${errorMessage}`;
+                            toast.error(errorString);
+                        });
+                    }
+                }
+            }
             setUnblockLoading(false);
         }
     };

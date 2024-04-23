@@ -37,7 +37,19 @@ function Leaderboard() {
 
             setListLeaderboardGame(result.results);
         } catch (error) {
-            toast.error('Error:' + error);
+            if (error.response.data.error) {
+                toast.error(error.response.data.error);
+            }
+            if (error.response.data.errors) {
+                for (let key in error.response.data.errors) {
+                    if (error.response.data.errors.hasOwnProperty(key)) {
+                        error.response.data.errors[key].forEach((errorMessage) => {
+                            const errorString = `${key}: ${errorMessage}`;
+                            toast.error(errorString);
+                        });
+                    }
+                }
+            }
         }
     };
 
@@ -52,7 +64,19 @@ function Leaderboard() {
                 setLoading(false);
             }
         } catch (error) {
-            toast.error('Error:' + error);
+            if (error.response.data.error) {
+                toast.error(error.response.data.error);
+            }
+            if (error.response.data.errors) {
+                for (let key in error.response.data.errors) {
+                    if (error.response.data.errors.hasOwnProperty(key)) {
+                        error.response.data.errors[key].forEach((errorMessage) => {
+                            const errorString = `${key}: ${errorMessage}`;
+                            toast.error(errorString);
+                        });
+                    }
+                }
+            }
         }
     };
 
@@ -61,7 +85,19 @@ function Leaderboard() {
             const result = await leaderboardService.getListLeaderboardContest(contestId);
             setListLeaderboardContest(result.results);
         } catch (error) {
-            toast.error('Error:' + error);
+            if (error.response.data.error) {
+                toast.error(error.response.data.error);
+            }
+            if (error.response.data.errors) {
+                for (let key in error.response.data.errors) {
+                    if (error.response.data.errors.hasOwnProperty(key)) {
+                        error.response.data.errors[key].forEach((errorMessage) => {
+                            const errorString = `${key}: ${errorMessage}`;
+                            toast.error(errorString);
+                        });
+                    }
+                }
+            }
         }
     };
 
@@ -71,7 +107,19 @@ function Leaderboard() {
                 const result = await dashboardManagement.getListGames();
                 setListGames(result.results);
             } catch (error) {
-                toast.error('Error:' + error);
+                if (error.response.data.error) {
+                    toast.error(error.response.data.error);
+                }
+                if (error.response.data.errors) {
+                    for (let key in error.response.data.errors) {
+                        if (error.response.data.errors.hasOwnProperty(key)) {
+                            error.response.data.errors[key].forEach((errorMessage) => {
+                                const errorString = `${key}: ${errorMessage}`;
+                                toast.error(errorString);
+                            });
+                        }
+                    }
+                }
             }
         };
 

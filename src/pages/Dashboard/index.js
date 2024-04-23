@@ -44,7 +44,19 @@ function Dashboard() {
                 const result = await dashboardManagement.getGameReport();
                 setGameReport(result);
             } catch (error) {
-                toast.error('Error:' + error);
+                if (error.response.data.error) {
+                    toast.error(error.response.data.error);
+                }
+                if (error.response.data.errors) {
+                    for (let key in error.response.data.errors) {
+                        if (error.response.data.errors.hasOwnProperty(key)) {
+                            error.response.data.errors[key].forEach((errorMessage) => {
+                                const errorString = `${key}: ${errorMessage}`;
+                                toast.error(errorString);
+                            });
+                        }
+                    }
+                }
             }
         };
 
@@ -53,7 +65,19 @@ function Dashboard() {
                 const result = await dashboardManagement.getContestReport();
                 setContestReport(result);
             } catch (error) {
-                toast.error('Error:' + error);
+                if (error.response.data.error) {
+                    toast.error(error.response.data.error);
+                }
+                if (error.response.data.errors) {
+                    for (let key in error.response.data.errors) {
+                        if (error.response.data.errors.hasOwnProperty(key)) {
+                            error.response.data.errors[key].forEach((errorMessage) => {
+                                const errorString = `${key}: ${errorMessage}`;
+                                toast.error(errorString);
+                            });
+                        }
+                    }
+                }
             }
         };
 
@@ -63,7 +87,19 @@ function Dashboard() {
                 const gameSort = result.results.sort((a, b) => b.amoutPlayer - a.amoutPlayer);
                 setListGames(gameSort.slice(0, 3));
             } catch (error) {
-                toast.error('Error:' + error);
+                if (error.response.data.error) {
+                    toast.error(error.response.data.error);
+                }
+                if (error.response.data.errors) {
+                    for (let key in error.response.data.errors) {
+                        if (error.response.data.errors.hasOwnProperty(key)) {
+                            error.response.data.errors[key].forEach((errorMessage) => {
+                                const errorString = `${key}: ${errorMessage}`;
+                                toast.error(errorString);
+                            });
+                        }
+                    }
+                }
             }
         };
 

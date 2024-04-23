@@ -191,7 +191,19 @@ function ContestDetail() {
         } catch (error) {
             if (error.response) {
                 toast.dismiss(toastId.current);
-                toast.error(error.response.data.error);
+                if (error.response.data.error) {
+                    toast.error(error.response.data.error);
+                }
+                if (error.response.data.errors) {
+                    for (let key in error.response.data.errors) {
+                        if (error.response.data.errors.hasOwnProperty(key)) {
+                            error.response.data.errors[key].forEach((errorMessage) => {
+                                const errorString = `${key}: ${errorMessage}`;
+                                toast.error(errorString);
+                            });
+                        }
+                    }
+                }
             } else if (error.request) {
                 toast.dismiss(toastId.current);
                 toast.error(error.request);
