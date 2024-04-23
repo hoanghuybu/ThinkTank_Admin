@@ -1,10 +1,6 @@
 import axios from 'axios';
 import { toast } from 'react-toastify';
 
-const request = axios.create({
-    baseURL: process.env.REACT_APP_BASE_URL,
-});
-
 const requestAPI = axios.create({
     baseURL: process.env.REACT_APP_THINK_TANK_URL,
 });
@@ -12,11 +8,6 @@ const requestAPI = axios.create({
 const requestNoToken = axios.create({
     baseURL: process.env.REACT_APP_THINK_TANK_URL,
 });
-
-export const get = async (path, option = {}) => {
-    const respone = await request.get(path, option);
-    return respone;
-};
 
 export const getNoToken = async (path, option = {}) => {
     const responseAPI = await requestNoToken.get(path, option);
@@ -133,4 +124,5 @@ export const deleteApi = async (path, option = {}) => {
     const responseAPI = await requestAPI.delete(path, option);
     return responseAPI;
 };
-export default request;
+
+export default requestAPI;
