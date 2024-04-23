@@ -219,7 +219,7 @@ function Analysis() {
                             </div>
                         </div>
                         <div className="col-5 col-lg-5">
-                            <h1>List Archivement</h1>
+                            <h1>List Achievements</h1>
                             <div className="w-100">
                                 <TableCustome data={accountAnalysis?.listArchievements || []}></TableCustome>
                             </div>
