@@ -222,12 +222,12 @@ function PlayerManagement() {
         return i >= start && i < end;
     });
 
-    const handleSortColumnReport = (sortColumn, sortType) => {
+    const handleSortColumnReport = (sortColumnReport, sortTypeReport) => {
         setLoadingReported(true);
         setTimeout(() => {
             setLoadingReported(false);
-            setSortColumnReported(sortColumn);
-            setSortTypeReported(sortType);
+            setSortColumnReported(sortColumnReport);
+            setSortTypeReported(sortTypeReport);
         }, 500);
     };
 
@@ -261,15 +261,15 @@ function PlayerManagement() {
         }
         if (sortColumnReported && sortTypeReported) {
             sortedDataReported = sortedDataReported.sort((a, b) => {
-                let x = a[sortColumn];
-                let y = b[sortColumn];
+                let x = a[sortColumnReported];
+                let y = b[sortColumnReported];
                 if (typeof x === 'string') {
                     x = x.charCodeAt();
                 }
                 if (typeof y === 'string') {
                     y = y.charCodeAt();
                 }
-                if (sortType === 'asc') {
+                if (sortTypeReported === 'asc') {
                     return x - y;
                 } else {
                     return y - x;
