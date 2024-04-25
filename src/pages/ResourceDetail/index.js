@@ -785,7 +785,10 @@ function ResourceDetail() {
                                 data={dataFilter}
                                 searchable={false}
                                 value={filter}
-                                onChange={setFilter}
+                                onChange={(e) => {
+                                    setPage(1);
+                                    setFilter(e);
+                                }}
                                 style={{ width: 224 }}
                                 virtualized
                             />

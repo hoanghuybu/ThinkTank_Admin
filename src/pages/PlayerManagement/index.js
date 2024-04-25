@@ -342,7 +342,10 @@ function PlayerManagement() {
                             data={dataFilter}
                             searchable={false}
                             value={filter}
-                            onChange={setFilter}
+                            onChange={(e) => {
+                                setPage(1);
+                                setFilter(e);
+                            }}
                             style={{ width: 224 }}
                         />
                         <InputGroup inside>
@@ -366,7 +369,6 @@ function PlayerManagement() {
                         sortType={sortType}
                         onSortColumn={handleSortColumn}
                         loading={loading}
-                        // virtualized
                     >
                         <Column width={60} align="center" fixed fullText sortable>
                             <HeaderCell>Id</HeaderCell>
