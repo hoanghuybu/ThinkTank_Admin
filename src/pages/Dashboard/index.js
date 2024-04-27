@@ -174,7 +174,7 @@ function Dashboard() {
                                                         className="rounded"
                                                     />
                                                 </div>
-                                                <small className="text-success fw-semibold">Sumary</small>
+                                                <small className="text-success fw-semibold">Summary</small>
                                             </div>
                                             <span style={{ fontSize: '20px' }} className="fw-semibold d-block mb-1">
                                                 Contest
@@ -196,7 +196,7 @@ function Dashboard() {
                                                         className="rounded"
                                                     />
                                                 </div>
-                                                <small className="text-success fw-semibold">Sumary</small>
+                                                <small className="text-success fw-semibold">Summary</small>
                                             </div>
                                             <span style={{ fontSize: '20px' }} className="fw-semibold d-block mb-1">
                                                 User
@@ -213,7 +213,7 @@ function Dashboard() {
                             <div className="card contest-summary-wrapper">
                                 <div className="row row-bordered g-0">
                                     <div className="col-md-8 contest-sumary-card">
-                                        <h3 className="card-header m-0 py-3 text-center fw-bold">Contest Sumary</h3>
+                                        <h3 className="card-header m-0 py-3 text-center fw-bold">Contest Summary</h3>
                                         <div className="w-100 p-4">
                                             <CCard>
                                                 <CCardBody>
@@ -277,7 +277,7 @@ function Dashboard() {
                                                         className="rounded"
                                                     />
                                                 </div>
-                                                <small className="text-success fw-semibold">Sumary</small>
+                                                <small className="text-success fw-semibold">Summary</small>
                                             </div>
                                             <span style={{ fontSize: '20px' }} className="fw-semibold d-block mb-1">
                                                 Room
@@ -299,7 +299,7 @@ function Dashboard() {
                                                         className="rounded"
                                                     />
                                                 </div>
-                                                <small className="text-success fw-semibold">Sumary</small>
+                                                <small className="text-success fw-semibold">Summary</small>
                                             </div>
                                             <span style={{ fontSize: '20px' }} className="fw-semibold d-block mb-1">
                                                 New User
