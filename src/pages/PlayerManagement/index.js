@@ -444,7 +444,7 @@ function PlayerManagement() {
                                         loading={unblockLoading}
                                         disabled={unblockLoading}
                                     >
-                                        {rowData?.status === true ? 'Block' : 'Unblock'}
+                                        {rowData?.status === true ? 'Ban' : 'Unban'}
                                     </Button>
                                 )}
                             </Cell>
@@ -556,7 +556,7 @@ function PlayerManagement() {
                                         loading={unblockLoading}
                                         disabled={unblockLoading}
                                     >
-                                        {rowData?.status === true ? 'Block' : 'Unblock'}
+                                        {rowData?.status === true ? 'Ban' : 'Unban'}
                                     </Button>
                                 )}
                             </Cell>
