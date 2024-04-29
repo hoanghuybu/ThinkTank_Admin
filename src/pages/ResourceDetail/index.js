@@ -665,8 +665,8 @@ function ResourceDetail() {
                                             <div className="mb-3">
                                                 <label htmlFor="field3" className="form-label">
                                                     {gameId === '2' || gameId === '5'
-                                                        ? 'Contest Game Asset : Asset file name must be answer of asset'
-                                                        : 'Contest Game Asset'}
+                                                        ? 'Resource Game Asset : Asset file name must be answer of asset'
+                                                        : 'Resource Game Asset'}
                                                 </label>
                                                 <div>
                                                     <Uploader
