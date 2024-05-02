@@ -47,10 +47,10 @@ function ContestDetail() {
     // handle update contest thumnail
 
     const handleUploadThumnailSuccess = (response) => {
-        const startIndex = response[0].lastIndexOf('%2F') + 3;
-        const endIndex = response[0].indexOf('?');
-        const fileName = response[0].substring(startIndex, endIndex);
-        setThumnailURL({ name: fileName, url: response[0] });
+        const startIndex = response.lastIndexOf('%2F') + 3;
+        const endIndex = response.indexOf('?');
+        const fileName = response.substring(startIndex, endIndex);
+        setThumnailURL({ name: fileName, url: response });
     };
 
     const handleRemoveThumnailFile = () => {
