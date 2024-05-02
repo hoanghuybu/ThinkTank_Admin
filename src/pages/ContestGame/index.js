@@ -751,17 +751,7 @@ function ContestGame() {
                                                         listType="picture-text"
                                                         onSuccess={handleUploadThumnailSuccess}
                                                         onRemove={handleRemoveThumnailFile}
-                                                        action={`https://thinktank-sep490.azurewebsites.net/api/files/contests?type=${
-                                                            gameId === '1'
-                                                                ? '3'
-                                                                : gameId === '2'
-                                                                ? '2'
-                                                                : gameId === '4'
-                                                                ? '4'
-                                                                : gameId === '5'
-                                                                ? '1'
-                                                                : ''
-                                                        }`}
+                                                        action="https://thinktank-sep490.azurewebsites.net/api/files?type=1"
                                                         draggable
                                                     >
                                                         <div
